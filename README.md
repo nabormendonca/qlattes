@@ -2,11 +2,13 @@
 
 QLattes é uma extensão do Chrome que automaticamente classifica os artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq de acordo com o Qualis da CAPES.
 
-<p align="center">
-  <img src="./qlattes-annot-screenshot.png" height=300>
+<!--
+<p align="left">
+  <img src="./qlattes-annot-screenshot.png" height=280>
 &nbsp; 
-  <img src="./qlattes-stats-screenshot.png" height=300>
+  <img src="./qlattes-stats-screenshot.png" height=280>
 </p>
+-->
 
 * [Instruções de uso](#instruções-de-uso)
 * [Política de privacidade](#política-de-privacidade)
@@ -21,9 +23,13 @@ Abra a página de um ou mais CV Lattes no seu navegador Chrome.
 
 QLattes automaticamente anotará a página de cada CV com os dados da classificação no Qualis dos artigos completos em periódicos encontrados na página. Navegue até a seção de "Artigos completos publicados em periódicos" do CV para visualizar as anotações, localizadas logo abaixo dos dados de cada artigo.
 
-As anotações adicionadas pela ferramenta incluem a classificação no Qualis e o ISSN do periódico no qual o artigo foi publicado, o percentil do periódico no ranque de periódicos da Scopus (quando disponível), e a base de dados utilizada como fonte para a classificação do periódico.
+<img src="./qlattes-annot-screenshot.png" height=280>
+
+As anotações adicionadas pela ferramenta incluem a classificação no Qualis e o ISSN do periódico no qual o artigo foi publicado, o percentil do periódico no ranque de periódicos da Scopus (quando disponível), e a base de dados e ano-base utilizados como fonte para a classificação do periódico.
 
 QLattes também exibirá, no menu "Visualização" da barra lateral, os dados consolidados dos artigos classificados em cada CV. Uma vez selecionado um CV, a ferramenta oferecerá diferentes opções para o usuário filtrar e visualizar os dados do CV agregados por período. Para ajustar o período de visualização, basta acionar os botões de manipulação dos anos inicial e final do período.
+
+<img src="./qlattes-stats-screenshot.png" height=280>
 
 ## Política de privacidade
 
