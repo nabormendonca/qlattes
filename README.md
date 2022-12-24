@@ -2,7 +2,16 @@
 
 QLattes é uma extensão do Chrome que automaticamente anota a classificação no Qualis dos artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq.
 
-![QLattes user interface](/qlattes-screenshot.png)
+<br/>
+<img src="./qlattes-screenshot.png" width=900>
+<br/>
+
+* [Instruções de uso](#instruções-de-uso)
+* [Política de privacidade](#política-de-privacidade)
+* [Bases de dados](#bases-de-dados)
+* [Método de classificação](#método-de-classificação)
+* [Melhorias e extensões](#melhorias-e-extensões)
+* [Créditos](#créditos)
 
 ## Instruções de uso
 
@@ -41,15 +50,16 @@ QLattes busca os dados dos periódicos encontrados nos CVs em uma base de dados 
 
 Quando os dados de um periódico são encontrados na base de dados da Scopus, que não inclui a classificação dos periódicos no Qualis, QLattes determina a classificação do periódico aplicando as regras de distribuição dos percentis estabelecida pela CAPES:
 
-Classificação	Distribuição
-A1	percentil ≥ 87,5
-A2	75 ≤ percentil < 87,5
-A3	62,5 ≤ percentil < 75
-A4	50 ≤ percentil < 62,5
-B1	37,5 ≤ percentil < 50
-B2	25 ≤ percentil < 37,5
-B3	12,5 ≤ percentil < 25
-B4	percentil < 12,5
+| Classificação	| Distribuição |
+| :---: | :---: | 
+| A1	| percentil ≥ 87,5 |
+| A2	|	75 ≤ percentil < 87,5 |
+| A3	|	62,5 ≤ percentil < 75 |
+| A4	|	50 ≤ percentil < 62,5 |
+| B1	|	37,5 ≤ percentil < 50 |
+| B2	|	25 ≤ percentil < 37,5 |
+| B3	|	12,5 ≤ percentil < 25 |
+| B4	|	percentil < 12,5 |
 
 Quando disponível, QLattes inclui entre as informações anotadas nas páginas dos CVs o link para a página do portal da Scopus contendo os dados do periódico no qual o artigo foi publicado. Esse link pode ser visitado pelos usuários para conferir o percentil mais recente de um periódico no ranque de periódicos mantido por aquela entidade.
 
@@ -65,7 +75,7 @@ Algumas das melhorias e extensões sendo cogitadas para futuras versões da QLat
 * classificação dos artigos publicados em eventos
 * integração com outras fontes de dados bibliográficos (por exemplo, [Google Acadêmico](https://scholar.google.com/))
 
-Relatos de bugs bem como novas ideias para melhorar a ferramenta podem ser encaminhados por e-mail.
+Relatos de bugs bem como novas ideias para melhorar a ferramenta podem ser encaminhados por [e-mail](mailto:nabor.mendonca@gmail.com).
 
 ## Créditos
 
