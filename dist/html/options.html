@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./options.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
+</head>
+
+<body>
+    <img id="qlattes-logo" src="./qlattes-logo-trans.png" alt="QLattes" />
+    <div id="container">
+        <div class="tab">
+            <button div="view-div" class="tablinks" id="default-tab">Visualização</button>
+            <button div="instructions-div" class="tablinks">Instruções de uso</button>
+            <button div="privacy-div" class="tablinks">Política de privacidade</button>
+            <button div="data-div" class="tablinks">Bases de dados</button>
+            <button div="method-div" class="tablinks">Método de classificação</button>
+            <button div="roadmap-div" class="tablinks">Melhorias e extensões</button>
+            <button div="credits-div" class="tablinks">Créditos</button>
+        </div>
+        <div id="view-div" class="tabcontent">
+            <form id="form-filters">
+                <div id="author-div" class="Icon-inside">
+                    <select id="author-select"></select>
+                    <i id="author-i" class="fa-solid fa-user" aria-hidden="true"></i>
+                </div>
+            </form>
+        </div>
+        <div id="instructions-div" class="tabcontent">
+            <p type='first-paragraph'>Abra a página de um ou mais CV Lattes no seu navegador Chrome. </p>
+            <p><span id="q">Q</span><span id="lattes">Lattes</span> automaticamente anotará a página de cada CV com os dados da classificação no Qualis dos artigos completos em
+                periódicos encontrados na página. Navegue até a seção de "Artigos completos publicados em periódicos" do CV para visualizar as anotações, localizadas logo abaixo dos dados de cada artigo.
+            </p>
+            <p>As anotações adicionadas pela ferramenta incluem a classificação no Qualis e o ISSN do periódico no qual o artigo foi publicado, o percentil do periódico no ranque de periódicos da Scopus (quando disponível), e a base de dados utilizada como fonte para a classificação do periódico.
+            </p>
+            <p><span id="q">Q</span><span id="lattes">Lattes</span> também exibirá, no menu "Visualização" da barra lateral, os dados consolidados dos artigos classificados em cada CV. Uma vez selecionado um CV, a ferramenta oferecerá diferentes opções para o usuário filtrar e visualizar os dados do CV agregados por período. Para ajustar o período de visualização, basta acionar os botões de manipulação dos anos inicial e final do período.  
+            </p>
+        </div>
+        <div id="privacy-div" class="tabcontent">
+            <p type='first-paragraph'><span id="q">Q</span><span id="lattes">Lattes</span> foi desenvolvida como um projeto pessoal, de <a href="https://github.com/nabormendonca/qlattes">código aberto</a>, sem qualquer vínculo com a CAPES, o CNPq ou outras entidades governamentais e não-governamentais.</p>
+            <p>A ferramenta incorpora e utiliza dados de classificação dos periódicos publicamente disponíveis. A extração, a classificação, e o armazenamento dos dados dos CVs são feitos localmente, no próprio navegador, sem acessar nenhuma API ou serviço
+                remoto. Os dados dos CVs mantidos internamente pela ferramenta não são compartilhados com nenhuma entidade externa e podem ser removidos a qualquer momento pelo usuário.</p>
+        </div>
+        <div id="data-div" class="tabcontent">
+            <p type='first-paragraph'><span id="q">Q</span><span id="lattes">Lattes</span> utiliza três bases de dados para classificar os artigos em periódico, todas incluídas junto com a ferramenta: base dados da PUC-RS, base de dados da Scopus, e base de dados da CAPES. Selecione o menu "Créditos", na barra lateral, para ver os nomes dos responsáveis por construir as bases de dados da PUC-RS e da CAPES.</p>
+            <p>A base de dados da PUC-RS foi coletada da página do <a href="https://ppgcc.github.io/discentesPPGCC/pt-BR/qualis/">Qualis da PUC-RS</a>, em dezembro de 2022, e inclui os dados do Qualis de 2.190 periódicos classificados pela área de Ciência da Computação (ano-base 2021).
+            </p>
+            <p>A base de dados da Scopus foi coletada do <a href="https://www.scopus.com/sources.uri">portal da Scopus</a>, em maio de 2021, e inclui os percentis de 25.990 periódicos internacionais de todas as áreas do conhecimento (ano-base 2020).</p>
+            <p>Por fim, a base dados da CAPES foi coletada da <a href="https://sucupira.capes.gov.br/sucupira/public/index.xhtml">Plataforma Sucupira</a> da CAPES, ao final de 2019, e inclui a classificação no Qualis de 27.618 periódicos de todas as áreas do conhecimento (ano-base 2016). </br> <b>Nota:</b> a classificação dos periódicos desta base de dados foi feita ainda seguindo o modelo antigo da Qualis, que considera oito extratos distintos: A1-A2, B1-B5, e C. </p>
+            <p>Cada base de dados inclui apenas as informações referentes à melhor classificação no Qualis de cada periódico, independentemente de área de conhecimento. Esta decisão, que está em conformidade com a atual política de classificação de periódicos
+                adotada pela CAPES, foi tomada para melhorar a eficiência da ferramenta e reduzir seu consumo de recursos do navegador.</p>
+        </div>
+        <div id="method-div" class="tabcontent">
+            <p type='first-paragraph'><span id="q">Q</span><span id="lattes">Lattes</span> consulta suas três bases de dados utilizando o ISSN dos periódicos extraída dos CVs Lattes como chave de busca. A única exceção são artigos publicados em periódico nacionais que fazem parte
+                da lista de periódicos sem ISSN classificados na base de dados da PUC-RS. Nesses casos, a chave de busca é o nome completo do periódico.
+            </p>
+            <p><span id="q">Q</span><span id="lattes">Lattes</span> busca os dados dos periódicos encontrados nos CVs em uma base de dados de cada vez, por ordem de atualização dos dados de cada base, da mais recente (PUC-RS) à mais antiga (CAPES). Se os
+                dados de um periódico não forem encontrados na primeira base de dados consultada, a ferramenta busca esses dados na próxima base de dados, e assim sucessivamente.
+            </p>
+            <p>Quando os dados de um periódico são encontrados na base de dados da Scopus, que não inclui a classificação dos periódicos no Qualis, <span id="q">Q</span><span id="lattes">Lattes</span> determina a classificação do periódico aplicando as regras
+                de distribuição dos percentis estabelecida pela CAPES:</p>
+            <table class="styled-table" id="table-method">
+                <thead>
+                    <tr>
+                        <th>Classificação</th>
+                        <th>Distribuição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>A1</td>
+                        <td>percentil ≥ 87,5</td>
+                    </tr>
+                    <tr>
+                        <td>A2</td>
+                        <td>75 ≤ percentil &lt; 87,5 </td>
+                    </tr>
+                    <tr>
+                        <td>A3</td>
+                        <td>62,5 ≤ percentil &lt; 75</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>A4</td>
+                        <td>50 ≤ percentil &lt; 62,5</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>B1</td>
+                        <td>37,5 ≤ percentil &lt; 50</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>B2</td>
+                        <td>25 ≤ percentil &lt; 37,5 </td>
+                    </tr>
+                    <tr>
+                        <td>B3</td>
+                        <td>12,5 ≤ percentil &lt; 25</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>B4</td>
+                        <td>percentil </span>&lt; 12,5</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Quando disponível, <span id="q">Q</span><span id="lattes">Lattes</span> inclui entre as informações anotadas nas páginas dos CVs o link para a página do portal da Scopus contendo os dados do periódico no qual o artigo foi publicado. Esse link pode ser visitado pelos usuários para conferir o percentil mais recente de um periódico no ranque de periódicos mantido por aquela entidade.
+            <p>Artigos cujos dados do periódicos não são encontrados em nenhuma das três bases de dados consultadas pela ferramenta são anotados como "Não classificado."</p>
+
+            </p>
+        </div>
+        <div id="roadmap-div" class="tabcontent">
+            <p type='first-paragraph'>Algumas das melhorias e extensões sendo cogitadas para futuras versões da <span id="q">Q</span><span id="lattes">Lattes</span> incluem: </p>
+            <ul>
+                <li>atualização das bases de dados da Scopus e da CAPES</li>
+                <li>visualização gráfica dos dados dos CVs</li>
+                <li>visualização dos dados de múltiplos CVs na mesma representação </li>
+                <li>classificação dos artigos publicados em eventos</li>
+                <li>integração com outras fontes de dados bibliográficos (por exemplo, <a href="https://scholar.google.com/">Google Acadêmico</a>)</li>
+            </ul>             
+            <p>Relatos de bugs bem como novas ideias para melhorar a ferramenta podem ser encaminhados por <a href="mailto:nabor.mendonca@gmail.com">e-mail</a>.</p>
+        </div>
+        <div id="credits-div" class="tabcontent">
+            <!-- <div id="credits-div"> -->
+            <p type='first-paragraph'>Concepção e implementação: <a href="https://sites.google.com/site/nabormendonca/">Nabor Mendonça</a> (UNIFOR)</p>
+            <p>Consultoria de conteúdo: <a href="https://sites.google.com/site/andreiaformico/">Andréia Formico</a> (UNIFOR)</p>
+            <p>Consultoria técnica: <a href="mailto:lucas.mendonca16@gmail.com">Lucas Mendonça</a> (Instituto Eldorado)</p>
+            <p>Criação da base de dados da PUC-RS:
+                <a href="https://github.com/olimarborges">Olimar Teixeira Borges</a> (PUC-RS)</p>
+            <p>Criação da base de dados da CAPES:
+                <a href="mailto:andre.iftm@gmail.com">André Luiz França Batista</a> (IFTM-MG)</p>
+            <!-- <p>Dúvidas, sugestões e relatos de bugs são muito bem vindos!</p> -->
+        </div>
+    </div>
+    <p id="qlattes-version">Versão 0.1.0-beta © 2022 <a href="https://github.com/nabormendonca/qlattes"><img id="github-logo" src="./github-logo.png" alt="QLattes@GitHub"/></a></p>
+</body>
+<script src="./options.js" type="module"></script>
+
+</html>

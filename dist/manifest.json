@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "QLattes",
+  "version": "0.1.0",
+  "description": "Automatically annotate journal publications found in CNPq's CV Lattes pages with their QUALIS classification.",
+  "icons": {
+    "16": "images/icon-16.png",
+    "32": "images/icon-32.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+  "host_permissions": ["http://buscatextual.cnpq.br/*"],
+  "permissions": ["tabs", "storage", "unlimitedStorage"],
+  "options_page": "html/options.html",
+  "action": {
+    "default_popup": "html/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://buscatextual.cnpq.br/buscatextual/visualizacv.do*"],
+      "js": ["scripts/content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["images/*.png", "data/*.json"],
+      "matches": ["http://buscatextual.cnpq.br/*", "file:///*"]
+    }
+  ]
+}
