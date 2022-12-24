@@ -507,7 +507,7 @@ function setAttributes(elem, attrs) {
 }
 
 function createUrlHTML(text, url) {
-  return `<a href="${url}">${text}</a>`;
+  return `<a href="${url}" target="_blank">${text}</a>`;
 }
 
 function consolidateQualisResults(qualisInfo) {
