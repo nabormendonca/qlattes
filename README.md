@@ -10,6 +10,7 @@ QLattes é uma extensão do Chrome que automaticamente classifica os artigos em 
 </p>
 -->
 
+* [Instalação](#instalação)
 * [Instruções de uso](#instruções-de-uso)
 * [Política de privacidade](#política-de-privacidade)
 * [Bases de dados](#bases-de-dados)
@@ -17,19 +18,41 @@ QLattes é uma extensão do Chrome que automaticamente classifica os artigos em 
 * [Melhorias futuras](#melhorias-futuras)
 * [Créditos](#créditos)
 
+## Instalação
+
+Há duas maneiras de instalar a QLattes: da [Chrome Web Store](https://chrome.google.com/webstore/) e manualmente.
+
+### Instalação da Chrome Web Store
+
+Pesquise por QLattes na [página de extensões](https://chrome.google.com/webstore/category/extensions) da Chrome Web Store e sigas as instruções disponíveis [aqui](https://support.google.com/chrome_webstore/answer/2664769?hl=pt-BR).
+
+### Instalação manual
+
+Baixe o conteúdo da pasta "dist" deste repositório para o seu computador e siga as intruções disponíveis [aqui](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
+
 ## Instruções de uso
 
-Abra a página de um ou mais CV Lattes no seu navegador Chrome.
+Após a instalação da QLattes, abra a página de um ou mais CV Lattes no seu navegador Chrome.
 
-QLattes automaticamente anotará a página de cada CV com os dados da classificação no Qualis dos artigos completos em periódicos encontrados na página. Navegue até a seção de "Artigos completos publicados em periódicos" do CV para visualizar as anotações, localizadas logo abaixo dos dados de cada artigo (ver exemplo tela abaixo).
+QLattes automaticamente anotará a página de cada CV com os dados da classificação no Qualis dos artigos completos em periódicos encontrados na página. Navegue até a seção de "Artigos completos publicados em periódicos" do CV para visualizar as anotações, localizadas logo abaixo dos dados de cada artigo (ver exemplo abaixo).
 
 <img src="./qlattes-annot-screenshot.png" height=280>
 
 As anotações adicionadas pela ferramenta incluem a classificação no Qualis e o ISSN do periódico no qual o artigo foi publicado, o percentil do periódico no ranque de periódicos da Scopus (quando disponível), e a base de dados e ano-base utilizados como fonte para a classificação do periódico.
 
-QLattes também exibirá, no menu "Visualização" da barra lateral, os dados consolidados dos artigos classificados em cada CV. Uma vez selecionado um CV, a ferramenta oferecerá diferentes opções para o usuário filtrar e visualizar os dados do CV agregados por período (ver exemplo na tela abaixo). Para ajustar o período de visualização, basta acionar os botões de manipulação dos anos inicial e final do período.
+Clique no ícone da QLattes para abrir a página de visualização e documentação da ferramenta. Clique no menu "Visualização" da barra lateral para visualizar os dados consolidados dos artigos classificados pela ferramenta em cada CV. Uma vez selecionado um CV, a ferramenta oferecerá diferentes opções para o usuário filtrar e visualizar os dados do CV agregados por período (ver exemplo abaixo). Para ajustar o período de visualização, basta acionar os botões de manipulação dos anos inicial e final do período.
 
 <img src="./qlattes-stats-screenshot.png" height=280>
+
+A atual versão de QLattes implementa três tipos de visualização dos dados dos CVs:
+
+* Totais e estatísticas por período
+* 5 melhores publicações no período
+* 10 melhores publicações no período
+
+A visualização "Totais e estatísticas por período" mostra a quantidade de artigos encontrados no CV para cada extrato do Qualis, agregados por ano, além de estatísticas como média, mediana e tendência de crescimento de alguns indicatores para todo o período selecionado. As visualizações "5 melhores publicações no período" e "10 melhores publicações no período", como os nomes indicam, mostram os dados das 5/10 publicações mais bem classificadas no Qualis identificadas no CV (ver exemplo abaixo).
+
+<img src="./qlattes-top-screenshot.png" height=280>
 
 Dúvidas sobre o funcionamento da ferramenta e relatos de bugs podem ser encaminhados por [e-mail](mailto:nabor.mendonca@gmail.com).
 
