@@ -381,6 +381,13 @@ div#container {
   min-width: 15px;
 }
 
+.styled-table th[type='label'] {
+  padding: 4px 8px;
+  text-align: left;
+  font-weight: bold;
+  min-width: 15px;
+}
+
 .styled-table td {
   padding: 4px 8px;
   text-align: center;

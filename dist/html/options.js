@@ -1,6 +1,14 @@
-// define function to calculate the median of an array
+// define functions to calculate the mean and median of an array
+Array.prototype.mean = function () {
+  return this.reduce((a, b) => a + b, 0) / this.length;
+};
+
 Array.prototype.median = function () {
-  return this.slice().sort((a, b) => a - b)[Math.floor(this.length / 2)];
+  const mid = Math.floor(this.length / 2);
+  const sorted = this.slice().sort((a, b) => a - b);
+  return this.length % 2 !== 0
+    ? sorted[mid]
+    : (sorted[mid - 1] + sorted[mid]) / 2;
 };
 
 // define global view form data
@@ -271,16 +279,6 @@ function handleAuthorSelect(event) {
   viewFilters.authorName = match.name;
   viewFilters.authorLink = match.link;
 
-  //   let i = -1; // to adjust index for select place holder
-  //   for (const childNode of authorSelect.childNodes) {
-  //     // console.log(childNode.textContent, childNode.selected)
-  //     if (childNode.selected) {
-  //       viewFilters.authorName = childNode.textContent;
-  //       viewFilters.authorLink = authorNameLinkList[i].link;
-  //     }
-  //     i++;
-  //   }
-
   // get author Lattes stats and publication info for selected author
   const authorStats = getLattesAuthorStats(viewFilters.authorLink);
 
@@ -360,7 +358,7 @@ function deleteLattesAuthorData(authorLink) {
 }
 
 function getLattesAuthorStats(authorLink) {
-  const authorStats = {
+  let authorStats = {
     stats: [],
     minYear: NaN,
     maxYear: NaN,
@@ -374,10 +372,17 @@ function getLattesAuthorStats(authorLink) {
   );
 
   if (match) {
-    authorStats.stats = match.statsInfo.stats;
-    authorStats.pubInfo = match.statsInfo.pubInfo;
+    // authorStats.stats = match.statsInfo.stats;
+    // authorStats.pubInfo = match.statsInfo.pubInfo;
 
-    // get min and max years from Lattes stats
+    // add missing years (if any) to author stats
+    authorStats = addMissingYearsToAuthorStats(
+      match.statsInfo.stats,
+      match.statsInfo.pubInfo
+    );
+    console.log(authorStats);
+
+    // get min and max years from author stats
     authorStats.minYear = authorStats.stats.year.slice(-1)[0];
     authorStats.maxYear = authorStats.stats.year[0];
 
@@ -396,6 +401,51 @@ function getLattesAuthorStats(authorLink) {
   }
 
   return authorStats;
+}
+
+function addMissingYearsToAuthorStats(stats, pubInfo) {
+  const newStats = {};
+  // reset new stats count lists
+  for (const key of Object.keys(stats)) {
+    newStats[key] = [];
+  }
+  const newPubInfo = [];
+
+  let currYear = new Date().getFullYear() + 1;
+  for (let i = 0; i < pubInfo.length; i++) {
+    // add empty results for missing years (if any)
+    for (let year = currYear - 1; year > pubInfo[i].year; year--) {
+      // add empty counts to missing year stats
+      for (const key of Object.keys(newStats)) {
+        if (key == 'year') {
+          newStats[key].push(year);
+        } else {
+          newStats[key].push(0);
+        }
+      }
+
+      // add empty list to missing year publications
+      newPubInfo.push({ year: year, pubList: [] });
+    }
+
+    // copy current year counts to new stats
+    for (const key of Object.keys(newStats)) {
+      newStats[key].push(stats[key][i]);
+    }
+    // copy current year publication list to new publication info
+    newPubInfo.push(pubInfo[i]);
+
+    // update current year
+    currYear = pubInfo[i].year;
+  }
+
+  return {
+    stats: newStats,
+    minYear: NaN,
+    maxYear: NaN,
+    totalPubs: NaN,
+    pubInfo: newPubInfo,
+  };
 }
 
 function createTotalPubsElement(authorStats) {
@@ -830,7 +880,7 @@ function addViewYearFilters() {
     title: 'Últimos 5 anos',
   });
   last5Button.innerHTML =
-    "<i class='fa-solid fa-backward-fast' id='last5-i'></i> 5";
+    "<i class='fa-solid fa-backward-step' id='last5-i'></i> 5";
 
   // add last 5 years button to form
   form.insertAdjacentElement('beforeend', last5Button);
@@ -877,7 +927,7 @@ function getLastNYearsStartEnd(authorStats, lastN) {
   return { start: startYear, end: currYear };
 }
 
-// Update view with QUALIS results
+// Update view with Qualis results
 function updateView(authorStats) {
   // update popup selected view
   if (viewFilters.viewType === 'table') {
@@ -902,9 +952,9 @@ function updateView(authorStats) {
   console.log(authorStats.pubInfo);
 }
 
-// Update popup table with QUALIS results
+// Update popup table with Qualis results
 function updateTableView(stats, startYear, endYear) {
-  //console.log(qualisStats);
+  //console.log(stats);
 
   const totalCounts = {
     A1: 0,
@@ -924,9 +974,9 @@ function updateTableView(stats, startYear, endYear) {
   };
 
   let totalStats = {
-    totA: { best: { count: 0, year: 0 }, list: [] },
-    totB: { best: { count: 0, year: 0 }, list: [] },
-    tot: { best: { count: 0, year: 0 }, list: [] },
+    totA: { best: { count: 0, year: 0 }, countList: [], yearList: [] },
+    totB: { best: { count: 0, year: 0 }, countList: [], yearList: [] },
+    tot: { best: { count: 0, year: 0 }, countList: [], yearList: [] },
   };
 
   // delete current view if it already exists
@@ -986,7 +1036,7 @@ function updateTableView(stats, startYear, endYear) {
   const tableBody = document.createElement('tbody');
   table.appendChild(tableBody);
 
-  // create table body rows with QUALIS stats grouped by year (in reverse chronological order)
+  // create table body rows with Qualis stats grouped by year (in reverse chronological order)
   for (let i = 0; i < stats.year.length; i++) {
     if (stats.year[i] >= startYear && stats.year[i] <= endYear) {
       //   years++;
@@ -1057,87 +1107,117 @@ function updateTableView(stats, startYear, endYear) {
   const tableFoot = document.createElement('tfoot');
   table.appendChild(tableFoot);
 
-  // create table footer total row
-  const tableFootTotalRow = document.createElement('tr');
-  tableFoot.appendChild(tableFootTotalRow);
-
-  // create the first footer total row cell (for the total label)
-  const tableFootTotalRowFirstCell = document.createElement('th');
-  tableFootTotalRowFirstCell.textContent = 'Total';
-  // tableFootTotalRowFirstCell.setAttribute('type', 'tot');
-  tableFootTotalRow.appendChild(tableFootTotalRowFirstCell);
-
-  // create the remaining footer row cells (for the total counts)
-  for (const key of Object.keys(totalCounts)) {
-    // create new table footer row cell
-    const tableFootTotalRowCell = document.createElement('td');
-    tableFootTotalRowCell.setAttribute('type', 'tot');
-    tableFootTotalRowCell.textContent = totalCounts[key];
-    // add new cell to table footer row
-    tableFootTotalRow.appendChild(tableFootTotalRowCell);
-  }
-
-  // stats (median and best) rows
-
-  // create table footer median row
-  const tableFootMedianRow = document.createElement('tr');
-  tableFoot.appendChild(tableFootMedianRow);
-
-  // create the first footer median row cell (for the median label)
-  const tableFootMedianRowFirstCell = document.createElement('th');
-  tableFootMedianRowFirstCell.textContent = 'Mediana';
-  // tableFootMedianRowFirstCell.setAttribute('type', 'tot');
-  tableFootMedianRow.appendChild(tableFootMedianRowFirstCell);
-
-  // create the footer row cells for the median counts
-  for (const key of Object.keys(totalCounts)) {
-    // create new table footer average total row cell
-    const tableFootMedianRowCell = document.createElement('td');
-    tableFootMedianRowCell.setAttribute('type', 'tot');
-
-    if (key.slice(0, 3) == 'tot') {
-      tableFootMedianRowCell.textContent = totalStats[key].list
-        .median()
-        .toFixed(1);
-    } else {
-      tableFootMedianRowCell.textContent = '';
+  // add total footer row
+  addTableFootRow(
+    tableFoot,
+    'Total',
+    totalCounts,
+    totalStats,
+    (key, totalCounts) => {
+      return totalCounts[key];
     }
+  );
 
-    // add new cell to table footer row
-    tableFootMedianRow.appendChild(tableFootMedianRowCell);
-  }
-
-  // create table footer best year row
-  const tableFootBestRow = document.createElement('tr');
-  tableFoot.appendChild(tableFootBestRow);
-
-  // create the first footer best row cell (for the best year label)
-  const tableFootBestRowFirstCell = document.createElement('th');
-  tableFootBestRowFirstCell.textContent = 'Melhor Ano';
-  // tableFootBestRowFirstCell.setAttribute('type', 'tot');
-  tableFootBestRow.appendChild(tableFootBestRowFirstCell);
-
-  // create the footer row cells for the best years
-  for (const key of Object.keys(totalCounts)) {
-    // create new table footer best row cell
-    const tableFootBestRowCell = document.createElement('td');
-    tableFootBestRowCell.setAttribute('type', 'tot');
-
-    if (key.slice(0, 3) == 'tot' && totalStats[key].best.year > 0) {
-      tableFootBestRowCell.textContent = totalStats[key].best.year;
-    } else {
-      tableFootBestRowCell.textContent = '';
+  // add average footer row
+  addTableFootRow(
+    tableFoot,
+    'Média',
+    totalCounts,
+    totalStats,
+    (key, totalCounts, totalStats) => {
+      if (key.slice(0, 3) == 'tot') {
+        return totalStats[key].countList.mean().toFixed(1);
+      } else {
+        return '';
+      }
     }
+  );
+
+  // add median footer row
+  addTableFootRow(
+    tableFoot,
+    'Mediana',
+    totalCounts,
+    totalStats,
+    (key, totalCounts, totalStats) => {
+      if (key.slice(0, 3) == 'tot') {
+        return totalStats[key].countList.median().toFixed(1);
+      } else {
+        return '';
+      }
+    }
+  );
+
+  // add trend footer row
+  addTableFootRow(
+    tableFoot,
+    'Tendência',
+    totalCounts,
+    totalStats,
+    (key, totalCounts, totalStats) => {
+      if (key.slice(0, 3) == 'tot') {
+        return linearRegression(
+          totalStats[key].yearList,
+          totalStats[key].countList
+        ).slope.toFixed(2);
+      } else {
+        return '';
+      }
+    }
+  );
+
+  // add best year footer row
+  addTableFootRow(
+    tableFoot,
+    'Melhor Ano',
+    totalCounts,
+    totalStats,
+    (key, totalCounts, totalStats) => {
+      if (key.slice(0, 3) == 'tot') {
+        return totalStats[key].best.year > 0 ? totalStats[key].best.year : '';
+      } else {
+        return '';
+      }
+    }
+  );
+}
+
+function addTableFootRow(
+  tableFoot,
+  rowLabel,
+  totalCounts,
+  totalStats,
+  totalFunction
+) {
+  // create table footer row
+  const tableFootRow = document.createElement('tr');
+  tableFoot.appendChild(tableFootRow);
+
+  // create the first footer row cell (for the row label)
+  const tableFootRowFirstCell = document.createElement('th');
+  tableFootRowFirstCell.textContent = rowLabel;
+  tableFootRowFirstCell.setAttribute('type', 'label');
+  tableFootRow.appendChild(tableFootRowFirstCell);
+
+  // create the footer row cells for the total values
+  for (const key of Object.keys(totalCounts)) {
+    // create new footer total row cell
+    const tableFootRowCell = document.createElement('td');
+    tableFootRowCell.setAttribute('type', 'tot');
+
+    // get new footer total row cell value
+    tableFootRowCell.textContent = totalFunction(key, totalCounts, totalStats);
 
     // add new cell to table footer row
-    tableFootBestRow.appendChild(tableFootBestRowCell);
+    tableFootRow.appendChild(tableFootRowCell);
   }
 }
 
 function updateTotalStats(totalStats, yearCounts, year) {
   for (const key of Object.keys(yearCounts)) {
-    // update total stats list
-    totalStats[key].list.push(yearCounts[key]);
+    // update total stats lists
+    totalStats[key].countList.push(yearCounts[key]);
+    totalStats[key].yearList.push(year);
 
     // update total stats best
     if (yearCounts[key] > totalStats[key].best.count) {
@@ -1147,6 +1227,47 @@ function updateTotalStats(totalStats, yearCounts, year) {
   }
 
   return totalStats;
+}
+
+function linearRegression(x, y) {
+  // calculate sum, average, differences to average, differences to average squared, and variance of each array
+  const statsX = sumAvgDiffToAvgDiffToAvgSqrVar(x);
+  const statsY = sumAvgDiffToAvgDiffToAvgSqrVar(y);
+
+  // calculate covariance of both arrays
+  const xAndYDiffsMult = statsX.diffsToAvg.map(
+    (curr, index) => curr * statsY.diffsToAvg[index]
+  );
+  const SSxy = xAndYDiffsMult.reduce((prev, curr) => prev + curr, 0);
+
+  // calculate slope and intercept
+  const slope = SSxy / statsX.SS;
+  const intercept = statsX.avg - slope * statsY.avg;
+
+  return { slope: slope, intercept: intercept };
+}
+
+// calculate sum, average, differences to average,
+// differences to average squared, and variance of input array
+function sumAvgDiffToAvgDiffToAvgSqrVar(array) {
+  // sum
+  const sum = array.reduce((prev, curr) => prev + curr, 0);
+  // average
+  const avg = sum / array.length;
+  // differences to average
+  const diffsToAvg = array.map((value) => avg - value);
+  // differences to average squared
+  const diffsToAvgSqr = diffsToAvg.map((value) => value ** 2);
+  // variance
+  const SS = diffsToAvgSqr.reduce((prev, curr) => prev + curr, 0);
+
+  return {
+    sum: sum,
+    avg: avg,
+    diffsToAvg: diffsToAvg,
+    diffsToAvgSqr: diffsToAvgSqr,
+    SS: SS,
+  };
 }
 
 function updateTopPapersView(pubInfo, startYear, endYear, topN) {
@@ -1266,18 +1387,18 @@ function selectTopPublications(pubInfo, startYear, endYear, topN = 5) {
       }
     }
   }
-  // sort publication array by QUALIS and percentil
+  // sort publication array by Qualis and percentil
   const sortedPubArray = sortQualisArray(pubArray);
 
   // return top N publications from sorted publication array
   return sortedPubArray.slice(0, topN);
 }
 
-function sortQualisArray(qualisArray) {
-  qualisArray.sort(
+function sortQualisArray(QualisArray) {
+  QualisArray.sort(
     (pubA, pubB) =>
       pubA.qualis.localeCompare(pubB.qualis) || pubB.percentil - pubA.percentil
   );
 
-  return qualisArray;
+  return QualisArray;
 }
