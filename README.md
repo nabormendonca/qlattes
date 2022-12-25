@@ -14,22 +14,24 @@ QLattes é uma extensão do Chrome que automaticamente classifica os artigos em 
 * [Política de privacidade](#política-de-privacidade)
 * [Bases de dados](#bases-de-dados)
 * [Método de classificação](#método-de-classificação)
-* [Melhorias e extensões](#melhorias-e-extensões)
+* [Melhorias futuras](#melhorias-futuras)
 * [Créditos](#créditos)
 
 ## Instruções de uso
 
 Abra a página de um ou mais CV Lattes no seu navegador Chrome.
 
-QLattes automaticamente anotará a página de cada CV com os dados da classificação no Qualis dos artigos completos em periódicos encontrados na página. Navegue até a seção de "Artigos completos publicados em periódicos" do CV para visualizar as anotações, localizadas logo abaixo dos dados de cada artigo.
+QLattes automaticamente anotará a página de cada CV com os dados da classificação no Qualis dos artigos completos em periódicos encontrados na página. Navegue até a seção de "Artigos completos publicados em periódicos" do CV para visualizar as anotações, localizadas logo abaixo dos dados de cada artigo (ver exemplo tela abaixo).
 
 <img src="./qlattes-annot-screenshot.png" height=280>
 
 As anotações adicionadas pela ferramenta incluem a classificação no Qualis e o ISSN do periódico no qual o artigo foi publicado, o percentil do periódico no ranque de periódicos da Scopus (quando disponível), e a base de dados e ano-base utilizados como fonte para a classificação do periódico.
 
-QLattes também exibirá, no menu "Visualização" da barra lateral, os dados consolidados dos artigos classificados em cada CV. Uma vez selecionado um CV, a ferramenta oferecerá diferentes opções para o usuário filtrar e visualizar os dados do CV agregados por período. Para ajustar o período de visualização, basta acionar os botões de manipulação dos anos inicial e final do período.
+QLattes também exibirá, no menu "Visualização" da barra lateral, os dados consolidados dos artigos classificados em cada CV. Uma vez selecionado um CV, a ferramenta oferecerá diferentes opções para o usuário filtrar e visualizar os dados do CV agregados por período (ver exemplo na tela abaixo). Para ajustar o período de visualização, basta acionar os botões de manipulação dos anos inicial e final do período.
 
 <img src="./qlattes-stats-screenshot.png" height=280>
+
+Dúvidas sobre o funcionamento da ferramenta e relatos de bugs podem ser encaminhados por [e-mail](mailto:nabor.mendonca@gmail.com).
 
 ## Política de privacidade
 
@@ -39,16 +41,21 @@ A ferramenta incorpora e utiliza dados de classificação dos periódicos public
 
 ## Bases de dados
 
-QLattes utiliza três bases de dados para classificar os artigos em periódico, todas incluídas junto com a ferramenta: base dados da PUC-RS, base de dados da Scopus, e base de dados da CAPES. Selecione o menu "Créditos", na barra lateral, para ver os nomes dos responsáveis por construir as bases de dados da PUC-RS e da CAPES.
+QLattes utiliza três bases de dados para classificar os artigos em periódico, todas incluídas junto com a ferramenta: 
 
-A base de dados da PUC-RS foi coletada da página do [Qualis da PUC-RS](https://ppgcc.github.io/discentesPPGCC/pt-BR/qualis/), em dezembro de 2022, e inclui os dados do Qualis de 2.190 periódicos classificados pela área de Ciência da Computação (ano-base 2021).
+* base dados da PUC-RS
+* base de dados da Scopus
+* base de dados da CAPES. 
+
+A base de dados da PUC-RS foi coletada da página do [Qualis da PUC-RS](https://ppgcc.github.io/discentesPPGCC/pt-BR/qualis/), em dezembro de 2022, e inclui os dados do Qualis e do percentil na Scopus de 2.190 periódicos classificados pela área de Ciência da Computação (ano-base 2021).
 
 A base de dados da Scopus foi coletada do [portal da Scopus](https://www.scopus.com/sources.uri), em maio de 2021, e inclui os percentis de 25.990 periódicos internacionais de todas as áreas do conhecimento (ano-base 2020).
 
-Por fim, a base dados da CAPES foi coletada da [Plataforma Sucupira](https://sucupira.capes.gov.br/sucupira/public/index.xhtml) da CAPES, ao final de 2019, e inclui a classificação no Qualis de 27.618 periódicos de todas as áreas do conhecimento (ano-base 2016).
-Nota: a classificação dos periódicos desta base de dados foi feita ainda seguindo o modelo antigo da Qualis, que considera oito extratos distintos: A1-A2, B1-B5, e C.
+Por fim, a base dados da CAPES foi coletada da [Plataforma Sucupira](https://sucupira.capes.gov.br/sucupira/public/index.xhtml) da CAPES, ao final de 2019, e inclui a classificação no Qualis de 27.618 periódicos de todas as áreas do conhecimento (ano-base 2016). A classificação dos periódicos desta base de dados ainda segue o modelo antigo do Qualis, que considera oito extratos distintos: dois na categoria A (A1-A2), cinco na categoria B (B1-B5), e um na categoria C.
 
 Cada base de dados inclui apenas as informações referentes à melhor classificação no Qualis de cada periódico, independentemente de área de conhecimento. Esta decisão, que está em conformidade com a atual política de classificação de periódicos adotada pela CAPES, foi tomada para melhorar a eficiência da ferramenta e reduzir seu consumo de recursos do navegador.
+
+Visite a seção [Créditos](#créditos) para ver os nomes dos responsáveis pela construção das bases de dados da PUC-RS e da CAPES.
 
 ## Método de classificação
 
@@ -73,17 +80,17 @@ Quando disponível, QLattes inclui entre as informações anotadas nas páginas 
 
 Artigos cujos dados do periódicos não são encontrados em nenhuma das três bases de dados consultadas pela ferramenta são anotados como "Não classificado."
 
-## Melhorias e extensões
+## Melhorias futuras
 
-Algumas das melhorias e extensões sendo cogitadas para futuras versões da QLattes incluem:
+Algumas das melhorias sendo cogitadas para futuras versões da QLattes incluem:
 
 * atualização das bases de dados da Scopus e da CAPES
 * visualização gráfica dos dados dos CVs
 * visualização dos dados de múltiplos CVs na mesma representação
-* classificação dos artigos publicados em eventos
 * integração com outras fontes de dados bibliográficos (por exemplo, [Google Acadêmico](https://scholar.google.com/))
+* classificação dos artigos publicados em eventos
 
-Relatos de bugs bem como novas ideias para melhorar a ferramenta podem ser encaminhados por [e-mail](mailto:nabor.mendonca@gmail.com).
+Voluntários e colaboradores para implementar essas e outras melhorias são muito bem vindos!
 
 ## Créditos
 
