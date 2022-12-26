@@ -28,7 +28,7 @@ Pesquise por QLattes na [página de extensões](https://chrome.google.com/websto
 
 ### Instalação manual
 
-Baixe o conteúdo da pasta "dist" deste repositório para o seu computador e siga as intruções disponíveis [aqui](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
+Baixe o conteúdo deste repositório para o seu computador. Os aquivos necessários para a instalação manual da QLattes estão na pasta "[dist](./dist)". Localize o caminho para esta pasta no seu computador e siga as intruções disponíveis [aqui](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
 
 ## Instruções de uso
 
