@@ -127,19 +127,19 @@ button[id='clear-data-button'] {
 button[id='last5-button'],
 button[id='last10-button'],
 button[id='reset-button'] {
-  /* font-size: 1.2em; */
+  font-size: 1em;
   /* font-family: sans-serif; */
   background-color: #5ba751;
   color: #ffffff;
-  height: 24px;
+  height: 25px;
   /* line-height: 22px; */
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 2px;
+  padding-bottom: 2px;
   padding-left: 3px;
   padding-right: 3px;
   width: 50px;
   margin-left: 10px;
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 0px;
   border: none;
   border-radius: 4px;
@@ -217,16 +217,16 @@ i[id='end-year-i'] {
 
 .Icon-inside i[id='start-year-i'] {
   position: absolute;
-  left: 5px;
-  top: 10px;
+  left: 4px;
+  top: 12px;
   padding: 5px 8px;
   color: #5ba751;
 }
 
 .Icon-inside i[id='end-year-i'] {
   position: absolute;
-  left: 5px;
-  top: 10px;
+  left: 4px;
+  top: 12px;
   padding: 5px 8px;
   color: #5ba751;
 }
