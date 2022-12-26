@@ -1,6 +1,6 @@
 ![QLattes Logo](/dist/html/qlattes-logo-trans.png)
 
-QLattes é uma extensão do Chrome que automaticamente classifica os artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq de acordo com o Qualis da CAPES.
+QLattes é uma extensão do Chrome que automaticamente classifica os artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq, de acordo com o Qualis da CAPES.
 
 <!--
 <p align="left">
@@ -22,13 +22,13 @@ QLattes é uma extensão do Chrome que automaticamente classifica os artigos em 
 
 Há duas maneiras de instalar a QLattes: da [Chrome Web Store](https://chrome.google.com/webstore/) e manualmente.
 
-### Instalação da Chrome Web Store (:construction: AINDA NÃO DISPONÍVEL :construction:)
+### Instalação da Chrome Web Store (:construction: AINDA NÃO DISPONÍVEL! :construction:)
 
 Pesquise por QLattes na [página de extensões](https://chrome.google.com/webstore/category/extensions) da Chrome Web Store e sigas as instruções disponíveis [aqui](https://support.google.com/chrome_webstore/answer/2664769?hl=pt-BR).
 
 ### Instalação manual
 
-Baixe o [conteúdo](https://github.com/nabormendonca/qlattes/archive/refs/heads/main.zip) deste repositório para o seu computador. Os aquivos necessários para a instalação manual da QLattes estão na pasta "[dist](./dist)". Localize o caminho para esta pasta no seu computador e siga as intruções disponíveis [aqui](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
+Baixe o arquivo [.zip](https://github.com/nabormendonca/qlattes/archive/refs/heads/main.zip) com o código fonte deste repositório para o seu computador. Após descompactar o arquivo, os aquivos necessários para a instalação manual da QLattes estarão na pasta "dist". Localize o caminho para esta pasta no seu computador e siga as intruções disponíveis [aqui](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
 
 ## Instruções de uso
 
@@ -50,7 +50,9 @@ A atual versão de QLattes implementa três tipos de visualização dos dados do
 * 5 melhores publicações no período
 * 10 melhores publicações no período
 
-A visualização "Totais e estatísticas por período" mostra a quantidade de artigos encontrados no CV para cada extrato do Qualis, agregados por ano, além de estatísticas como média, mediana e tendência de crescimento de alguns indicatores para todo o período selecionado. As visualizações "5 melhores publicações no período" e "10 melhores publicações no período", como os nomes indicam, mostram os dados das 5/10 publicações mais bem classificadas no Qualis identificadas no CV (ver exemplo abaixo).
+A visualização "Totais e estatísticas por período" mostra a quantidade de artigos encontrados no CV para cada extrato do Qualis, agregados por ano, além de estatísticas como média, mediana e tendência de crescimento de alguns indicatores para o período selecionado. A tendência é calculada como a inclinação da reta obtida via regressão linear sobre os números de publicações de cada indicador ao longo do período selecionado. Uma inclinação positiva aponta tendência de crescimento enquanto uma inclinação negativa aponta tendência de queda.
+
+As visualizações "5 melhores publicações no período" e "10 melhores publicações no período", como os nomes sugerem, mostram os dados das 5/10 publicações mais bem classificadas no Qualis no período selecionado (ver exemplo abaixo).
 
 <img src="./qlattes-top-screenshot.png" height=280>
 
