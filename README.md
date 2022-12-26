@@ -22,7 +22,7 @@ QLattes é uma extensão do Chrome que automaticamente classifica os artigos em 
 
 Há duas maneiras de instalar a QLattes: da [Chrome Web Store](https://chrome.google.com/webstore/) e manualmente.
 
-### Instalação da Chrome Web Store
+### Instalação da Chrome Web Store (:exclamation:AINDA NÃO DISPONÍVEL:exclamation:)
 
 Pesquise por QLattes na [página de extensões](https://chrome.google.com/webstore/category/extensions) da Chrome Web Store e sigas as instruções disponíveis [aqui](https://support.google.com/chrome_webstore/answer/2664769?hl=pt-BR).
 
