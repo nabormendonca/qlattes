@@ -114,7 +114,7 @@ input[id='end-year-input'] {
 }
 
 button[id='clear-data-button'] {
-  /* font-size: 1.4em; */
+  font-size: 1em;
   color: #5ba751;
   background: rgba(204, 204, 204, 0);
   padding: 0px;
@@ -127,7 +127,7 @@ button[id='clear-data-button'] {
 button[id='last5-button'],
 button[id='last10-button'],
 button[id='reset-button'] {
-  font-size: 1em;
+  font-size: 0.9em;
   /* font-family: sans-serif; */
   background-color: #5ba751;
   color: #ffffff;
