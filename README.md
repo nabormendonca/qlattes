@@ -1,14 +1,6 @@
-![QLattes Logo](/dist/html/qlattes-logo-trans.png)
+![QLattes Logo](./img/qlattes-logo.png)
 
 QLattes é uma extensão do Chrome que automaticamente classifica os artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq, de acordo com o Qualis da CAPES.
-
-<!--
-<p align="left">
-  <img src="./qlattes-annot-screenshot.png" height=280>
-&nbsp; 
-  <img src="./qlattes-stats-screenshot.png" height=280>
-</p>
--->
 
 * [Instalação](#instalação)
 * [Instruções de uso](#instruções-de-uso)
@@ -37,13 +29,13 @@ Após a instalação da QLattes, abra a página de um ou mais CV Lattes no seu n
 
 QLattes automaticamente anotará a página de cada CV com os dados da classificação no Qualis dos artigos completos em periódicos encontrados na página. Navegue até a seção de "Artigos completos publicados em periódicos" do CV para visualizar as anotações, localizadas logo abaixo dos dados de cada artigo (ver exemplo abaixo).
 
-<img src="./qlattes-annot-screenshot.png" height=280>
+<img src="./img/qlattes-annot-screenshot.png" height=280>
 
 As anotações adicionadas pela ferramenta incluem a classificação no Qualis e o ISSN do periódico no qual o artigo foi publicado, o percentil do periódico no ranque de periódicos da Scopus (quando disponível), e a base de dados e ano-base utilizados como fonte para a classificação do periódico.
 
 Clique no ícone da QLattes para abrir a página de visualização e documentação da ferramenta. Clique no menu "Visualização" da barra lateral para visualizar os dados consolidados dos artigos classificados pela ferramenta em cada CV. Uma vez selecionado um CV, a ferramenta oferecerá diferentes opções para o usuário filtrar e visualizar os dados do CV agregados por período (ver exemplo abaixo). Para ajustar o período de visualização, basta acionar os botões de manipulação dos anos inicial e final do período.
 
-<img src="./qlattes-stats-screenshot.png" height=280>
+<img src="./img/qlattes-stats-screenshot.png" height=280>
 
 A atual versão de QLattes implementa três tipos de visualização dos dados dos CVs:
 
@@ -55,7 +47,7 @@ A visualização "Totais e estatísticas por período" mostra a quantidade de ar
 
 As visualizações "5 melhores publicações no período" e "10 melhores publicações no período", como os nomes sugerem, mostram os dados das 5/10 publicações mais bem classificadas no Qualis no período selecionado (ver exemplo abaixo).
 
-<img src="./qlattes-top-screenshot.png" height=280>
+<img src="./img/qlattes-top-screenshot.png" height=280>
 
 Dúvidas sobre o funcionamento da ferramenta e relatos de bugs podem ser encaminhados por [e-mail](mailto:nabor.mendonca@gmail.com).
 
