@@ -22,13 +22,13 @@ QLattes é uma extensão do Chrome que automaticamente classifica os artigos em 
 
 Há duas maneiras de instalar a QLattes: da [Chrome Web Store](https://chrome.google.com/webstore/) e manualmente.
 
-### Instalação da Chrome Web Store (:exclamation:AINDA NÃO DISPONÍVEL:exclamation:)
+### Instalação da Chrome Web Store (:construction: AINDA NÃO DISPONÍVEL :construction:)
 
 Pesquise por QLattes na [página de extensões](https://chrome.google.com/webstore/category/extensions) da Chrome Web Store e sigas as instruções disponíveis [aqui](https://support.google.com/chrome_webstore/answer/2664769?hl=pt-BR).
 
 ### Instalação manual
 
-Baixe o [conteúdo deste repositório](https://github.com/nabormendonca/qlattes/archive/refs/heads/main.zip) para o seu computador. Os aquivos necessários para a instalação manual da QLattes estão na pasta "[dist](./dist)". Localize o caminho para esta pasta no seu computador e siga as intruções disponíveis [aqui](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
+Baixe o [conteúdo](https://github.com/nabormendonca/qlattes/archive/refs/heads/main.zip) deste repositório para o seu computador. Os aquivos necessários para a instalação manual da QLattes estão na pasta "[dist](./dist)". Localize o caminho para esta pasta no seu computador e siga as intruções disponíveis [aqui](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
 
 ## Instruções de uso
 
