@@ -16,6 +16,7 @@ QLattes é uma extensão do Chrome que automaticamente classifica os artigos em 
 * [Bases de dados](#bases-de-dados)
 * [Método de classificação](#método-de-classificação)
 * [Melhorias futuras](#melhorias-futuras)
+* [Extensões relacionadas](#extensões-relacionadas)
 * [Créditos](#créditos)
 
 ## Instalação
@@ -116,6 +117,12 @@ Algumas das melhorias sendo cogitadas para futuras versões da QLattes incluem:
 * classificação dos artigos publicados em eventos
 
 Voluntários e colaboradores para implementar essas e outras melhorias são muito bem vindos!
+
+## Extensões relacionadas
+
+[ChromeQualis](https://chrome.google.com/webstore/detail/chromequalis/cmphlehdnbaffijjbakolbdmicdifoeo) permite consultar a classificação de periódicos disponíveis na Plataforma Sucupira da CAPES diretamente do navegador. A classificação utilizada por esta extensão é a mesma incluída na base de dados da CAPES utilizada pela QLattes.
+
+[Qualis Capes](https://chrome.google.com/webstore/detail/qualis-capes/imnndpplkogiebimpkljdanjcbfepdam) exibe a classificação no Qualis de periódicos internacionais diretamente nas páginas do portal da Scopus. Esta extensão classifica os periódicos utilizando a mesma regra de distribuição de percentis utilizada na criação da base de dados da PUC-RS, e também pela QLattes para classificar os periódicos encontrados na base de dados da Scopus. No entanto, pelo fato de utilizar dados do percentil dos periódicos obtidos diretamente do portal da Scopus, esta extensão pode gerar classificações mais atualizadas que aquelas geradas pela QLattes.
 
 ## Créditos
 
