@@ -126,7 +126,7 @@ Consultoria técnica: [Lucas Mendonça](mailto:lucas.mendonca16@gmail.com) (Inst
 
 Criação da base de dados da PUC-RS: [Olimar Teixeira Borges](https://github.com/olimarborges) (PUC-RS)
 
-Criação da base de dados da CAPES: [André Luiz França Batista](mailto:andre.iftm@gmail.com) (IFTM-MG)
+Criação da base de dados da CAPES: André Luiz França Batista (IFTM-MG)
 
 
 
