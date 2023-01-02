@@ -14201,15 +14201,15 @@
     "logs": "Other error occurred: 'serial-metadata-response' - Status_code: 429"
   },
   {
-    "issn": "nulo",
-    "periodico": "JOURNAL ON INTERACTIVE SYSTEMS (JIS)",
+    "issn": "2763-7719",
+    "periodico": "JOURNAL ON INTERACTIVE SYSTEMS",
     "Ajuste_SBC": 0,
     "link_scopus": "nulo",
     "percentil": "nulo",
-    "Qualis_Final": "B2",
+    "Qualis_Final": "B1",
     "data-atualizacao": "nulo",
     "data-tentativa": "20/11/2022 03:03:00",
-    "logs": "sem informação do ISSN"
+    "logs": "Substituiu o JOURNAL ON 3D INTERACTIVE SYSTEMS (ISSN 2236-3297). Nova classificação extraída do Qualis da CAPES (2017-2020)"
   },
   {
     "issn": "1383-469X",

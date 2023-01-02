@@ -3,6 +3,12 @@
 async function main() {
   // Data source path, text, URL and last update
   const dataSource = {
+    capes: {
+      path: 'data/qualis-capes-2017-2020.json',
+      text: 'Qualis/CAPES',
+      url: 'https://sucupira.capes.gov.br/sucupira/public/consultas/coleta/veiculoPublicacaoQualis/listaConsultaGeralPeriodicos.jsf',
+      baseYear: '2020',
+    },
     pucrs: {
       path: 'data/qualis-pucrs-2022.json',
       text: 'Qualis/PUC-RS',
@@ -14,12 +20,6 @@ async function main() {
       text: 'Scopus',
       url: 'https://www.scopus.com/',
       baseYear: '2020',
-    },
-    capes: {
-      path: 'data/qualis-capes-2013-2016.json',
-      text: 'Qualis/CAPES',
-      url: 'https://sucupira.capes.gov.br/sucupira/public/consultas/coleta/veiculoPublicacaoQualis/listaConsultaGeralPeriodicos.jsf',
-      baseYear: '2016',
     },
   };
 
@@ -255,26 +255,32 @@ function getQualis(issn, title, qualisData, qualisDataCache, dataSource) {
     }
   }
 
-  // search for issn in PUC-RS data
-  var qualisLabels = getQualisFromPucrsData(
+  // search for issn in CAPES data
+  qualisLabels = getQualisFromCapesData(
     issn,
     altIssn,
-    title,
-    qualisData.pucrs,
+    qualisData.capes,
+    qualisData.scopus,
     dataSource
   );
 
   // if not found
-  if (qualisLabels.qualis == 'NC') {
-    // search for issn in Scopus data
-    qualisLabels = getQualisFromScopusData(issn, qualisData.scopus, dataSource);
+  if (qualisLabels.qualis == 'N') {
+    // search for issn in PUC-RS data
+    var qualisLabels = getQualisFromPucrsData(
+      issn,
+      altIssn,
+      title,
+      qualisData.pucrs,
+      dataSource
+    );
 
     // if not found
-    if (qualisLabels['qualis'] == 'NC') {
-      // search for issn in CAPES data
-      qualisLabels = getQualisFromCapesData(
+    if (qualisLabels.qualis == 'N') {
+      // search for issn in Scopus data
+      qualisLabels = getQualisFromScopusData(
         issn,
-        qualisData['capes'],
+        qualisData.scopus,
         dataSource
       );
     }
@@ -309,11 +315,59 @@ function getAlternativeIssn(issn, scopusData) {
   }
 }
 
+function getQualisFromCapesData(
+  issn,
+  altIssn,
+  capesData,
+  scopusData,
+  dataSource
+) {
+  // set default labels
+  const qualisLabels = {
+    title: '',
+    qualis: 'N',
+    percentil: '',
+    linkScopus: '',
+    adjusted: '',
+    source: '',
+    baseYear: '',
+  };
+
+  // search for issn in CAPES data
+  var match = capesData.find(
+    (elem) => elem.issn == issn || (altIssn && elem.issn == altIssn)
+  );
+
+  if (match) {
+    console.log(match);
+
+    // assign matched CAPES data to empty Qualis labels
+    qualisLabels.qualis = match.qualis;
+    qualisLabels.title = match.title.toUpperCase();
+    qualisLabels.source = 'capes';
+    qualisLabels.baseYear = dataSource.capes.baseYear;
+
+    // attempt to get link to Scopus for issn
+    const qualisLabelsScopus = getQualisFromScopusData(
+      issn,
+      scopusData,
+      dataSource
+    );
+    console.log(qualisLabelsScopus);
+
+    if (qualisLabelsScopus.qualis != 'N') {
+      qualisLabels.linkScopus = qualisLabelsScopus.linkScopus;
+    }
+  }
+
+  return qualisLabels;
+}
+
 function getQualisFromPucrsData(issn, altIssn, title, pucrsData, dataSource) {
   // set default labels
   const qualisLabels = {
     title: '',
-    qualis: 'NC',
+    qualis: 'N',
     percentil: '',
     linkScopus: '',
     adjusted: '',
@@ -323,7 +377,7 @@ function getQualisFromPucrsData(issn, altIssn, title, pucrsData, dataSource) {
 
   // search for issn or its alternative in PUC-RS data
   var match = pucrsData.find(
-    (elem) => elem.issn == issn || elem.issn == altIssn
+    (elem) => elem.issn == issn || (altIssn && elem.issn == altIssn)
   );
 
   const labels_map = {
@@ -348,24 +402,6 @@ function getQualisFromPucrsData(issn, altIssn, title, pucrsData, dataSource) {
     // define source label
     qualisLabels.source = 'pucrs';
     qualisLabels.baseYear = dataSource.pucrs.baseYear;
-  } else {
-    // search for journal name in PUC-RS data (exact match only)
-    match = pucrsData.find((elem) => elem.periodico == title);
-
-    if (match) {
-      // console.log(match);
-
-      // assign matched data to empty Qualis labels
-      for (const key of Object.keys(qualisLabels)) {
-        if (match[labels_map[key]] && match[labels_map[key]] != 'nulo') {
-          qualisLabels[key] = match[labels_map[key]];
-        }
-      }
-
-      // define source label
-      qualisLabels.source = 'pucrs';
-      qualisLabels.baseYear = dataSource.pucrs.baseYear;
-    }
   }
 
   return qualisLabels;
@@ -375,7 +411,7 @@ function getQualisFromScopusData(issn, scopusData, dataSource) {
   // set default labels
   const qualisLabels = {
     title: '',
-    qualis: 'NC',
+    qualis: 'N',
     percentil: '',
     linkScopus: '',
     adjusted: '',
@@ -405,7 +441,7 @@ function getQualisFromScopusData(issn, scopusData, dataSource) {
 
 function calculateQualisFromPercentil(percentil) {
   if (!percentil || percentil.length == 0) {
-    return 'NC';
+    return 'N';
   }
 
   const qualisClassList = ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4'];
@@ -417,35 +453,7 @@ function calculateQualisFromPercentil(percentil) {
     }
   }
 
-  return 'NC';
-}
-
-function getQualisFromCapesData(issn, capesData, dataSource) {
-  // set default labels
-  const qualisLabels = {
-    title: '',
-    qualis: 'NC',
-    percentil: '',
-    linkScopus: '',
-    adjusted: '',
-    source: '',
-    baseYear: '',
-  };
-
-  // search for issn in CAPES data
-  var match = capesData.find((elem) => elem.issn == issn);
-
-  if (match) {
-    console.log(match);
-
-    // assign matched CAPES data to empty Qualis labels
-    qualisLabels.qualis = match.qualis;
-    qualisLabels.title = match.title.toUpperCase();
-    qualisLabels.source = 'capes';
-    qualisLabels.baseYear = dataSource.capes.baseYear;
-  }
-
-  return qualisLabels;
+  return 'N';
 }
 
 function injectQualisAnnotation(
@@ -457,11 +465,6 @@ function injectQualisAnnotation(
 ) {
   // create annotation element
   const annotElem = document.createElement('p');
-  // setAttributes(annotElem, {
-  //     class: "tooltip",
-  //     "original-title": "ISSN: " + issn,
-  // });
-
   // inject Qualis icon elem
   const imgElem = document.createElement('img');
   setAttributes(imgElem, {
@@ -474,24 +477,26 @@ function injectQualisAnnotation(
   // create Qualis labels annotations
   let qualisAnnot;
 
-  if (qualisLabels.qualis == 'NC') {
+  if (qualisLabels.qualis == 'N') {
     qualisAnnot = ` Não classificado, ISSN ${issn}`;
   } else {
     qualisAnnot = qualisLabels.adjusted
       ? ` ${qualisLabels.qualis} (ajustado), ISSN ${issn}`
       : ` ${qualisLabels.qualis}, ISSN ${issn}`;
 
-    qualisAnnot += qualisLabels.percentil
-      ? `, ${createUrlHTML('percentil na Scopus', qualisLabels.linkScopus)} ${
-          qualisLabels.percentil
-        }, fonte ${createUrlHTML(
-          dataSource[qualisLabels.source].text,
-          dataSource[qualisLabels.source].url
-        )} (ano-base ${dataSource[qualisLabels.source].baseYear})`
-      : `, fonte ${createUrlHTML(
-          dataSource[qualisLabels.source].text,
-          dataSource[qualisLabels.source].url
-        )} (ano-base ${dataSource[qualisLabels.source].baseYear})`;
+    qualisAnnot += qualisLabels.linkScopus
+      ? ` (${createUrlHTML(
+          'Scopus',
+          'Clique para visualizar a página do periódico na Scopus',
+          qualisLabels.linkScopus
+        )}), `
+      : `, `;
+
+    qualisAnnot += `fonte ${createUrlHTML(
+      dataSource[qualisLabels.source].text,
+      '',
+      dataSource[qualisLabels.source].url
+    )}, ano-base ${dataSource[qualisLabels.source].baseYear}`;
   }
   // qualisAnnot += ")";
   annotElem.insertAdjacentHTML('beforeend', qualisAnnot);
@@ -506,8 +511,8 @@ function setAttributes(elem, attrs) {
   }
 }
 
-function createUrlHTML(text, url) {
-  return `<a href="${url}" target="_blank">${text}</a>`;
+function createUrlHTML(text, title, url) {
+  return `<a href="${url}" target="_blank" title="${title}">${text}</a>`;
 }
 
 function consolidateQualisResults(qualisInfo) {
@@ -521,9 +526,8 @@ function consolidateQualisResults(qualisInfo) {
     B2: [],
     B3: [],
     B4: [],
-    B5: [],
     C: [],
-    NC: [],
+    N: [],
   };
 
   const currYearCounts = {
@@ -535,9 +539,8 @@ function consolidateQualisResults(qualisInfo) {
     B2: 0,
     B3: 0,
     B4: 0,
-    B5: 0,
     C: 0,
-    NC: 0,
+    N: 0,
   };
 
   var pubInfoList = [];
@@ -547,24 +550,24 @@ function consolidateQualisResults(qualisInfo) {
   var currYear = 0;
 
   for (let i = 0; i < qualisInfo.length; i++) {
-    console.log(currYear);
-    console.log(currYearCounts);
-    console.log(qualisCounts);
+    // console.log(currYear);
+    // console.log(currYearCounts);
+    // console.log(qualisCounts);
 
     if (currYear != qualisInfo[i].year) {
       if (currYear > 0) {
-        // add year counts to Qualis results
+        // add current year counts to Qualis results
         for (const key of Object.keys(currYearCounts)) {
           qualisCounts[key].push(currYearCounts[key]);
         }
+
+        // add current year publication list to pubInfoList
+        pubInfoList.push({ year: currYear, pubList: pubInfoYearList });
 
         // reset year counts
         for (const key of Object.keys(currYearCounts)) {
           currYearCounts[key] = 0;
         }
-
-        // add pubInfoYearList to pubInfoList
-        pubInfoList.push({ year: currYear, pubList: pubInfoYearList });
 
         // reset pubInfoYearList
         pubInfoYearList = [];
@@ -598,7 +601,7 @@ function consolidateQualisResults(qualisInfo) {
     }
 
     // add pubInfoYearList to pubInfoList
-    pubInfoList.push({ currYear: pubInfoYearList });
+    pubInfoList.push({ year: currYear, pubList: pubInfoYearList });
   }
 
   return { stats: qualisCounts, pubInfo: pubInfoList };
