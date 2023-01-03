@@ -16,7 +16,7 @@ Há duas maneiras de instalar a QLattes: da [Chrome Web Store](https://chrome.go
 
 ### Instalação da Chrome Web Store
 
-Abra a [página da QLattes](https://chrome.google.com/webstore/detail/cobekobjpobenpjdggbpkkklkcfoinen) na Chrome Web Store e clique no botão "Usar no Chrome". Se tiver dúvidas sobre a instalação, leia as instruções disponíveis [neste link](https://support.google.com/chrome_webstore/answer/2664769?hl=pt-BR).
+Abra a [página da QLattes](https://chrome.google.com/webstore/detail/cobekobjpobenpjdggbpkkklkcfoinen) na Chrome Web Store e clique no botão "Usar no Chrome". Se tiver dúvidas sobre a instalação, leia as instruções disponíveis neste [link](https://support.google.com/chrome_webstore/answer/2664769?hl=pt-BR).
 
 Nesta primeira versão pública (beta), a extensão está publicada no modo não listado, o que significa que qualquer um pode instalar a ferramenta com o link acima, mas esta ainda não aparece nas buscas.
 
@@ -149,7 +149,7 @@ Logo: variação sobre os logos do Qualis e da Plataforma Lattes
 
 ## Comentários e sugestões
 
-Utilize [este formulário online](https://forms.gle/ZzHWNSsKUPHBK1WK8) para enviar uma mensagem com comentários, sugestões, relatos de bug, ou simplesmente compartilhar a sua opinião sobre a ferramenta.
+Utilize este [formulário online](https://forms.gle/ZzHWNSsKUPHBK1WK8) para enviar uma mensagem com comentários, sugestões, relatos de bug, ou simplesmente compartilhar a sua opinião sobre a ferramenta.
 
 
 
