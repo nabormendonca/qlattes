@@ -28,7 +28,7 @@ Após a instalação da QLattes, abra a página de um ou mais CV Lattes no seu n
 
 QLattes automaticamente anotará os dados da classificação Qualis dos artigos completos em periódicos diretamente nas páginas dos CVs. Navegue até a seção de "Artigos completos publicados em periódicos" dos CVs para visualizar as anotações, localizadas logo abaixo das informações de cada artigo (ver exemplo abaixo).
 
-<img src="./img/qlattes-annotations.png" height=280>
+<img src="./img/qlattes-annotations.png" height=350>
 
 As anotações adicionadas pela ferramenta incluem a classificação Qualis e o ISSN do periódico no qual o artigo foi publicado, o link para a página do periódico na Scopus (quando disponível), e a fonte de dados e o ano-base utilizados para classificar o periódico.
 
@@ -45,14 +45,14 @@ A atual versão da QLattes implementa quatro tipos de visualização:
 
 As duas primeiras visualizações exibem, na forma de um gráfico e de uma tabela, respectivamente, a quantidade de artigos encontrados no CV para cada estrato do Qualis, consolidados por ano (ver exemplos abaixo). Além disso, ambas visualizações oferecem a opção de exibir estatísticas como a média, a mediana, e a tendência de alguns indicatores para o período selecionado. A tendência é calculada pela inclinação da reta obtida via regressão linear sobre os números de publicações de cada indicador agregado ao longo do período selecionado.
 
-<img src="./img/qlattes-graphic-view.png" height=280>
-<img src="./img/qlattes-table-view.png" height=280>
+<img src="./img/qlattes-graphic-view.png" height=350>
+<img src="./img/qlattes-table-view.png" height=350>
 
 A visualização na forma de gráfico possui elementos visuais ativos. Passe o mouse sobre os elementos do gráfico para revelar os respectivos valores. Clique nos elementos da legenda para ocultar/exibir os elementos do gráfico referentes a estratos específicos do Qualis.
 
 As duas últimas visualizações, como os nomes sugerem, mostram os dados das 5/10 publicações mais bem classificadas no Qualis no período selecionado (ver exemplo abaixo). O ranque das publicações é criado com base na classificação Qualis de cada publicação, com o ano de publicação sendo utilizado como critério de desempate (publicações mais recentes são exibidas à frente de publicações mais antigas).
 
-<img src="./img/qlattes-top-papers-view.png" height=280>
+<img src="./img/qlattes-top-papers-view.png" height=350>
 
 Artigos publicados em periódicos cujo ISSN não foram encontrado em nenhuma das fontes de dados utilizadas pela ferramenta são anotados nas páginas dos CVs como "Não classificado." QLattes representa os números referentes aos artigos não classificados atribuindo-lhes o estrato "N" nas diferentes visualizações que exibe.
 
