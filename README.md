@@ -1,6 +1,6 @@
 <img src="./img/qlattes-blue-logo-transp-border.png" height=80>
 
-QLattes é uma extensão do Chrome que automaticamente classifica os artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq, de acordo com o Qualis da CAPES.
+QLattes é uma extensão do Chrome que automaticamente classifica os artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq, de acordo com o novo Qualis da CAPES.
 
 * [Instalação](#instalação)
 * [Instruções de uso](#instruções-de-uso)
