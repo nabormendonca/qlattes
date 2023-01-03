@@ -14,9 +14,11 @@ QLattes é uma extensão do Chrome que automaticamente classifica os artigos em 
 
 Há duas maneiras de instalar a QLattes: da [Chrome Web Store](https://chrome.google.com/webstore/) e manualmente.
 
-### Instalação da Chrome Web Store (:construction: AINDA NÃO DISPONÍVEL! :construction:)
+### Instalação da Chrome Web Store
 
-Pesquise por QLattes na [página de extensões](https://chrome.google.com/webstore/category/extensions) da Chrome Web Store e sigas as instruções disponíveis [aqui](https://support.google.com/chrome_webstore/answer/2664769?hl=pt-BR).
+Abra a [página da QLattes](https://chrome.google.com/webstore/detail/cobekobjpobenpjdggbpkkklkcfoinen) na Chrome Web Store e clique no botão "Usar no Chrome". Se tiver dúvidas sobre a instalação, leia as instruções disponíveis [neste link](https://support.google.com/chrome_webstore/answer/2664769?hl=pt-BR).
+
+Nesta primeira versão pública (beta), a extensão está publicada no modo não listado, o que significa que qualquer um pode instalar a ferramenta com o link acima, mas esta ainda não aparece nas buscas.
 
 ### Instalação manual
 
@@ -139,9 +141,9 @@ Consultoria de conteúdo: Andréia Formico (UNIFOR)
 
 Consultoria técnica: Lucas Mendonça (Instituto Eldorado)
 
-Consultoria sobre a base de dados da CAPES: André Luiz F. Batista (IFTM-MG)
+Consultoria sobre a fonte de dados da CAPES: André Luiz F. Batista (IFTM-MG)
 
-Criação da base de dados da PUC-RS: Olimar Borges (PUC-RS)
+Criação da fonte de dados da PUC-RS: Olimar Borges (PUC-RS)
 
 Logo: variação sobre os logos do Qualis e da Plataforma Lattes
 
