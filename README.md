@@ -9,16 +9,15 @@ QLattes é uma extensão do Chrome que automaticamente classifica os artigos em 
 * [Política de privacidade](#política-de-privacidade)
 * [Créditos](#créditos)
 * [Comentários e sugestões](#comentários-e-sugestões)
+* [QLattes nas redes sociais](#qlattes-nas-redes-sociais)
 
 ## Instalação
 
-Há duas maneiras de instalar a QLattes: da [Chrome Web Store](https://chrome.google.com/webstore/) e manualmente.
+Há duas maneiras de instalar a QLattes: da [Chrome Web Store](https://chrome.google.com/webstore/) e manualmente. A instalação via Chrome Web Store é *fortemente recomendada*, por ser mais fácil e permitir a atualização automática da ferramenta quando novas versões forem disponibilizadas.
 
 ### Instalação da Chrome Web Store
 
 Abra a [página da QLattes](https://chrome.google.com/webstore/detail/cobekobjpobenpjdggbpkkklkcfoinen) na Chrome Web Store e clique no botão "Usar no Chrome". Se tiver dúvidas sobre a instalação, leia as instruções disponíveis neste [link](https://support.google.com/chrome_webstore/answer/2664769?hl=pt-BR).
-
-Nesta primeira versão pública (beta), a extensão está publicada no modo não listado, o que significa que qualquer um pode instalar a ferramenta com o link acima, mas esta ainda não aparece nas buscas.
 
 ### Instalação manual
 
@@ -150,6 +149,16 @@ Logo: variação sobre os logos do Qualis e da Plataforma Lattes
 ## Comentários e sugestões
 
 Utilize este [formulário online](https://forms.gle/ZzHWNSsKUPHBK1WK8) para enviar uma mensagem com comentários, sugestões, relatos de bug, ou simplesmente compartilhar a sua opinião sobre a ferramenta.
+
+## QLattes nas redes sociais
+
+O canal do Youtube [Mineiro de Dados](https://www.youtube.com/@MineirodeDados), de Fábio Gouveia, pesquisador da área de cientometria, já produziu três vídeos sobre a QLattes. Os dois primeiros apresentam as principais funcionalidades da QLattes, enquanto o terceiro é uma conversa com o desenvolvedor da QLattes, prof. Nabor Mendonça, da Universidade de Fortaleza (UNIFOR), onde este último relata os bastidores e algumas curiosidades sobre o desenvolvimento da ferramenta. Seguem os links para os três vídeos:
+
+[QLattes, uma extensão para o Chrome que aplica os Qualis 2017-2020 nos CVs Lattes](https://www.youtube.com/watch?v=4HeqSTvp1r0)
+
+[Recursos avançados do QLattes - Estatísticas de produção para autores](https://www.youtube.com/watch?v=H2-ldIPlfdQ)
+
+[Conversa com o criador do QLattes - Nabor Mendonça da UNIFOR](https://www.youtube.com/watch?v=fjjVyAcJYAs)
 
 
 
