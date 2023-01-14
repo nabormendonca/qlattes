@@ -1,6 +1,6 @@
 <img src="./img/qlattes-blue-logo-transp-border.png" height=80>
 
-QLattes é uma extensão do Chrome que automaticamente classifica os artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq, de acordo com o novo Qualis da CAPES.
+QLattes é uma extensão para navegadores [Chromium](https://www.chromium.org/Home/) (por exemplo, [Chrome](https://www.google.com/chrome/), [Microsoft Edge](https://www.microsoft.com/edge), [Opera](https://www.opera.com/), e [Brave](https://brave.com/)) e [Mozilla Firefox](https://www.mozilla.org/firefox/) que automaticamente classifica os artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq, de acordo com o novo Qualis da CAPES.
 
 * [Instalação](#instalação)
 * [Instruções de uso](#instruções-de-uso)
@@ -21,13 +21,13 @@ Abra a [página da QLattes](https://chrome.google.com/webstore/detail/cobekobjpo
 
 ### Instalação manual
 
-Baixe o arquivo [.zip](https://github.com/nabormendonca/qlattes/archive/refs/heads/main.zip) com o código fonte deste repositório para o seu computador. Após descompactar o arquivo, os aquivos necessários para a instalação manual da QLattes estarão na pasta "dist". Localize o caminho para esta pasta e siga as intruções disponíveis [aqui](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
+Baixe o arquivo [.zip](https://github.com/nabormendonca/qlattes/archive/refs/heads/main.zip) com o código fonte deste repositório para o seu computador. Após descompactar o arquivo, os aquivos necessários para a instalação manual da QLattes estarão na pasta "dist". Localize o caminho para esta pasta no seu computador e siga siga as intruções disponíveis [aqui](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/) .
 
 ## Instruções de uso
 
-Após a instalação da QLattes, abra a página de um ou mais CV Lattes no seu navegador Chrome ou em outro navegador derivado da plataforma [Chromium](https://www.chromium.org/Home/) (por exemplo, [Microsoft Edge](https://www.microsoft.com/edge), [Opera](https://www.opera.com/), e [Brave](https://brave.com/)).
+Após a instalação da QLattes, abra a página de um ou mais CV Lattes no seu navegador.
 
-QLattes automaticamente anotará os dados da classificação Qualis dos artigos completos em periódicos diretamente nas páginas dos CVs. Navegue até a seção de "Artigos completos publicados em periódicos" dos CVs para visualizar as anotações, localizadas logo abaixo das informações de cada artigo (ver exemplo abaixo).
+QLattes automaticamente anotará o Qualis dos artigos completos em periódicos diretamente nas páginas dos CVs. Navegue até a seção de "Artigos completos publicados em periódicos" dos CVs para visualizar as anotações, localizadas logo abaixo das informações de cada artigo (ver exemplo abaixo).
 
 <img src="./img/qlattes-annotations.png" height=350>
 
