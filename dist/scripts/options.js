@@ -46,7 +46,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
   }
 });
 
-// options tab main function
+// options page main function
 (async () => await main())();
 
 async function main() {
@@ -64,10 +64,31 @@ async function main() {
   // open default tab
   document.getElementById('default-tab').click();
 
-  // get author select element
-  const authorSelect = document.getElementById('author-select');
+  // get form element
+  const form = document.querySelector('#form-filters');
 
-  // add author select listeners
+  // create author select div
+  const divElem = createDivElemWithIcon(
+    form,
+    {
+      id: 'author-div',
+      class: 'Icon-inside',
+    },
+    'select',
+    {
+      id: 'author-select',
+    },
+    {
+      id: 'author-i',
+      class: 'fa-solid fa-user',
+      'aria-hidden': 'true',
+    }
+  );
+
+  // get author select element
+  const authorSelect = divElem.elem;
+
+  // add author select listener
   authorSelect.addEventListener('change', (event) => handleAuthorSelect(event));
 
   // update author select form
@@ -273,7 +294,7 @@ function handleAuthorSelect(event) {
 
       // confirm clear data action
       var result = confirm(
-        `Confirma a remoção dos dados extraídos do CV de ${viewFilters.authorName}?\n\nUma vez confirmada, para visualizar esses dados novamente, será necessário (re)abrir ou atualizar a página do CV.`
+        `Confirma a remoção dos dados extraídos do CV de ${viewFilters.authorName}?\n\nUma vez confirmada, para visualizar esses dados novamente, será necessário (re)abrir ou atualizar a página do CV no navegador.`
       );
       if (result) {
         console.log('clear data action confirmed!');
@@ -336,15 +357,15 @@ function createDivElemWithIcon(
   setAttributes(elem, elemAttributes);
 
   // append element to div
-  div.appendChild(elem);
+  div.append(elem);
 
   if (iconAttributes) {
     // create icon element
     const iconElem = document.createElement('i');
     setAttributes(iconElem, iconAttributes);
 
-    // append icon element to div
-    div.appendChild(iconElem);
+    // prepend icon element to div
+    div.prepend(iconElem);
   }
 
   // append div to parent element
@@ -393,9 +414,6 @@ function getLattesAuthorStats(authorLink) {
   );
 
   if (match) {
-    // authorStats.stats = match.statsInfo.stats;
-    // authorStats.pubInfo = match.statsInfo.pubInfo;
-
     // add missing years (if any) to author stats
     authorStats = addMissingYearsToAuthorStats(
       match.statsInfo.stats,
@@ -812,17 +830,18 @@ function addViewYearFilters() {
     {
       id: 'start-year-input',
       tag: 'view-year-filter',
+      class: 'year-input',
       type: 'number',
       min: authorStats.minYear,
       max: authorStats.maxYear,
       value: authorStats.minYear,
       required: 'required',
-    },
-    {
-      class: 'fa-regular fa-calendar',
-      'aria-hidden': 'true',
-      id: 'start-year-i',
     }
+    // {
+    //   class: 'fa-regular fa-calendar',
+    //   'aria-hidden': 'true',
+    //   id: 'start-year-i',
+    // }
   );
 
   viewFilters.start = authorStats.minYear;
@@ -847,17 +866,18 @@ function addViewYearFilters() {
     {
       id: 'end-year-input',
       tag: 'view-year-filter',
+      class: 'year-input',
       type: 'number',
       min: authorStats.minYear,
       max: authorStats.maxYear,
       value: authorStats.maxYear,
       required: 'required',
-    },
-    {
-      class: 'fa-regular fa-calendar',
-      'aria-hidden': 'true',
-      id: 'end-year-i',
     }
+    // {
+    //   class: 'fa-regular fa-calendar',
+    //   'aria-hidden': 'true',
+    //   id: 'end-year-i',
+    // }
   );
 
   viewFilters.end = authorStats.maxYear;
@@ -1711,7 +1731,7 @@ function addTableStatsRows(tableFoot, totalCounts, totalStats, tag) {
     }
   );
 
-  // best row
+  // best year row
   addTableFootRow(
     tableFoot,
     tag,

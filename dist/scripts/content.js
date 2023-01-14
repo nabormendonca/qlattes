@@ -100,16 +100,32 @@ async function fetchJSON(url) {
 async function processLattesPage(nameLink, qualisData, dataSource) {
   console.log(qualisData);
 
+  // do not process Lattes page if already annotated
+  const alertDiv = document.querySelector('#annotation-alert-div');
+  if (alertDiv) return;
+
+  // define Qlattes icon URL
+  const qlattesIconURL = chrome.runtime.getURL('images/icon-16.png');
+
+  // define Qlattes logo URL
+  const qlattesLogoURL = chrome.runtime.getURL('images/qlattes-logo.png');
+
   // reset Qualis data cache
   var qualisDataCache = {};
 
   // Annotate Lattes page with Qualis classification
   // and return annotated Lattes info
   const lattesInfo = annotateLattesPage(
+    qlattesIconURL,
     qualisData,
     qualisDataCache,
     dataSource
   );
+
+  // inject annotation alert into Lattes page
+  if (lattesInfo) {
+    injectAnnotationAlert(qlattesLogoURL);
+  }
 
   // Consolidate Lattes stats from Lattes info
   const statsInfo = consolidateQualisResults(lattesInfo);
@@ -138,12 +154,14 @@ async function processLattesPage(nameLink, qualisData, dataSource) {
 }
 
 // Annotate and extract journal info form Lattes page
-function annotateLattesPage(qualisData, qualisDataCache, dataSource) {
+function annotateLattesPage(
+  qlattesIconURL,
+  qualisData,
+  qualisDataCache,
+  dataSource
+) {
   console.log('Searching for journal publications...');
   //console.log(qualisData);
-
-  // define annotation icon path
-  const qualisImg = chrome.runtime.getURL('images/icon-16.png');
 
   // get search first element
   const startElem = document.querySelector("div[id='artigos-completos']");
@@ -221,7 +239,7 @@ function annotateLattesPage(qualisData, qualisDataCache, dataSource) {
         pubElemLastItem,
         qualisPubInfo.issn,
         qualisLabels,
-        qualisImg,
+        qlattesIconURL,
         dataSource
       );
     }
@@ -460,7 +478,7 @@ function injectQualisAnnotation(
   elem,
   issn,
   qualisLabels,
-  qualisImg,
+  qlattesIconURL,
   dataSource
 ) {
   // create annotation element
@@ -468,7 +486,7 @@ function injectQualisAnnotation(
   // inject Qualis icon elem
   const imgElem = document.createElement('img');
   setAttributes(imgElem, {
-    src: qualisImg,
+    src: qlattesIconURL,
     // style: "vertical-align:middle",
     style: 'margin-bottom:-4px',
   });
@@ -504,6 +522,79 @@ function injectQualisAnnotation(
   // inject annotation element into Lattes page
   elem.insertAdjacentElement('afterend', annotElem);
 }
+
+function injectAnnotationAlert(qlattesLogoURL) {
+  // create link to font awesome stylesheet
+  const linkElem = document.createElement('link');
+  setAttributes(linkElem, {
+    rel: 'stylesheet',
+    href: 'https://use.fontawesome.com/releases/v6.2.1/css/all.css',
+  });
+
+  // get page head element
+  const headElem = document.querySelector('head');
+
+  // inject font awesome link into page head
+  headElem.append(linkElem);
+
+  // get main content div
+  const mainContentDiv = document.getElementsByClassName('main-content')[0];
+
+  // get options page URL
+  const optionsURL = chrome.runtime.getURL('html/options.html');
+
+  // create alert HTML element
+  const alertHTML = `
+  <div class="layout-cell-pad-main" style="padding: 10px 10px">
+    <div class="rodape-cv" style="margin-top: 0px; color: #666; font-size: 1.2em;">
+      <a href="${optionsURL}" target="_blank" id="qlattes-logo" style="margin: 0px 0px;" title="Abrir QLattes">
+        <img src="${qlattesLogoURL}" width="65" style="margin-left: -2px; margin-bottom: -3px;">
+      </a>
+      anotou o Qualis dos artigos em periódicos nesta página.
+      </br>
+      <a href="#artigos-completos">
+        <button style="color: #edf2f7; background-color: #3569a7; box-shadow: 1px 1px 1px #2e5469; padding: 4px 0.5em 3px; font-size: 11px; border-radius: 4px; cursor: pointer; width: 120px; text-align: left; margin-top: 10px; margin-bottom: 5px;">
+          <i class="fa-solid fa-square-check" style="font-size: 1.1em;"></i> Checar anotações
+        </button>
+      </a> 
+      <a href="${optionsURL}" target="_blank" id="qlattes-link">
+        <button style="color: #edf2f7; background-color: #3569a7; box-shadow: 1px 1px 1px #2e5469; padding: 4px 0.5em 3px; font-size: 11px; border-radius: 4px; cursor: pointer; width: 120px; text-align: left; margin-top: 10px; margin-bottom: 5px; margin-left: 5px;">
+          <i class="fa-solid fa-square-poll-vertical" style="font-size: 1.1em;"></i>
+          Visualizar dados
+        </button>
+      </a>
+    </div>
+  </div>`;
+
+  // create new alert div
+  const alertDiv = document.createElement('div');
+  setAttributes(alertDiv, {
+    class: 'main-content max-width min-width',
+    id: 'annotation-alert-div',
+  });
+  alertDiv.innerHTML = alertHTML;
+
+  // inject alert div into Lattes page just before the main content div
+  mainContentDiv.parentNode.insertBefore(alertDiv, mainContentDiv);
+
+  // // create QLattes logo listener
+  // const qlattesLogo = document.querySelector('#qlattes-logo');
+  // qlattesLogo.addEventListener('click', qlattesListener(optionsURL));
+
+  // // create QLattes link listener
+  // const qlattesLink = document.querySelector('#qlattes-link');
+  // qlattesLink.addEventListener('click', qlattesListener(optionsURL));
+}
+
+// function qlattesListener(optionsURL) {
+//   if (chrome.runtime.openOptionsPage) {
+//     chrome.runtime.openOptionsPage();
+//     console.log('Switching to options page...');
+//   } else {
+//     window.open(optionsURL);
+//     console.log('Opening options page...');
+//   }
+// }
 
 function setAttributes(elem, attrs) {
   for (const key of Object.keys(attrs)) {
