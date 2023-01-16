@@ -17,10 +17,6 @@
 /** Mozilla Firefox root settings */
 @-moz-document url-prefix() {
   :root {
-    --main-bg-color: #415e98;
-    --main-accent-color: var(--main-bg-color);
-    --main-hover-color: #2c4c8c;
-    --tab-bg-color: var(--main-bg-color);
     --year-input-width: 68px;
     --period-select-width: 216px;
     --stats-table-max-height: 240px;
@@ -37,12 +33,6 @@
   margin-left: 5px;
   margin-bottom: -2px;
   width: 16px;
-}
-
-#chromequalis-logo,
-#qualis-capes-logo {
-  height: 30px;
-  margin: 5px 10px -12px 0px;
 }
 
 body {
