@@ -1,6 +1,6 @@
 <img src="./img/qlattes-blue-logo-transp-border.png" height=80>
 
-QLattes é uma extensão para navegadores [Chromium](https://www.chromium.org/Home/) (por exemplo, [Chrome](https://www.google.com/chrome/), [Microsoft Edge](https://www.microsoft.com/edge), [Opera](https://www.opera.com/), e [Brave](https://brave.com/)) que automaticamente classifica os artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq, de acordo com o novo Qualis da CAPES.
+QLattes é uma extensão para navegadores [Chromium](https://www.chromium.org/Home/) (por exemplo, [Chrome](https://www.google.com/chrome/), [Microsoft Edge](https://www.microsoft.com/edge), [Opera](https://www.opera.com/), e [Brave](https://brave.com/)) e [Mozilla Firefox](https://www.mozilla.org/firefox/) que automaticamente classifica os artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq, de acordo com o novo Qualis da CAPES.
 
 * [Instalação](#instalação)
 * [Instruções de uso](#instruções-de-uso)
@@ -13,15 +13,25 @@ QLattes é uma extensão para navegadores [Chromium](https://www.chromium.org/Ho
 
 ## Instalação
 
-Há duas maneiras de instalar a QLattes: da [Chrome Web Store](https://chrome.google.com/webstore/) e manualmente. A instalação via Chrome Web Store é *fortemente recomendada*, por ser mais fácil e permitir a atualização automática da ferramenta quando novas versões forem disponibilizadas.
+Há duas maneiras de instalar a QLattes: automaticamente, da [Chrome Web Store](https://chrome.google.com/webstore/) (para navegadores compatíveis com o Chromium) ou da [página de extensões da Mozilla](https://addons.mozilla.org/firefox/extensions/) (para navegadores Mozilla Firefox), e manualmente. A instalação automática é *fortemente recomendada*, por ser mais fácil e permitir a atualização automática da ferramenta quando novas versões forem disponibilizadas.
 
-### Instalação da Chrome Web Store
+### Instalação automática
+
+#### Instalação da Chrome Web Store
 
 Abra a [página da QLattes](https://chrome.google.com/webstore/detail/cobekobjpobenpjdggbpkkklkcfoinen) na Chrome Web Store e clique no botão "Usar no Chrome". Se tiver dúvidas sobre a instalação, leia as instruções disponíveis neste [link](https://support.google.com/chrome_webstore/answer/2664769?hl=pt-BR).
 
+#### Instalação da página de extensões da Mozilla
+
+Abra a [página da QLattes](https://addons.mozilla.org/firefox/addon/qlattes/) na página de extensões da Mozilla e clique no botão "Adicionar ao Firefox". QLattes requer a versão 109 ou superior do Firefox. Se a versão do seu navegador for anterior a esta, atualize o seu navegador para a versão mais recente antes de instalar a QLattes. Após a instalação, é necessário dar permissão à QLattes para acessar a pagina de visualização de CV da Plataforma Lattes.  Para fazer isso, clique no ícone de extensões do Firefox, no formato de uma peça de quebra-cabeça, localizado ao lado direito da barra de endereços do navegador, e em seguida clique no ícone de configuração da QLattes, no formato de uma engrenagem, localizado próximo ao ícone da QLattes. Se tiver dúvidas sobre a instalação, leia as instruções disponíveis neste [link](https://support.mozilla.org/pt-BR/kb/encontre-e-instale-extensoes-no-firefox).
+
 ### Instalação manual
 
-Baixe o arquivo [.zip](https://github.com/nabormendonca/qlattes/archive/refs/heads/main.zip) com o código fonte deste repositório para o seu computador. Após descompactar o arquivo, os aquivos necessários para a instalação manual da QLattes estarão na pasta "dist". Localize o caminho para esta pasta no seu computador e siga siga as intruções disponíveis [aqui](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
+Baixe o arquivo [.zip](https://github.com/nabormendonca/qlattes/archive/refs/heads/main.zip) com o código fonte deste repositório para o seu computador. Após descompactar o arquivo, os aquivos necessários para a instalação manual da QLattes estarão na pasta "dist". 
+
+Para instalação manual em navegadores Chromium, siga siga as intruções disponíveis neste [link](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
+
+Para instalação manual em navegadores Mozilla Firefox, siga siga as intruções disponíveis neste [link](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/).
 
 ## Instruções de uso
 
