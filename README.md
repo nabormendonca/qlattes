@@ -1,6 +1,6 @@
 <img src="./img/qlattes-blue-logo-transp-border.png" height=80>
 
-QLattes é uma extensão para navegadores [Chromium](https://www.chromium.org/Home/) (por exemplo, [Chrome](https://www.google.com/chrome/), [Microsoft Edge](https://www.microsoft.com/edge), [Opera](https://www.opera.com/), e [Brave](https://brave.com/)) e [Mozilla Firefox](https://www.mozilla.org/firefox/) que automaticamente classifica os artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq, de acordo com o novo Qualis da CAPES.
+QLattes é uma extensão para navegadores [Chromium](https://www.chromium.org/Home/) (por exemplo, [Chrome](https://www.google.com/chrome/), [Microsoft Edge](https://www.microsoft.com/edge), [Opera](https://www.opera.com/), e [Brave](https://brave.com/)) que automaticamente classifica os artigos em periódicos identificados nas páginas dos CVs da [Plataforma Lattes](https://lattes.cnpq.br/) do CNPq, de acordo com o novo Qualis da CAPES.
 
 * [Instalação](#instalação)
 * [Instruções de uso](#instruções-de-uso)
@@ -21,7 +21,7 @@ Abra a [página da QLattes](https://chrome.google.com/webstore/detail/cobekobjpo
 
 ### Instalação manual
 
-Baixe o arquivo [.zip](https://github.com/nabormendonca/qlattes/archive/refs/heads/main.zip) com o código fonte deste repositório para o seu computador. Após descompactar o arquivo, os aquivos necessários para a instalação manual da QLattes estarão na pasta "dist". Localize o caminho para esta pasta no seu computador e siga siga as intruções disponíveis [aqui](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/) .
+Baixe o arquivo [.zip](https://github.com/nabormendonca/qlattes/archive/refs/heads/main.zip) com o código fonte deste repositório para o seu computador. Após descompactar o arquivo, os aquivos necessários para a instalação manual da QLattes estarão na pasta "dist". Localize o caminho para esta pasta no seu computador e siga siga as intruções disponíveis [aqui](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
 
 ## Instruções de uso
 
@@ -109,6 +109,7 @@ Essas são algumas das melhorias sendo atualmente consideradas para futuras vers
 * exibição dos dados consolidados de múltiplos CVs
 * integração com outras fontes de classificação de veículos científicos
 * classificação dos artigos publicados em eventos
+* armazenamento dos dados extraídos dos CVs em arquivo
 
 ### Exibição dos dados de múltiplos CVs
 
@@ -123,6 +124,10 @@ Uma extensão natural da ferramenta seria permitir a visualização dos dados do
 O desafio aqui é o fato dos eventos não possuírem um identificador único, como o ISSN dos periódicos. Sem tal identificador, a classificação dos eventos tem que ser feita com base apenas na informação sobre os eventos registradas nos CVs, que, em essência, não possui uma estrutura bem definida. Isso aumenta o risco da classificação automática dos eventos conter muitos falsos positivos ou falsos negativos.
 
 Uma alternativa interessante seria utilizar a própria ferramenta como uma plataforma colaborativa para treinamento supervisionado de modelos de aprendizado de máquina criados especificamente para identificar eventos nas informações contidas nos CVs Lattes. Por exemplo, a ferramenta poderia sugerir a classificação dos eventos registrados no CV, e o usuário então confirmaria ou revisaria a classificação sugerida.
+
+### Armazenamento dos dados dos CVs em arquivo
+
+Esta funcionalidade permitiria armazenar os dados extraídos dos CVs em arquivos externos, os quais poderiam ser novamente recuperados pela ferramenta posteriormente. Essa melhoria facilitaria a análise e visualização dos dados de um grande número de CVs, por exemplo, de todo o corpo docente de um departamento acadêmico, os quais poderiam ser extraídos e armazenados gradualmente. Outra vantagem seria a possibilidade de analisar os dados extraídos pela QLattes utilizando outras ferramentas e tecnologias.
 
 Voluntários e colaboradores para implementar essas e outras melhorias são muito bem vindos!
 
