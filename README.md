@@ -29,9 +29,9 @@ Abra a [página da QLattes](https://addons.mozilla.org/firefox/addon/qlattes/) n
 
 Baixe o arquivo [.zip](https://github.com/nabormendonca/qlattes/archive/refs/heads/main.zip) com o código fonte deste repositório para o seu computador. Após descompactar o arquivo, os aquivos necessários para a instalação manual da QLattes estarão na pasta "dist". 
 
-Para instalação manual em navegadores Chromium, siga siga as intruções disponíveis neste [link](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
+Para instalação manual em navegadores Chromium, siga as intruções disponíveis neste [link](https://canaltech.com.br/navegadores/como-instalar-extensao-no-google-chrome-manualmente/).
 
-Para instalação manual em navegadores Mozilla Firefox, siga siga as intruções disponíveis neste [link](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/).
+Para instalação manual em navegadores Mozilla Firefox, siga as intruções disponíveis neste [link](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/).
 
 ## Instruções de uso
 
