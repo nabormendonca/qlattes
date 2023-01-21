@@ -1,22 +1,25 @@
 (async () => await main())();
 
 async function main() {
-  // Data source path, text, URL and last update
-  const dataSource = {
+  // Define data source paths, texts, URLs and base years
+  const dataSourceInfo = {
     capes: {
-      path: 'data/qualis-capes-2017-2020.json',
+      pathList: ['data/qualis-capes-2017-2020.json'],
       text: 'Qualis/CAPES',
       url: 'https://sucupira.capes.gov.br/sucupira/public/consultas/coleta/veiculoPublicacaoQualis/listaConsultaGeralPeriodicos.jsf',
       baseYear: '2020',
     },
     pucrs: {
-      path: 'data/qualis-pucrs-2022.json',
+      pathList: ['data/qualis-pucrs-2022.json'],
       text: 'Qualis/PUC-RS',
       url: 'https://ppgcc.github.io/discentesPPGCC/pt-BR/qualis/',
       baseYear: '2021',
     },
     scopus: {
-      path: 'data/scopus-citescore-2011-2020.json',
+      pathList: [
+        'data/scopus-citescore-2011-2020-part-1.json',
+        'data/scopus-citescore-2011-2020-part-2.json',
+      ],
       text: 'Scopus',
       url: 'https://www.scopus.com/',
       baseYear: '2020',
@@ -29,22 +32,15 @@ async function main() {
   // check whether name and link were not found (if not this is not a CV Lattes!)
   if (!nameLink['name']) return;
 
-  // get data sources url
-  const pucrsUrl = chrome.runtime.getURL(dataSource.pucrs.path);
-  const scopusUrl = chrome.runtime.getURL(dataSource.scopus.path);
-  const capesUrl = chrome.runtime.getURL(dataSource.capes.path);
+  // get data sources
+  const pucrsData = await getDataArray(dataSourceInfo, 'pucrs');
+  console.log('fetched PUC-RS data source', pucrsData);
 
-  // read PUC-RS data from url
-  const pucrsData = await fetchJSON(pucrsUrl);
-  console.log('fetched PUC-RS data');
+  const scopusData = await getDataArray(dataSourceInfo, 'scopus');
+  console.log('fetched Scopus data source', scopusData);
 
-  // read Scopus data from url
-  const scopusData = await fetchJSON(scopusUrl);
-  console.log('fetched Scopus data');
-
-  // read CAPES data from url
-  const capesData = await fetchJSON(capesUrl);
-  console.log('fetched CAPES data');
+  const capesData = await getDataArray(dataSourceInfo, 'capes');
+  console.log('fetched CAPES data source', capesData);
 
   // start processing Lattes page
   processLattesPage(
@@ -54,7 +50,7 @@ async function main() {
       scopus: scopusData,
       capes: capesData,
     },
-    dataSource
+    dataSourceInfo
   );
 }
 
@@ -78,6 +74,32 @@ function getLattesNameAndLink() {
   return { name, link };
 }
 
+async function getDataArray(dataSourceInfo, dataSourceName) {
+  let dataArray = [];
+
+  // read data source from file(s)
+  for (const dataSourcePath of dataSourceInfo[dataSourceName].pathList) {
+    // get data source url
+    const dataSourceUrl = chrome.runtime.getURL(dataSourcePath);
+
+    // read data source from url
+    const dataSource = await fetchJSON(dataSourceUrl);
+    console.log(
+      `fetched file ${dataSourcePath} of data source ${dataSourceName}`
+    );
+
+    // concat data source into output data array
+    dataArray = dataArray.concat(dataSource);
+  }
+  console.log(
+    `Array ${dataSourceName} size: ${
+      new Blob([JSON.stringify(dataArray)]).size
+    }`
+  );
+
+  return dataArray;
+}
+
 async function fetchJSON(url) {
   var json = [];
 
@@ -97,7 +119,7 @@ async function fetchJSON(url) {
   return json;
 }
 
-async function processLattesPage(nameLink, qualisData, dataSource) {
+async function processLattesPage(nameLink, qualisData, dataSourceInfo) {
   console.log(qualisData);
 
   // do not process Lattes page if already annotated
@@ -119,7 +141,7 @@ async function processLattesPage(nameLink, qualisData, dataSource) {
     qlattesIconURL,
     qualisData,
     qualisDataCache,
-    dataSource
+    dataSourceInfo
   );
 
   // inject annotation alert into Lattes page
@@ -158,7 +180,7 @@ function annotateLattesPage(
   qlattesIconURL,
   qualisData,
   qualisDataCache,
-  dataSource
+  dataSourceInfo
 ) {
   console.log('Searching for journal publications...');
   //console.log(qualisData);
@@ -223,7 +245,7 @@ function annotateLattesPage(
         qualisPubInfo.title,
         qualisData,
         qualisDataCache,
-        dataSource
+        dataSourceInfo
       );
 
       // use journal name in Qualis labels if available
@@ -240,7 +262,7 @@ function annotateLattesPage(
         qualisPubInfo.issn,
         qualisLabels,
         qlattesIconURL,
-        dataSource
+        dataSourceInfo
       );
     }
     // add journal info to JourInfoList
@@ -259,7 +281,7 @@ function escapeHtml(text) {
     .replace('&#039;', "'");
 }
 
-function getQualis(issn, title, qualisData, qualisDataCache, dataSource) {
+function getQualis(issn, title, qualisData, qualisDataCache, dataSourceInfo) {
   var altIssn = '';
 
   // check whether issn is in data cache
@@ -279,7 +301,7 @@ function getQualis(issn, title, qualisData, qualisDataCache, dataSource) {
     altIssn,
     qualisData.capes,
     qualisData.scopus,
-    dataSource
+    dataSourceInfo
   );
 
   // if not found
@@ -290,7 +312,7 @@ function getQualis(issn, title, qualisData, qualisDataCache, dataSource) {
       altIssn,
       title,
       qualisData.pucrs,
-      dataSource
+      dataSourceInfo
     );
 
     // if not found
@@ -299,7 +321,7 @@ function getQualis(issn, title, qualisData, qualisDataCache, dataSource) {
       qualisLabels = getQualisFromScopusData(
         issn,
         qualisData.scopus,
-        dataSource
+        dataSourceInfo
       );
     }
   }
@@ -338,7 +360,7 @@ function getQualisFromCapesData(
   altIssn,
   capesData,
   scopusData,
-  dataSource
+  dataSourceInfo
 ) {
   // set default labels
   const qualisLabels = {
@@ -363,13 +385,13 @@ function getQualisFromCapesData(
     qualisLabels.qualis = match.qualis;
     qualisLabels.title = match.title.toUpperCase();
     qualisLabels.source = 'capes';
-    qualisLabels.baseYear = dataSource.capes.baseYear;
+    qualisLabels.baseYear = dataSourceInfo.capes.baseYear;
 
     // attempt to get link to Scopus for issn
     const qualisLabelsScopus = getQualisFromScopusData(
       issn,
       scopusData,
-      dataSource
+      dataSourceInfo
     );
     console.log(qualisLabelsScopus);
 
@@ -381,7 +403,13 @@ function getQualisFromCapesData(
   return qualisLabels;
 }
 
-function getQualisFromPucrsData(issn, altIssn, title, pucrsData, dataSource) {
+function getQualisFromPucrsData(
+  issn,
+  altIssn,
+  title,
+  pucrsData,
+  dataSourceInfo
+) {
   // set default labels
   const qualisLabels = {
     title: '',
@@ -419,13 +447,13 @@ function getQualisFromPucrsData(issn, altIssn, title, pucrsData, dataSource) {
 
     // define source label
     qualisLabels.source = 'pucrs';
-    qualisLabels.baseYear = dataSource.pucrs.baseYear;
+    qualisLabels.baseYear = dataSourceInfo.pucrs.baseYear;
   }
 
   return qualisLabels;
 }
 
-function getQualisFromScopusData(issn, scopusData, dataSource) {
+function getQualisFromScopusData(issn, scopusData, dataSourceInfo) {
   // set default labels
   const qualisLabels = {
     title: '',
@@ -451,7 +479,7 @@ function getQualisFromScopusData(issn, scopusData, dataSource) {
     qualisLabels.percentil = match.percentil;
     qualisLabels.linkScopus = match['source-id-url'];
     qualisLabels.source = 'scopus';
-    qualisLabels.baseYear = dataSource.scopus.baseYear;
+    qualisLabels.baseYear = dataSourceInfo.scopus.baseYear;
   }
 
   return qualisLabels;
@@ -479,7 +507,7 @@ function injectQualisAnnotation(
   issn,
   qualisLabels,
   qlattesIconURL,
-  dataSource
+  dataSourceInfo
 ) {
   // create annotation element
   const annotElem = document.createElement('p');
@@ -511,10 +539,10 @@ function injectQualisAnnotation(
       : `, `;
 
     qualisAnnot += `fonte ${createUrlHTML(
-      dataSource[qualisLabels.source].text,
+      dataSourceInfo[qualisLabels.source].text,
       '',
-      dataSource[qualisLabels.source].url
-    )}, ano-base ${dataSource[qualisLabels.source].baseYear}`;
+      dataSourceInfo[qualisLabels.source].url
+    )}, ano-base ${dataSourceInfo[qualisLabels.source].baseYear}`;
   }
   // qualisAnnot += ")";
   annotElem.insertAdjacentHTML('beforeend', qualisAnnot);
@@ -576,25 +604,7 @@ function injectAnnotationAlert(qlattesLogoURL) {
 
   // inject alert div into Lattes page just before the main content div
   mainContentDiv.parentNode.insertBefore(alertDiv, mainContentDiv);
-
-  // // create QLattes logo listener
-  // const qlattesLogo = document.querySelector('#qlattes-logo');
-  // qlattesLogo.addEventListener('click', qlattesListener(optionsURL));
-
-  // // create QLattes link listener
-  // const qlattesLink = document.querySelector('#qlattes-link');
-  // qlattesLink.addEventListener('click', qlattesListener(optionsURL));
 }
-
-// function qlattesListener(optionsURL) {
-//   if (chrome.runtime.openOptionsPage) {
-//     chrome.runtime.openOptionsPage();
-//     console.log('Switching to options page...');
-//   } else {
-//     window.open(optionsURL);
-//     console.log('Opening options page...');
-//   }
-// }
 
 function setAttributes(elem, attrs) {
   for (const key of Object.keys(attrs)) {
