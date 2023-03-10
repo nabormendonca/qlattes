@@ -30,7 +30,11 @@ async function main() {
   const nameLink = getLattesNameAndLink();
 
   // check whether name and link were not found (if not this is not a CV Lattes!)
-  if (!nameLink['name']) return;
+  if (!nameLink['name']) {
+    console.log('No Lattes author name element found!');
+
+    return;
+  }
 
   // get data sources
   const pucrsData = await getDataArray(dataSourceInfo, 'pucrs');
@@ -228,8 +232,9 @@ function annotateLattesPage(
         // get journal ISSN
         if (pubInfoItem.includes('issn=')) {
           const issnStr = pubInfoItem.split('issn=')[1];
-          qualisPubInfo.issn =
-            issnStr.substring(0, 4) + '-' + issnStr.substring(4, 8);
+          qualisPubInfo.issn = issnStr
+            ? issnStr.substring(0, 4) + '-' + issnStr.substring(4, 8)
+            : '';
         }
 
         //get journal name
@@ -239,6 +244,7 @@ function annotateLattesPage(
           qualisPubInfo.title.toUpperCase();
         }
       }
+
       // get journal Qualis classification labels
       const qualisLabels = getQualis(
         qualisPubInfo.issn,
@@ -282,6 +288,18 @@ function escapeHtml(text) {
 }
 
 function getQualis(issn, title, qualisData, qualisDataCache, dataSourceInfo) {
+  var qualisLabels = {
+    title: '',
+    qualis: 'N',
+    percentil: '',
+    linkScopus: '',
+    adjusted: '',
+    source: '',
+    baseYear: '',
+  };
+
+  if (!issn) return qualisLabels;
+
   var altIssn = '';
 
   // check whether issn is in data cache
@@ -295,7 +313,7 @@ function getQualis(issn, title, qualisData, qualisDataCache, dataSourceInfo) {
     }
   }
 
-  // search for issn in CAPES data
+  // search for issn in CAPES data source
   qualisLabels = getQualisFromCapesData(
     issn,
     altIssn,
@@ -306,8 +324,8 @@ function getQualis(issn, title, qualisData, qualisDataCache, dataSourceInfo) {
 
   // if not found
   if (qualisLabels.qualis == 'N') {
-    // search for issn in PUC-RS data
-    var qualisLabels = getQualisFromPucrsData(
+    // search for issn in PUC-RS data source
+    qualisLabels = getQualisFromPucrsData(
       issn,
       altIssn,
       title,
@@ -317,7 +335,7 @@ function getQualis(issn, title, qualisData, qualisDataCache, dataSourceInfo) {
 
     // if not found
     if (qualisLabels.qualis == 'N') {
-      // search for issn in Scopus data
+      // search for issn in Scopus data source
       qualisLabels = getQualisFromScopusData(
         issn,
         qualisData.scopus,
@@ -373,7 +391,7 @@ function getQualisFromCapesData(
     baseYear: '',
   };
 
-  // search for issn in CAPES data
+  // search for issn in CAPES data source
   var match = capesData.find(
     (elem) => elem.issn == issn || (altIssn && elem.issn == altIssn)
   );
@@ -523,26 +541,34 @@ function injectQualisAnnotation(
   // create Qualis labels annotations
   let qualisAnnot;
 
+  const issnLabel = issn ? `, ISSN ${issn}` : issn;
+
   if (qualisLabels.qualis == 'N') {
-    qualisAnnot = ` Não classificado, ISSN ${issn}`;
+    qualisAnnot = ` Não classificado${issnLabel}`;
   } else {
     qualisAnnot = qualisLabels.adjusted
-      ? ` ${qualisLabels.qualis} (ajustado), ISSN ${issn}`
-      : ` ${qualisLabels.qualis}, ISSN ${issn}`;
+      ? ` ${qualisLabels.qualis} (ajustado)${issnLabel}`
+      : ` ${qualisLabels.qualis}${issnLabel}`;
 
     qualisAnnot += qualisLabels.linkScopus
       ? ` (${createUrlHTML(
-          'Scopus',
+          'página na Scopus',
           'Clique para visualizar a página do periódico na Scopus',
           qualisLabels.linkScopus
         )}), `
       : `, `;
 
+    // // get highest Scopus percentil if Scopus link is available
+    // if (qualisLabels.linkScopus) {
+    //   const percentil = getScopusPercentil(qualisLabels.linkScopus);
+    //   console.log('Scopus percentil:', percentil);
+    // }
+
     qualisAnnot += `fonte ${createUrlHTML(
       dataSourceInfo[qualisLabels.source].text,
       '',
       dataSourceInfo[qualisLabels.source].url
-    )}, ano-base ${dataSourceInfo[qualisLabels.source].baseYear}`;
+    )} (ano-base ${dataSourceInfo[qualisLabels.source].baseYear})`;
   }
   // qualisAnnot += ")";
   annotElem.insertAdjacentHTML('beforeend', qualisAnnot);
@@ -550,6 +576,17 @@ function injectQualisAnnotation(
   // inject annotation element into Lattes page
   elem.insertAdjacentElement('afterend', annotElem);
 }
+
+// function getScopusPercentil(scopusSourceURL) {
+//   const sourceID = scopusSourceURL.split('/').slice(-1);
+
+//   // send message to background page with Scopus source ID
+//   // and return received percentil
+//   console.log('Retrieving Scopus percentil from', scopusSourceURL);
+//   chrome.runtime.sendMessage({ sourceID: sourceID }, (percentil) => {
+//     return percentil;
+//   });
+// }
 
 function injectAnnotationAlert(qlattesLogoURL) {
   // create link to font awesome stylesheet
