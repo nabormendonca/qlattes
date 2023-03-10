@@ -21,6 +21,9 @@
         <button div="instructions-div" class="tablinks">
           Instruções de uso
         </button>
+        <button div="faq-div" class="tablinks">
+          Dúvidas frequentes
+        </button>
         <button div="data-div" class="tablinks">
             Fontes de dados
         </button>
@@ -113,6 +116,26 @@
           dados novamente.
         </p>
       </div>
+      <div id="faq-div" class="tabcontent">
+        <h4>Quando abro a página de um ou mais CV Lattes, não vejo nenhuma anotação ao lado dos dados dos artigos publicados em periódicos</h4>
+        <p>Este problema pode acontecer em três situações:</p>
+        <ol>
+          <li>quando a extensão não foi devidamente instalada no navegador</li>
+          <li>quando a extensão foi instalada mas não está habilitada no navegador</li>
+          <li>quando a extensão foi instalada e habilitada no navegador, mas não tem permissão de acesso às páginas dos CVs na Plataforma Lattes</li>
+        </ol>
+        <p>No primeiro caso, a solução é simplesmente (re)instalar a extensão no navegador. No segundo caso, a solução é habilitar a extensão. Para isso, clique no ícone de extensões do navegador (no formato de uma peça de quebra-cabeça, localizado ao lado da barra de endereço) e certifique-se de que o botão ao lado do ícone da <img src="../images/qlattes-logo.png" width="75" style="margin-left: -2px; margin-bottom: -4px;"> está habilitado. No terceiro caso, a solução é dar permissão de acesso às páginas do Lattes à extensão. Para isso, clique no ícone de extensões do navegador e, em seguida, escolha a opção "Gerenciar extensão", ao lado do ícone da <img src="../images/qlattes-logo.png" width="75" style="margin-left: -2px; margin-bottom: -4px;"> (os nomes das opções podem mudar, a depender do navegador utilizado e da língua padrão com que o navegador está configurado). Na página de gerenciamento da extensão, certifique-se de que esta tem permissão de acesso à URL "http://buscatextual.cnpq.br/*". Após isso, atualize a(s) página(s) do(s) CV(s) para que a ferramenta possa anotar o Qualis dos artigos em periódicos e extrair os dados a serem visualizados.</p>
+        <h4>Não estou conseguindo visualizar os dados de nenhum CV Lattes que consulto. Quando abro a página da ferramenta, a aba de visualização mostra a mensagem "Nenhum CV disponível"</h4>
+        <p>Como explicado acima, <img src="../images/qlattes-logo.png" width="75" style="margin-left: -2px; margin-bottom: -4px;"> precisa de permissão para anotar o Qualis dos periódicos na página dos CVs. Nos navegadores compatíveis com o Chromium, essa permissão é geralmente dada por padrão, durante a instalação da ferramenta. Já no navegador Firefox, essa permissão precisa ser dada explicitamente pelo usuário, após a instalação. Para resolver o problema, é necessário dar permissão de acesso às páginas do Lattes à extensão, conforme explicado na resposta à duvida anterior.</p>
+        <h4>A ferramenta não classificou (ou classificou no estrato errado) uma publicação cujo periódico está classificado no novo Qualis</h4>
+        <p><img src="../images/qlattes-logo.png" width="75" style="margin-left: -2px; margin-bottom: -4px;"> classifica os artigos com base unicamente no ISSN dos periódicos que extrai do CV Lattes. Portanto, se a ferramenta não classificou corretamente algum artigo cujo periódico está classificado no Qualis, muito provavelmente a razão é que o artigo está cadastrado no Lattes com um ISSN diferente daquele que consta no Qualis. Nesses casos, a solução é atualizar ou recadastrar o artigo no Lattes, certificando-se de que o ISSN cadastrado é o mesmo que consta no Qualis.</p>
+        <h4>A ferramenta anotou uma publicação com um ISSN diferente do ISSN que consta no novo Qualis</h4>
+        <p>O ISSN anotado pela ferramenta é o mesmo que está cadastrado no CV Lattes. Embora a página do Lattes não mostre o ISSN dos periódicos, este dado faz parte da estrutura HTML da página. Novamente, a solução é atualizar ou recadastrar o artigo no Lattes, certificando-se de que o ISSN cadastrado é o mesmo que consta no Qualis.</p>
+        <h4>A ferramenta não classificou os artigos em periódicos aceitos para publicação</h4>
+        <p><img src="../images/qlattes-logo.png" width="75" style="margin-left: -2px; margin-bottom: -4px;"> apenas classifica o Qualis dos artigos em periódicos já publicados. Uma dificuldade para classificar os artigos aceitos é que nem todos os artigos aceitos cadastrados no Lattes possuem ISSN. Futuras versões da ferramenta poderão classificar os artigos aceitos que tiverem ISSN cadastrado.</p>
+        <h4>Não encontrei respostas para a minha dúvida. E agora?</h4>
+        <p>Ainda continua com dúvidas sobre a <img src="../images/qlattes-logo.png" width="75" style="margin-left: -2px; margin-bottom: -4px;">? Utilize o formulário disponível na aba "Comentários e sugestões" para enviar uma mensagem relatando a sua dúvida e ajude a melhorar a ferramenta.</p>
+      </div>
       <div id="data-div" class="tabcontent">
         <p type='first'><img src="../images/qlattes-logo.png" width="75" style="margin-left: -2px; margin-bottom: -4px;"> utiliza três fontes de dados para classificar os artigos em periódico, todas incluídas junto com a ferramenta:</p>
             <ul>
@@ -124,7 +147,6 @@
         <p>Os dados desta fonte foram coletados da <a href="https://sucupira.capes.gov.br/sucupira/public/index.xhtml" target="_blank">Plataforma Sucupira</a> da CAPES, ao final de 2022, e incluem a classificação Qualis de 31.337 periódicos de todas as áreas do conhecimento (ano-base 2020).
         <h4>Fonte de dados da PUC-RS</h4>
         <p>Os dados desta fonte foram coletados da página do Qualis da <a href="https://ppgcc.github.io/discentesPPGCC/pt-BR/qualis/" target="_blank">PUC-RS</a>, em dezembro de 2022, e incluem a classificação Qualis e o percentil Scopus de 2.190 periódicos (ano-base 2021), predominantemente da área de Ciência da Computação. </p> 
-        </p>
         <h4>Fonte de dados da Scopus</h4>
         <p>Os dados desta fonte foram coletados do <a href="https://www.scopus.com/sources.uri" target="_blank">portal da Scopus</a>, em maio de 2021, e incluem os percentis de 25.990 periódicos internacionais de todas as áreas do conhecimento (ano-base 2020). <img src="../images/qlattes-logo.png" width="75" style="margin-left: -2px; margin-bottom: -4px;"> classifica os periódicos encontrados exclusivamente nesta fonte tomando como base as <a href="https://www.in.gov.br/en/web/dou/-/portaria-n-145-de-10-de-setembro-de-2021-344468240" target="_blank">regras de distribuição de percentis</a> estabelecidas pela CAPES: </p>
         <table class="styled-table" id="percentil-table">
@@ -250,7 +272,7 @@
       </div>
     </div>
     <p id="qlattes-version">
-      Versão 0.1.3-beta © 2023
+      Versão 0.1.5-beta © 2023
       <a href="https://github.com/nabormendonca/qlattes" target="_blank"
         ><img
           id="github-logo"
