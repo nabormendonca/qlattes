@@ -8,7 +8,7 @@
 // }
 
 // open a new visualization page
-window.open(chrome.runtime.getURL('html/visualization.html'));
+window.open(chrome.runtime.getURL('../index.html'));
 
 // close popup
 window.close();

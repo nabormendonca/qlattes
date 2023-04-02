@@ -639,7 +639,7 @@ function injectAnnotationAlert(ImagesURLs, alertMessage) {
   const mainContentDiv = document.getElementsByClassName('main-content')[0];
 
   // get visualization page URL
-  const visualizationURL = chrome.runtime.getURL('html/visualization.html');
+  const visualizationURL = chrome.runtime.getURL('index.html');
 
   // create alert HTML element (class="rodape-cv" style="margin: 0px 5px; color: #326C94; font-size: 1.2em;")
   const alertHeaderHTML = `
