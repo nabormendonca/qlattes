@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./visualization.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v6.2.1/css/all.css"
+    />
+  </head>
+
+  <body>
+    <img
+      id="qlattes-logo"
+      src="../images/qlattes-logo.png"
+      alt="QLattes"
+      style="margin-left: -2px"
+    />
+    <div id="container">
+      <div class="tab">
+        <button div="view-div" class="tablinks" id="default-tab">
+          Visualização
+        </button>
+        <button div="instructions-div" class="tablinks">
+          Instruções de uso
+        </button>
+        <button div="faq-div" class="tablinks">Dúvidas frequentes</button>
+        <button div="data-div" class="tablinks">Fontes de dados</button>
+        <button div="roadmap-div" class="tablinks">Melhorias futuras</button>
+        <button div="privacy-div" class="tablinks">Privacidade</button>
+        <button div="credits-div" class="tablinks">Créditos</button>
+        <button div="feedback-div" class="tablinks">Comentários</button>
+      </div>
+      <div id="view-div" class="tabcontent">
+        <form id="form-filters"></form>
+      </div>
+      <div id="instructions-div" class="tabcontent">
+        <iframe
+          src="instructions.html"
+          width="680"
+          height="540"
+          frameborder="none"
+          marginheight="0"
+          marginwidth="0"
+          scrollbar-gutter="stable"
+          style=""
+          >Carregando…</iframe
+        >
+      </div>
+      <div id="faq-div" class="tabcontent">
+        <iframe
+          src="faq.html"
+          width="680"
+          height="540"
+          frameborder="none"
+          marginheight="0"
+          marginwidth="0"
+          scrollbar-gutter="stable"
+          style=""
+          >Carregando…</iframe
+        >
+      </div>
+      <div id="data-div" class="tabcontent">
+        <iframe
+          src="data.html"
+          width="680"
+          height="540"
+          frameborder="none"
+          marginheight="0"
+          marginwidth="0"
+          scrollbar-gutter="stable"
+          style=""
+          >Carregando…</iframe
+        >
+      </div>
+      <div id="roadmap-div" class="tabcontent">
+        <iframe
+          src="roadmap.html"
+          width="680"
+          height="540"
+          frameborder="none"
+          marginheight="0"
+          marginwidth="0"
+          scrollbar-gutter="stable"
+          style=""
+          >Carregando…</iframe
+        >
+      </div>
+      <div id="privacy-div" class="tabcontent">
+        <iframe
+          src="privacy.html"
+          width="680"
+          height="540"
+          frameborder="none"
+          marginheight="0"
+          marginwidth="0"
+          scrollbar-gutter="stable"
+          style=""
+          >Carregando…</iframe
+        >
+      </div>
+      <div id="credits-div" class="tabcontent">
+        <iframe
+          src="credits.html"
+          width="680"
+          height="540"
+          frameborder="none"
+          marginheight="0"
+          marginwidth="0"
+          scrollbar-gutter="stable"
+          style=""
+          >Carregando…</iframe
+        >
+      </div>
+      <div id="feedback-div" class="tabcontent">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLScWkosurzk1ukkTV28Yv9dGzIcw4jlmY6zWfCf9CjbEHU3Fig/viewform?embedded=true"
+          width="660"
+          height="540"
+          frameborder="none"
+          marginheight="0"
+          marginwidth="0"
+          style=""
+          >Carregando…</iframe
+        >
+      </div>
+    </div>
+    <p id="qlattes-version">
+      Versão 0.1.7 © 2023
+      <a href="https://github.com/nabormendonca/qlattes" target="_blank"
+        ><img
+          id="github-logo"
+          src="../images/github-logo.png"
+          alt="QLattes@GitHub"
+      /></a>
+    </p>
+  </body>
+  <script src="../lib/chart-4.1.1/chart.umd.js"></script>
+  <script src="../lib/chartjs-plugin-annotation-2.1.0/chartjs-plugin-annotation.min.js"></script>
+  <script src="../scripts/util.js"></script>
+  <script src="../scripts/graphic-views.js"></script>
+  <script src="../scripts/table-views.js"></script>
+  <script src="../scripts/visualization.js" type="module"></script>
+</html>
