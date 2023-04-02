@@ -1,38 +1,352 @@
-.App {
-  text-align: center;
+/* GENERAL */
+
+:root {
+  --main-bg-color: #415e98;
+  --main-accent-color: var(--main-bg-color);
+  --main-hover-color: #2c4c8c;
+  --tab-bg-color: var(--main-bg-color);
+  --year-input-width: 62px;
+  --period-select-width: 227px;
+  --stats-table-max-height: 50vh;
+  --top-paper-table-min-width: 670px;
+  --qualis-table-min-width: 655px;
+  --qualis-table-data-cols-width: 40px;
+  --qualis-table-total-cols-width: 50px;
+  --score-table-min-width: 720px;
+  --score-table-data-cols-width: 55px;
+  --score-table-total-cols-width: 65px;
+  font-size: 16px;
 }
 
-.App-logo {
-  height: 40vmin;
+/** Mozilla Firefox root settings */
+@-moz-document url-prefix() {
+  :root {
+    --year-input-width: 68px;
+    --period-select-width: 216px;
+    --stats-table-max-height: 240px;
+    font-size: 16px;
+  }
+}
+
+.body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+}
+
+.logo {
+  height: 40px;
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+a {
+  color: #415E98;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* CONTENT STYLES */
+
+.content {
+  flex-grow: 1;
+  text-align: left;
+  margin: 15px;
+}
+
+#form-filters {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+#clear-data-button {
+  color: var(--main-bg-color);
+  background: rgba(204, 204, 204, 0);
+  padding: 0px;
+  margin-left: 10px;
+  border: none;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#clear-data-button:hover {
+  color: var(--main-hover-color);
+}
+
+select {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 25px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+  accent-color: var(--main-accent-color);
+  font-size: 14px;
+}
+
+input[type='text'] {
+  margin-left: 5px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  height: 28px;
+  min-width: 322px;
+  font-size: 14px;
+}
+
+.year-input {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  height: 28px;
+  width: var(--year-input-width);
+  accent-color: var(--main-accent-color);
+  font-size: 14px;
+}
+
+/* TABLE */
+
+.styled-table {
+  border-collapse: collapse;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+.styled-table#percentil-rule-table,
+.styled-table#score-rule-table {
+  min-width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+
+.styled-table thead tr {
+  background-color: var(--main-bg-color);
+  color: #ffffff;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+
+.styled-table tfoot tr:first-of-type {
+  border-top: 2px solid var(--main-bg-color);
+}
+
+.styled-table tfoot tr:last-of-type {
+  border-bottom: 2px solid var(--main-bg-color);
+}
+
+.styled-table td[type='text'] {
+  text-align: left;
+  white-space: normal;
+  max-width: 350px;
+}
+
+.styled-table tfoot th[type='year'] {
+  width: 55px;
+}
+
+.styled-table th[type='data'] {
+  width: var(--score-table-data-cols-width);
+}
+
+.styled-table th[type='total'] {
+  width: var(--qualis-table-total-cols-width);
+}
+
+/* .styled-table th {
+  padding: 4px 8px;
+  text-align: right;
+}
+
+.styled-table#score-table th {
+  padding: 4px 8px 2px;
+}
+
+.styled-table thead th[type='year'] {
+  text-align: center;
+  width: 90px;
+} 
+
+.styled-table#score-table thead th[type='year'] {
+  text-align: center;
+  padding-bottom: 0px;
+}
+
+.styled-table#qualis-table thead th[type='data'] {
+  text-align: center;
+  width: var(--qualis-table-data-cols-width);
+}
+
+.styled-table#score-table thead th[type='data'] {
+  text-align: center;
+  width: var(--score-table-data-cols-width);
+}
+
+.styled-table#qualis-table thead th[type='total'] {
+  text-align: center;
+  width: var(--qualis-table-total-cols-width);
+}
+
+.styled-table#score-table thead th[type='total'] {
+  text-align: center;
+  width: var(--score-table-total-cols-width);
+}
+
+.styled-table#score-table thead th[type='score-total'] {
+  text-align: center;
+  padding: 0px 8px 4px;
+  width: var(--score-table-total-cols-width);
+}
+
+.styled-table#score-table thead th[type='score'] {
+  text-align: center;
+  padding: 0px 8px 4px;
+  width: var(--score-table-data-cols-width);
+}
+
+.styled-table#score-table thead th[type='score-label'] {
+  text-align: center;
+  padding: 0px 8px 4px;
+  width: 90px;
+}
+
+.styled-table tfoot th[type='label'] {
+  text-align: left;
+  width: 90px;
+}
+
+.styled-table#qualis-table tfoot th[type='data'] {
+  text-align: center;
+  width: var(--qualis-table-data-cols-width);
+}
+
+.styled-table#score-table tfoot th[type='data'] {
+  text-align: right;
+  width: var(--score-table-data-cols-width);
+}
+
+.styled-table#qualis-table tfoot th[type='total'] {
+  text-align: right;
+  width: var(--qualis-table-total-cols-width);
+}
+
+.styled-table#score-table tfoot th[type='total'] {
+  text-align: right;
+  width: var(--score-table-total-cols-width);
+}
+
+.styled-table tfoot th[type='year'] {
+  text-align: right;
+  width: 55px;
+}
+
+.styled-table tfoot th[type='last'] {
+  width: 1px;
+}
+
+.styled-table tfoot tr {
+  font-weight: bold;
+  background-color: white;
+}
+
+.styled-table td {
+  padding: 4px 8px;
+  text-align: center;
+}
+
+.styled-table td[type='number'] {
+  text-align: right;
+  width: 30px;
+}
+
+.styled-table td[type='year'] {
+  width: 90px;
+}
+
+.styled-table#qualis-table td[type='data'] {
+  text-align: right;
+  width: var(--qualis-table-data-cols-width);
+}
+
+.styled-table#score-table td[type='data'] {
+  text-align: right;
+  width: var(--score-table-data-cols-width);
+}
+
+.styled-table tfoot th[type='label'] {
+  text-align: left;
+  width: 90px;
+}
+
+.styled-table#qualis-table td[type='total'] {
+  text-align: right;
+  font-weight: bold;
+  width: var(--qualis-table-total-cols-width);
+}
+
+.styled-table#score-table td[type='total'] {
+  text-align: right;
+  font-weight: bold;
+  width: var(--score-table-total-cols-width);
+}
+
+*/
+
+/* table scrolling style */
+
+/* .styled-table#qualis-table,
+.styled-table#score-table {
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+  margin: 20px auto;
+}
+
+.styled-table#top-papers-table {
+  margin: 20px auto;
+} */
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  margin: 20px auto;
+}
+
+.styled-table tbody {
+  scrollbar-gutter: stable;
+  overflow: auto;
+  max-height: var(--stats-table-max-height);
+}
+
+.graphic-view {
+  margin: 50px auto;
+  max-width: 90%;
 }

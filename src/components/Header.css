@@ -1,0 +1,35 @@
+
+/* HEADER STYLES */
+
+.header {
+  background-color: #efefef;
+  border-bottom: #e0e0e0 1px solid;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  flex-basis: 50px;
+  padding: 10px;
+}
+
+.tab {
+  flex-grow: 1;
+  gap: 50px;
+  display: flex;
+  justify-content: center;
+  margin-right: 134px;
+  /* font-size: 20px; */
+}
+
+.tablinks {
+  border: none;
+  color: black;
+  font-style: normal;
+  padding: 5px;
+}
+
+.active {
+  color: var(--tab-bg-color);
+  border-bottom: 1px solid;
+  border-color: var(--tab-bg-color);
+}
