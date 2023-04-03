@@ -163,7 +163,7 @@ function Analysis() {
     <div class="content">
       <form id="form-filters">
         <div class="select-icon">
-          <FaUserAlt/> 
+          <FaUserAlt color='#415e98'/> 
           <select id="author-select" value={author} onChange={e => handleAuthorSelector(e.target.value)}>
             <option value="" disabled="true" selected="true" hidden="true">Selecione um CV</option>
             {authors.map(op => <option value={op.link}>{op.name}</option>)}
@@ -171,10 +171,10 @@ function Analysis() {
         </div>
         { author != "" ? <>
           <button id="clear-data-button" title="Remover dados do CV" onClick={() => setAuthor("")}>
-            <FaTrashAlt />
+            <FaTrashAlt color='#415e98'/>
           </button>
           <div class="select-icon">
-            <FaChartBar/>
+            <FaChartBar color='#415e98'/>
             <select id="view-type-select" value={viewType} onChange={e => handleViewTypeSelector(e.target.value)}>
               <option value="" disabled="true" selected="true" hidden="true"> Selecione uma visualização</option>
               <optgroup label="Classificação">
@@ -195,7 +195,7 @@ function Analysis() {
           <p> a </p>
           <input id="end-year-input" class="year-input" type="number" min={initYear} max={endYear} value={endYearInput} required="required" onChange={e => setEndYearInput(e.target.value)}/>
           <div class="select-icon">
-            <FaRegCalendarCheck/>
+            <FaRegCalendarCheck color='#415e98'/>
             <select id="period-select" onChange={e => handleSelectedPeriod(e.target.value)}>
               <option value="last5">Últimos 5 anos</option>
               <option value="last10">Últimos 10 anos</option>

@@ -7,7 +7,7 @@
   --tab-bg-color: var(--main-bg-color);
   --year-input-width: 62px;
   --period-select-width: 227px;
-  --stats-table-max-height: 55vh;
+  --stats-table-max-height: 50vh;
   --top-paper-table-min-width: 670px;
   --qualis-table-min-width: 655px;
   --qualis-table-data-cols-width: 40px;
@@ -47,10 +47,21 @@ body {
   pointer-events: none;
 }
 
+.logo-text {
+  margin: -4px -2px;
+  width: 90px;
+}
+
 a {
-  color: #415E98;
+  color: var(--main-bg-color);
   cursor: pointer;
   text-decoration: none;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 0px;
+  color: var(--main-bg-color);
 }
 
 /* CONTENT STYLES */
@@ -58,7 +69,11 @@ a {
 .content {
   flex-grow: 1;
   text-align: left;
-  margin: 15px;
+  margin: 30px 15px;
+}
+
+.content-text {
+  margin: 30px 10%;
 }
 
 /* FORM STYLES */
@@ -148,7 +163,20 @@ input[type='text'] {
   max-width: 80%;
 }
 
+.styled-table-text {
+  margin: 0px auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.styled-table-text th, .styled-table-text td {
+  text-align: center;
+  padding: 2px 6px;
+}
+
 .styled-table {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   border-collapse: collapse;
   width: 100%;
 }
@@ -165,7 +193,7 @@ input[type='text'] {
   padding: 5px 0px;
 }
 
-.styled-table thead {
+.styled-table thead, .styled-table-text thead {
   background-color: var(--main-bg-color);
   color: #ffffff;
 }
@@ -174,7 +202,7 @@ input[type='text'] {
   border-bottom: 1px solid #dddddd;
 }
 
-.styled-table tbody tr:nth-of-type(even) {
+.styled-table tbody tr:nth-of-type(even), .styled-table-text tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
 }
 

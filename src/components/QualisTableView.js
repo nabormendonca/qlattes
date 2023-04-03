@@ -74,7 +74,8 @@ function QualisTableView({init, end, stats, showStatistics}) {
 
   const rowHeight = 20.5;
   let tableClass = "styled-table";
-  if (rowHeight*rows.length > window.innerHeight*0.55) {
+  const maxHeight = window.innerHeight*0.50;
+  if (rowHeight*rows.length > maxHeight) {
     tableClass += ' has-scroll';
   }
 

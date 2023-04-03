@@ -2,10 +2,11 @@ import '../App.css';
 
 function FutureEnhancement() {
   return (
-    <div class="content">
-      <p type="first">
+    <div class="content content-text">
+      <h1>Melhorias futuras</h1>
+      <p>
         Essas são algumas das melhorias sendo atualmente consideradas para futuras
-        versões da
+        versões da <img src="../images/qlattes-logo.png" class="logo-text"/>
       </p>
       <ul>
         <li>exibição dos dados consolidados de múltiplos CVs</li>
@@ -31,9 +32,7 @@ function FutureEnhancement() {
       <p>
         Uma extensão natural da ferramenta seria permitir a visualização dos dados
         dos CVs integrados aos dados das mesmas pessoas obtidos de outras fontes
-        de métricas acadêmicas, como
-        <a href="https://scholar.google.com/" target="_blank">Google Acadêmico</a>
-        e <a href="https://csindexbr.org/" target="_blank">CSIndexbr</a>. O
+        de métricas acadêmicas, como <a href="https://scholar.google.com/" target="_blank">Google Acadêmico</a> e <a href="https://csindexbr.org/" target="_blank">CSIndexbr</a>. O
         desafio, nesse caso, seria a necessidade da ferramenta acessar essas
         fontes externas durante o processamento dos dados dos CVs, o que poderia
         afetar a sua eficiência e resiliência.
@@ -47,6 +46,7 @@ function FutureEnhancement() {
         definida. Isso aumenta o risco da classificação automática dos eventos
         conter muitos falsos positivos ou falsos negativos.
       </p>
+      <br/>
       <p>
         Uma alternativa interessante seria utilizar a própria ferramenta como uma
         plataforma colaborativa para treinamento supervisionado de modelos de
@@ -63,9 +63,10 @@ function FutureEnhancement() {
         visualização dos dados de um grande número de CVs, por exemplo, de todo o
         corpo docente de um departamento acadêmico, os quais poderiam ser
         extraídos e armazenados gradualmente. Outra vantagem seria a possibilidade
-        de analisar os dados extraídos pela
-        utilizando outras ferramentas e tecnologias.
+        de analisar os dados extraídos pela <img src="../images/qlattes-logo.png" class="logo-text"/> utilizando 
+        outras ferramentas e tecnologias.
       </p>
+      <br/>
       <p>
         Voluntários e colaboradores para implementar essas e outras melhorias são
         muito bem vindos!

@@ -3,7 +3,7 @@ import '../App.css';
 function Credits() {
   return (
     <div class="content">
-      <p type="first">
+      <p>
         Concepção e implementação:
         <a href="https://sites.google.com/site/nabormendonca/" target="_blank">Nabor Mendonça</a>
         (UNIFOR)

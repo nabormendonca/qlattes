@@ -2,7 +2,8 @@ import '../App.css';
 
 function Questions() {
   return (
-    <div class="content">
+    <div class="content content-text">
+      <h1>Dúvidas frequentes</h1>
       <h4>
         Quando abro a página de um ou mais CV Lattes, não vejo nenhuma anotação ao
         lado dos dados dos artigos publicados em periódicos
@@ -23,12 +24,12 @@ function Questions() {
         navegador. No segundo caso, a solução é habilitar a extensão. Para isso,
         clique no ícone de extensões do navegador (no formato de uma peça de
         quebra-cabeça, localizado ao lado da barra de endereço) e certifique-se de
-        que o botão ao lado do ícone da
-        está habilitado. No terceiro caso, a solução é dar permissão de acesso às
+        que o botão ao lado do ícone da <img src="../images/qlattes-logo.png" class="logo-text"/> está 
+        habilitado. No terceiro caso, a solução é dar permissão de acesso às
         páginas do Lattes à extensão. Para isso, clique no ícone de extensões do
         navegador e, em seguida, escolha a opção "Gerenciar extensão", ao lado do
-        ícone da
-        (os nomes das opções podem mudar, a depender do navegador utilizado e da
+        ícone da <img src="../images/qlattes-logo.png" class="logo-text"/> (os 
+        nomes das opções podem mudar, a depender do navegador utilizado e da
         língua padrão com que o navegador está configurado). Na página de
         gerenciamento da extensão, certifique-se de que esta tem permissão de
         acesso às URLs "http://buscatextual.cnpq.br/*" e
@@ -42,8 +43,8 @@ function Questions() {
         a mensagem "Nenhum CV disponível"
       </h4>
       <p>
-        Como explicado acima,
-        precisa de permissão para anotar o Qualis dos periódicos na página dos
+        Como explicado acima, <img src="../images/qlattes-logo.png" class="logo-text"/> precisa 
+        de permissão para anotar o Qualis dos periódicos na página dos
         CVs. Nos navegadores compatíveis com o Chromium, essa permissão é
         geralmente dada por padrão, durante a instalação da ferramenta. Já no
         navegador Firefox, essa permissão precisa ser dada explicitamente pelo
@@ -56,7 +57,8 @@ function Questions() {
         publicação cujo periódico está classificado no novo Qualis
       </h4>
       <p>
-        classifica os artigos com base unicamente no ISSN dos periódicos que
+        <img src="../images/qlattes-logo.png" class="logo-text"/> classifica os 
+        artigos com base unicamente no ISSN dos periódicos que
         extrai do CV Lattes. Portanto, se a ferramenta não classificou
         corretamente algum artigo cujo periódico está classificado no Qualis,
         muito provavelmente a razão é que o artigo está cadastrado no Lattes com
@@ -80,15 +82,16 @@ function Questions() {
         publicação
       </h4>
       <p>
-        apenas classifica o Qualis dos artigos em periódicos já publicados. Uma
+        <img src="../images/qlattes-logo.png" class="logo-text"/> apenas classifica 
+        o Qualis dos artigos em periódicos já publicados. Uma
         dificuldade para classificar os artigos aceitos é que nem todos os artigos
         aceitos cadastrados no Lattes possuem ISSN. Futuras versões da ferramenta
         poderão classificar os artigos aceitos que tiverem ISSN cadastrado.
       </p>
       <h4>Não encontrei respostas para a minha dúvida. E agora?</h4>
       <p>
-        Ainda continua com dúvidas sobre a
-        ? Utilize o formulário disponível na aba "Comentários" para enviar uma
+        Ainda continua com dúvidas sobre a <img src="../images/qlattes-logo.png" class="logo-text"/>? 
+        Utilize o formulário disponível na aba "Comentários" para enviar uma
         mensagem aos desenvolvedores relatando a sua dúvida e ajude a melhorar a
         ferramenta.
       </p>
