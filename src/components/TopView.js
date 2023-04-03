@@ -43,24 +43,24 @@ function TopView({pubInfo, startYear, endYear, topN}) {
     <table class="styled-table" id="top-papers-table" tag="view">
       <thead>
         <tr>
-          <th>#</th>
-          <th>Ano</th>
+          <th type="number">#</th>
+          <th type="year">Ano</th>
           <th type="text">Título</th>
           <th type="text">Periódico</th>
-          <th type="text">ISSN</th>
-          <th>Qualis</th>
-          <th>Ano-base</th>
+          <th type="issn">ISSN</th>
+          <th type="qualis">Qualis</th>
+          <th type="year">Ano base</th>
         </tr>
       </thead>
       <tbody>
         {topPubs.map((elem, index) => <tr>
           <td type="number">{index+1}</td>
-          <td>{elem.year}</td>
+          <td type="year">{elem.year}</td>
           <td type="text">{elem.title}</td>
           <td type="text">{elem.pubName}</td>
-          <td>{elem.issn}</td>
-          <td>{elem.qualis}</td>
-          <td>{elem.baseYear}</td>
+          <td type="issn">{elem.issn}</td>
+          <td type="qualis">{elem.qualis}</td>
+          <td type="year">{elem.baseYear}</td>
         </tr>)}
       </tbody>
     </table>

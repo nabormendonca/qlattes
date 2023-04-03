@@ -59,9 +59,7 @@ function ScoreGraphicView({init, end, stats, showStatistics}) {
   };
 
   return (
-    <div class="graphic-view">
-      <CanvasJSReact.CanvasJSChart options={options}/>
-    </div>
+    <CanvasJSReact.CanvasJSChart options={options}/>
   );
 }
 

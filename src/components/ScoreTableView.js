@@ -68,7 +68,7 @@ function ScoreTableView({init, end, stats, showStatistics}) {
       // create cells with data cols
       for (const key of dataCols.keys) {
         const dataVal = getQualisScore(key, stats[key][currYear]);
-        newRow.push(<td type='year'>{dataVal}</td>);
+        newRow.push(<td type='data'>{dataVal}</td>);
         yearTotalCounts['tot'] += dataVal;
         totalCounts[key] += dataVal;
       }
@@ -83,20 +83,26 @@ function ScoreTableView({init, end, stats, showStatistics}) {
     }
   }
 
+  const rowHeight = 20.5;
+  let tableClass = "styled-table";
+  if (rowHeight*rows.length > window.innerHeight*0.55) {
+    tableClass += ' has-scroll';
+  }
+
   return (
-    <table class="styled-table" id="score-table" tag="view">
+    <table class={tableClass} id="score-table" tag="view">
       <thead>
         <tr>
           <th type={firstCol.type}>{firstCol.label}</th>
           {dataCols.labels.map(dataElem => <th type={dataCols.type}>{dataElem}</th>)}
           {totalCols.labels.map(totalElem => <th type={totalCols.type}>{totalElem}</th>)}
         </tr>
-        <tr type="score"><th type="score-label"></th><th type="score">100 pts</th><th type="score">85 pts</th><th type="score">70 pts</th><th type="score">55 pts</th><th type="score">40 pts</th><th type="score">30 pts</th><th type="score">20 pts</th><th type="score">10 pts</th><th type="score">0 pts</th><th type="score">0 pts</th><th type="score-total"></th></tr>
+        <tr><th type="year"></th><th type="data">100 pts</th><th type="data">85 pts</th><th type="data">70 pts</th><th type="data">55 pts</th><th type="data">40 pts</th><th type="data">30 pts</th><th type="data">20 pts</th><th type="data">10 pts</th><th type="data">0 pts</th><th type="data">0 pts</th><th type="data"></th></tr>
       </thead>
       <tbody>{rows}</tbody>
       <tfoot>
         <tr tag="total">
-          <th type="label">Total</th>
+          <th type="year">Total</th>
           {dataCols.keys.map(key => <th type={dataCols.type}>{totalCounts[key]}</th>)}
           {totalCols.keys.map(key => <th type={totalCols.type}>{totalCounts[key]}</th>)}
         </tr>

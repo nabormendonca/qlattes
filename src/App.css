@@ -7,7 +7,7 @@
   --tab-bg-color: var(--main-bg-color);
   --year-input-width: 62px;
   --period-select-width: 227px;
-  --stats-table-max-height: 50vh;
+  --stats-table-max-height: 55vh;
   --top-paper-table-min-width: 670px;
   --qualis-table-min-width: 655px;
   --qualis-table-data-cols-width: 40px;
@@ -35,6 +35,7 @@
   height: 100vh;
   font-family: 'Lato', sans-serif;
   font-size: 16px;
+  margin: 0px;
 }
 
 .logo {
@@ -55,6 +56,8 @@ a {
   text-align: left;
   margin: 15px;
 }
+
+/* FORM STYLES */
 
 #form-filters {
   display: flex;
@@ -119,28 +122,31 @@ input[type='text'] {
   font-size: 14px;
 }
 
-/* TABLE */
+/* TABLE STYLES */
+
+.table-wrapper {
+  margin: 20px auto;
+  max-width: 80%;
+}
 
 .styled-table {
   border-collapse: collapse;
-  font-size: 14px;
-  white-space: nowrap;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  margin-left: 5px;
-  margin-top: 5px;
-  margin-bottom: 0px;
-  text-align: center;
+  width: 100%;
 }
 
-.styled-table#percentil-rule-table,
-.styled-table#score-rule-table {
-  min-width: 200px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
+.styled-table th, .styled-table td {
+  padding: 1px 10px;
+  text-align: left;
 }
 
-.styled-table thead tr {
+.styled-table tr {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  padding: 5px 0px;
+}
+
+.styled-table thead {
   background-color: var(--main-bg-color);
   color: #ffffff;
 }
@@ -153,200 +159,44 @@ input[type='text'] {
   background-color: #f3f3f3;
 }
 
-
-.styled-table tfoot tr:first-of-type {
+.styled-table tfoot {
   border-top: 2px solid var(--main-bg-color);
 }
 
-.styled-table tfoot tr:last-of-type {
+.styled-table tfoot {
   border-bottom: 2px solid var(--main-bg-color);
 }
 
-.styled-table td[type='text'] {
-  text-align: left;
-  white-space: normal;
-  max-width: 350px;
+.styled-table td[type='number'], .styled-table th[type='number'] {
+  width: 20px;
 }
 
-.styled-table tfoot th[type='year'] {
-  width: 55px;
+.styled-table td[type='year'], .styled-table th[type='year'] {
+  width: 45px;
 }
 
-.styled-table th[type='data'] {
-  width: var(--score-table-data-cols-width);
+.styled-table td[type='issn'], .styled-table th[type='issn'] {
+  width: 80px;
 }
 
-.styled-table th[type='total'] {
-  width: var(--qualis-table-total-cols-width);
-}
-
-/* .styled-table th {
-  padding: 4px 8px;
-  text-align: right;
-}
-
-.styled-table#score-table th {
-  padding: 4px 8px 2px;
-}
-
-.styled-table thead th[type='year'] {
-  text-align: center;
-  width: 90px;
-} 
-
-.styled-table#score-table thead th[type='year'] {
-  text-align: center;
-  padding-bottom: 0px;
-}
-
-.styled-table#qualis-table thead th[type='data'] {
-  text-align: center;
-  width: var(--qualis-table-data-cols-width);
-}
-
-.styled-table#score-table thead th[type='data'] {
-  text-align: center;
-  width: var(--score-table-data-cols-width);
-}
-
-.styled-table#qualis-table thead th[type='total'] {
-  text-align: center;
-  width: var(--qualis-table-total-cols-width);
-}
-
-.styled-table#score-table thead th[type='total'] {
-  text-align: center;
-  width: var(--score-table-total-cols-width);
-}
-
-.styled-table#score-table thead th[type='score-total'] {
-  text-align: center;
-  padding: 0px 8px 4px;
-  width: var(--score-table-total-cols-width);
-}
-
-.styled-table#score-table thead th[type='score'] {
-  text-align: center;
-  padding: 0px 8px 4px;
-  width: var(--score-table-data-cols-width);
-}
-
-.styled-table#score-table thead th[type='score-label'] {
-  text-align: center;
-  padding: 0px 8px 4px;
-  width: 90px;
-}
-
-.styled-table tfoot th[type='label'] {
-  text-align: left;
-  width: 90px;
-}
-
-.styled-table#qualis-table tfoot th[type='data'] {
-  text-align: center;
-  width: var(--qualis-table-data-cols-width);
-}
-
-.styled-table#score-table tfoot th[type='data'] {
-  text-align: right;
-  width: var(--score-table-data-cols-width);
-}
-
-.styled-table#qualis-table tfoot th[type='total'] {
-  text-align: right;
-  width: var(--qualis-table-total-cols-width);
-}
-
-.styled-table#score-table tfoot th[type='total'] {
-  text-align: right;
-  width: var(--score-table-total-cols-width);
-}
-
-.styled-table tfoot th[type='year'] {
-  text-align: right;
-  width: 55px;
-}
-
-.styled-table tfoot th[type='last'] {
-  width: 1px;
-}
-
-.styled-table tfoot tr {
-  font-weight: bold;
-  background-color: white;
-}
-
-.styled-table td {
-  padding: 4px 8px;
+.styled-table td[type='qualis'], .styled-table th[type='qualis'] {
+  width: 40px;
   text-align: center;
 }
 
-.styled-table td[type='number'] {
-  text-align: right;
-  width: 30px;
+.styled-table td[type='data'], .styled-table th[type='data'],
+.styled-table td[type='total'], .styled-table th[type='total'] {
+  text-align: center;
 }
 
-.styled-table td[type='year'] {
-  width: 90px;
-}
+/* TABLE SCROLL STYLES */
 
-.styled-table#qualis-table td[type='data'] {
-  text-align: right;
-  width: var(--qualis-table-data-cols-width);
-}
-
-.styled-table#score-table td[type='data'] {
-  text-align: right;
-  width: var(--score-table-data-cols-width);
-}
-
-.styled-table tfoot th[type='label'] {
-  text-align: left;
-  width: 90px;
-}
-
-.styled-table#qualis-table td[type='total'] {
-  text-align: right;
-  font-weight: bold;
-  width: var(--qualis-table-total-cols-width);
-}
-
-.styled-table#score-table td[type='total'] {
-  text-align: right;
-  font-weight: bold;
-  width: var(--score-table-total-cols-width);
-}
-
-*/
-
-/* table scrolling style */
-
-/* .styled-table#qualis-table,
-.styled-table#score-table {
-  display: flex;
-  flex-direction: column;
-  width: min-content;
-  margin: 20px auto;
-}
-
-.styled-table#top-papers-table {
-  margin: 20px auto;
-} */
-
-.table-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: max-content;
-  margin: 20px auto;
-}
-
-.styled-table tbody {
-  scrollbar-gutter: stable;
-  overflow: auto;
+.styled-table.has-scroll tbody {
+  display: block;
   max-height: var(--stats-table-max-height);
+  overflow-y: auto;
 }
 
-.graphic-view {
-  margin: 50px auto;
-  max-width: 90%;
+.styled-table.has-scroll thead tr, .styled-table.has-scroll tfoot tr {
+  width: calc(100% - 18px);
 }

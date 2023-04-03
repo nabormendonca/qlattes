@@ -50,7 +50,7 @@ function QualisTableView({init, end, stats, showStatistics}) {
       
       // create cells with data cols
       for (const key of dataCols.keys) {
-        newRow.push(<td type='year'>{stats[key][currYear]}</td>);
+        newRow.push(<td type='data'>{stats[key][currYear]}</td>);
         const keyChar = key.slice(0, 1);
 
         if (keyChar == 'A') {
@@ -72,8 +72,14 @@ function QualisTableView({init, end, stats, showStatistics}) {
     }
   }
 
+  const rowHeight = 20.5;
+  let tableClass = "styled-table";
+  if (rowHeight*rows.length > window.innerHeight*0.55) {
+    tableClass += ' has-scroll';
+  }
+
   return (
-    <table class="styled-table" id="qualis-table">
+    <table class={tableClass} id="qualis-table">
       <thead><tr>
         <th type={firstCol.type}>{firstCol.label}</th>
         {dataCols.labels.map(dataElem => <th type={dataCols.type}>{dataElem}</th>)}
@@ -82,7 +88,7 @@ function QualisTableView({init, end, stats, showStatistics}) {
       <tbody>{rows}</tbody>
       <tfoot>
         <tr tag="total">
-          <th type="label">Total</th>
+          <th type="year">Total</th>
           {dataCols.keys.map(key => <th type={dataCols.type}>{totalCounts[key]}</th>)}
           {totalCols.keys.map(key => <th type={totalCols.type}>{totalCounts[key]}</th>)}
         </tr>
