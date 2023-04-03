@@ -28,6 +28,10 @@
   }
 }
 
+body {
+  margin: 0px;
+}
+
 .body {
   text-align: center;
   display: flex;
@@ -80,6 +84,16 @@ a {
   color: var(--main-hover-color);
 }
 
+.select-icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.select-icon svg {
+  transform: translateX(25px);
+}
+
 select {
   padding-top: 4px;
   padding-bottom: 4px;
@@ -90,7 +104,7 @@ select {
   box-sizing: border-box;
   cursor: pointer;
   accent-color: var(--main-accent-color);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 input[type='text'] {
@@ -105,7 +119,7 @@ input[type='text'] {
   box-sizing: border-box;
   height: 28px;
   min-width: 322px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .year-input {
@@ -119,13 +133,18 @@ input[type='text'] {
   height: 28px;
   width: var(--year-input-width);
   accent-color: var(--main-accent-color);
-  font-size: 14px;
+  font-size: 16px;
+}
+
+#total-pubs-div {
+  text-align: center;
+  margin: 10px;
 }
 
 /* TABLE STYLES */
 
 .table-wrapper {
-  margin: 20px auto;
+  margin: 10px auto;
   max-width: 80%;
 }
 
