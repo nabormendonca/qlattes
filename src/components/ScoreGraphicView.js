@@ -38,13 +38,18 @@ function ScoreGraphicView({init, end, stats, showStatistics}) {
   yearTotalCounts = Object.keys(yearTotalCounts).map(key => ({label: key, y: yearTotalCounts[key]}))
   
   const options = {
-    title: {
-      text: "Pontuação Qualis",
-      fontFamily: "lato"
-    },
+    animationEnabled: true,
     legend: {
       verticalAlign: "top",
       horizontalAlign: "center",
+      fontSize: 16,
+      fontFamily: "lato",
+      fontColor: "black",
+    },
+    axisX:{
+      labelFontFamily: "lato",
+      labelFontSize: 20,
+      labelFontColor: "black",
     },
 		dataPointMaxWidth: 100,
     data: [
@@ -59,7 +64,10 @@ function ScoreGraphicView({init, end, stats, showStatistics}) {
   };
 
   return (
-    <CanvasJSReact.CanvasJSChart options={options}/>
+    <>
+      <h1>Pontuação Qualis</h1>
+      <CanvasJSReact.CanvasJSChart options={options}/>
+    </>
   );
 }
 

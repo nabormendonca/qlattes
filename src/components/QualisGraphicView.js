@@ -63,10 +63,10 @@ function QualisGraphicView({init, end, stats, showStatistics}) {
 
   const options = {
     animationEnabled: true,
-    exportEnabled: true,
-    title: {
-      text: "Pontuação Qualis",
-      fontFamily: "lato"
+    axisX:{
+      labelFontFamily: "lato",
+      labelFontSize: 20,
+      labelFontColor: "black",
     },
     toolTip: {
       shared: true,
@@ -75,12 +75,18 @@ function QualisGraphicView({init, end, stats, showStatistics}) {
     legend: {
       verticalAlign: "top",
       horizontalAlign: "center",
+      fontSize: 16,
+      fontFamily: "lato",
+      fontColor: "black",
     },
     data: data
   };
 
   return (
-    <CanvasJSReact.CanvasJSChart options={options}/>
+    <>
+      <h1>Estrato Qualis</h1>
+      <CanvasJSReact.CanvasJSChart options={options}/>
+    </>
   );
 }
 

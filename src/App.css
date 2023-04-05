@@ -247,3 +247,9 @@ input[type='text'] {
 .styled-table.has-scroll thead tr, .styled-table.has-scroll tfoot tr {
   width: calc(100% - 18px);
 }
+
+/* GRAPHIC */
+
+.canvasjs-chart-credit, .canvasjs-chart-toolbar {
+  display: none !important;
+}
