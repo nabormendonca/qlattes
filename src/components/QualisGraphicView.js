@@ -21,7 +21,6 @@ function QualisGraphicView({init, end, stats, showStatistics}) {
     if (stats.year[currYear] >= init && stats.year[currYear] <= end) {
       for (const key of dataCols) {
         const keyChar = key.slice(0, 1);
-        console.log('data: ', keyChar, stats.year[currYear], yearTotalCounts[keyChar][stats.year[currYear]])
         yearTotalCounts[keyChar][stats.year[currYear]] += stats[key][currYear];
       }
     }

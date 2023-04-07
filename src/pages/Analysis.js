@@ -1,6 +1,6 @@
 /*global chrome*/
 import '../App.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import QualisTableView from '../components/QualisTableView';
 import QualisGraphicView from '../components/QualisGraphicView';
 import ScoreGraphicView from '../components/ScoreGraphicView';
@@ -8,8 +8,6 @@ import ScoreTableView from '../components/ScoreTableView';
 import TopView from '../components/TopView';
 
 import { FaTrashAlt, FaUserAlt, FaChartBar, FaRegCalendarCheck } from 'react-icons/fa';
-
-// const authors = ["Stevens Kastrup Rehen", "Carlos José Pereira de Lucena", "Joel José Puga Coelho Rodrigues"];
 
 async function updateLattesData() {
   const lattesData = await chrome.storage.local.get('lattes_data');
@@ -116,10 +114,10 @@ function Analysis() {
   const [viewType, setViewType] = useState("");
   const [stats, setStats] = useState([]);
   const [pubInfo, setPubInfo] = useState([]);
-  const [totalPubs, setTotalPubs] = useState(118);
-  const [initYear, setInitYear] = useState(1993);
-  const [endYear, setEndYear] = useState(2023);
-  const [showStatistics, setShowStatistics] = useState(2023);
+  const [totalPubs, setTotalPubs] = useState(0);
+  const [initYear, setInitYear] = useState(0);
+  const [endYear, setEndYear] = useState(0);
+  const [showStatistics, setShowStatistics] = useState(0);
   const [initYearInput, setInitYearInput] = useState(initYear);
   const [endYearInput, setEndYearInput] = useState(endYear);
 
@@ -202,18 +200,18 @@ function Analysis() {
               <option value="all" selected="true"> Todo o período do CV</option>
             </select>
           </div>
-          <div>
+          {viewType != "top5View" && viewType != "top10View" ? (<div>
             <input id="showStatistics" type="checkbox" value={showStatistics} onChange={e => setShowStatistics(e.target.value)}/>
             <label for="showStatistics">Exibir estatísticas</label>
-          </div>
+          </div>) : null }
         </> : null}
       </form>
       { author != "" && <p id="total-pubs-div">{totalPubs} artigos em periódicos entre {initYear} e {endYear}</p> }
       <div class="table-wrapper">
         {viewType == "qualisTableView" ? <QualisTableView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics}/> : null}
-        {viewType == "qualisGraphicView" ? <QualisGraphicView init={initYearInput} end={endYearInput} stats={stats}/> : null}
-        {viewType == "scoreTableView" ? <ScoreTableView init={initYearInput} end={endYearInput} stats={stats}/> : null}
-        {viewType == "scoreGraphicView" ? <ScoreGraphicView init={initYearInput} end={endYearInput} stats={stats}/> : null}
+        {viewType == "qualisGraphicView" ? <QualisGraphicView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics}/> : null}
+        {viewType == "scoreTableView" ? <ScoreTableView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics}/> : null}
+        {viewType == "scoreGraphicView" ? <ScoreGraphicView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics}/> : null}
         {viewType == "top5View" ? <TopView topN={5} startYear={initYearInput} endYear={endYearInput} pubInfo={pubInfo}/> : null}
         {viewType == "top10View" ? <TopView topN={10} startYear={initYearInput} endYear={endYearInput} pubInfo={pubInfo}/> : null}
       </div>

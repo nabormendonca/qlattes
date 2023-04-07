@@ -1,4 +1,5 @@
 import '../App.css';
+import { linearRegression, updateTotalStats } from '../Utils/utils.js';
 
 function QualisTableView({init, end, stats, showStatistics}) {
   const firstCol = {
@@ -15,6 +16,12 @@ function QualisTableView({init, end, stats, showStatistics}) {
     labels: ['#A', '#B', 'Total'],
     type: 'total',
   };
+
+  // reset data counts
+  let dataCounts = {};
+  for (const key of dataCols.keys) {
+    dataCounts[key] = 0;
+  }
 
   // reset total counts
   let totalCounts = {};
@@ -60,6 +67,9 @@ function QualisTableView({init, end, stats, showStatistics}) {
         }
         yearTotalCounts['totABC'] += stats[key][currYear];
         totalCounts[key] += stats[key][currYear];
+        
+        // increment data count with data val
+        dataCounts[key] += stats[key][currYear];
       }
 
       for (const key of totalCols.keys) {
@@ -69,7 +79,45 @@ function QualisTableView({init, end, stats, showStatistics}) {
       }
 
       rows.push(<tr>{newRow}</tr>);
+
+      // update total stats
+      totalStats = updateTotalStats(
+        totalStats,
+        yearTotalCounts,
+        stats.year[currYear]
+      );
     }
+  }
+
+  // add new foot row cell to table footer row
+  let meanRow = []
+  let medianRow = []
+  let trendRow = []
+  let bestYearRow = []
+  for (const col of dataCols.keys) {
+    meanRow.push(<th type="data"></th>);
+    medianRow.push(<th type="data"></th>);
+    trendRow.push(<th type="data"></th>);
+    bestYearRow.push(<th type="data"></th>);
+  }
+
+  // Best Year
+  for (const col of totalCols.keys) {
+    meanRow.push(<th type='total'>{totalStats[col].countList
+      .mean()
+      .toFixed(2)
+      .replace('.', ',')}</th>);
+    medianRow.push(<th type='total'>{totalStats[col].countList
+      .median()
+      .toFixed(2)
+      .replace('.', ',')}</th>);
+    trendRow.push(<th type='total'>{linearRegression(
+      totalStats[col].yearList,
+      totalStats[col].countList
+    )
+      .slope.toFixed(2)
+      .replace('.', ',')}</th>);
+    bestYearRow.push(<th type='total'>{totalStats[col].best.year > 0 ? totalStats[col].best.year : ''}</th>);
   }
 
   const rowHeight = 20.5;
@@ -78,6 +126,7 @@ function QualisTableView({init, end, stats, showStatistics}) {
   if (rowHeight*rows.length > maxHeight) {
     tableClass += ' has-scroll';
   }
+  console.log("showStatistics", showStatistics)
 
   return (
     <table class={tableClass} id="qualis-table">
@@ -93,6 +142,12 @@ function QualisTableView({init, end, stats, showStatistics}) {
           {dataCols.keys.map(key => <th type={dataCols.type}>{totalCounts[key]}</th>)}
           {totalCols.keys.map(key => <th type={totalCols.type}>{totalCounts[key]}</th>)}
         </tr>
+        {showStatistics ? (<>
+          <tr> <th type="label">Média</th> {meanRow} </tr>
+          <tr> <th type="label">Mediana</th> {medianRow} </tr>
+          <tr> <th type="label">Tendência</th> {trendRow} </tr>
+          <tr> <th type="label">Melhor ano</th> {bestYearRow} </tr>
+        </>) : null}
       </tfoot>
     </table>
   );

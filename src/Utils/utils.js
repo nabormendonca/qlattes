@@ -35,7 +35,7 @@ Array.prototype.sortByKeys = function (keys) {
 };
 
 // linear regression implementation based on code from https://github.com/heofs/trendline/
-function linearRegression(xData, yData) {
+export function linearRegression(xData, yData) {
   // average of X values and Y values
   const xMean = xData.mean();
   const yMean = yData.mean();
@@ -66,59 +66,11 @@ function linearRegression(xData, yData) {
 }
 
 /**
- * HTML util functions
- */
-
-// define a set of attributes for an HTML element
-function setAttributes(elem, attrs) {
-  for (const key of Object.keys(attrs)) {
-    elem.setAttribute(key, attrs[key]);
-  }
-}
-
-// insert an HTML element after a given reference element
-function insertAfter(referenceNode, newNode) {
-  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
-
-// remove all HTML elements matched by selector
-function removeElements(selector) {
-  // get all elements matching selector
-  const elems = document.querySelectorAll(selector);
-
-  // remove matched elements
-  for (const elem of elems) {
-    elem.remove();
-  }
-}
-
-// insert a given number of line breaks before/after a given reference HTML element
-function insertLineBreaks(
-  referenceNode,
-  where = 'before',
-  number_breaks,
-  attributes
-) {
-  for (let i = 1; i <= number_breaks; i++) {
-    // create line break element
-    const brElem = document.createElement('br');
-    // define attributes
-    setAttributes(brElem, attributes);
-    // insert before or after reference node
-    if (where == 'before') {
-      referenceNode.parentNode.insertBefore(brElem, referenceNode);
-    } else if (where == 'after') {
-      insertAfter(referenceNode, brElem);
-    }
-  }
-}
-
-/**
  * Data stats util functions
  */
 
 // update total data stats
-function updateTotalStats(totalStats, yearCounts, year) {
+export function updateTotalStats(totalStats, yearCounts, year) {
   for (const key of Object.keys(yearCounts)) {
     // update total stats lists
     totalStats[key].countList.push(yearCounts[key]);
@@ -142,19 +94,25 @@ function getMaxCount(totalStats) {
  * Qualis util functions
  */
 
+export const dataCols = {
+  keys: ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C', 'N'],
+  labels: ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C', 'N'],
+  type: 'data',
+};
+export const qualisScores = {
+  A1: 100,
+  A2: 85,
+  A3: 70,
+  A4: 55,
+  B1: 40,
+  B2: 30,
+  B3: 20,
+  B4: 10,
+  C: 0,
+  N: 0,
+};
+
 // get Qualis score for given category
-function getQualisScore(qualisCategory, count) {
-  const qualisScores = {
-    A1: 100,
-    A2: 85,
-    A3: 70,
-    A4: 55,
-    B1: 40,
-    B2: 30,
-    B3: 20,
-    B4: 10,
-    C: 0,
-    N: 0,
-  };
+export function getQualisScore(qualisCategory, count) {
   return qualisScores[qualisCategory] * count;
 }
