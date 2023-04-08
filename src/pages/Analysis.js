@@ -117,7 +117,7 @@ function Analysis() {
   const [totalPubs, setTotalPubs] = useState(0);
   const [initYear, setInitYear] = useState(0);
   const [endYear, setEndYear] = useState(0);
-  const [showStatistics, setShowStatistics] = useState(0);
+  const [showStatistics, setShowStatistics] = useState(false);
   const [initYearInput, setInitYearInput] = useState(initYear);
   const [endYearInput, setEndYearInput] = useState(endYear);
 
@@ -201,7 +201,7 @@ function Analysis() {
             </select>
           </div>
           {viewType != "top5View" && viewType != "top10View" ? (<div>
-            <input id="showStatistics" type="checkbox" value={showStatistics} onChange={e => setShowStatistics(e.target.value)}/>
+            <input id="showStatistics" type="checkbox" value={showStatistics} onChange={(e) =>setShowStatistics(!showStatistics)}/>
             <label for="showStatistics">Exibir estatísticas</label>
           </div>) : null }
         </> : null}
