@@ -90,6 +90,26 @@ export function getMaxCount(totalStats) {
   return totalStats.tot.countList.max();
 }
 
+export function getBoundedTrendPoint(regression, x, xList, yBound) {
+  let newX = parseFloat(x);
+  let newXIndex = xList.indexOf(Math.round(newX));
+  let y = regression.calcY(newX);
+
+  if (isNaN(y)) return { x: 0, y: 0 };
+
+  if (y < yBound.min) {
+    newX = (yBound.min - regression.yStart) / regression.slope;
+    newXIndex = xList.indexOf(Math.round(newX));
+    return { x: newXIndex, y: yBound.min };
+  } else if (y > yBound.max) {
+    newX = (yBound.max - regression.yStart) / regression.slope;
+    newXIndex = xList.indexOf(Math.round(newX));
+    return { x: newXIndex, y: yBound.max };
+  }
+
+  return { x: newXIndex, y: y };
+}
+
 /**
  * Qualis util functions
  */
