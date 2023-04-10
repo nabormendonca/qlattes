@@ -126,7 +126,6 @@ function QualisTableView({init, end, stats, showStatistics}) {
   if (rowHeight*rows.length > maxHeight) {
     tableClass += ' has-scroll';
   }
-  console.log("showStatistics", showStatistics)
 
   return (
     <table class={tableClass} id="qualis-table">

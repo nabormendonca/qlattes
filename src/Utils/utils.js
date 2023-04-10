@@ -86,7 +86,7 @@ export function updateTotalStats(totalStats, yearCounts, year) {
 }
 
 // get total stats max count
-function getMaxCount(totalStats) {
+export function getMaxCount(totalStats) {
   return totalStats.tot.countList.max();
 }
 
