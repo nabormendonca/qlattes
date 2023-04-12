@@ -1,3 +1,7 @@
+//
+// table views lib
+//
+
 function updateQualisTableView(stats, startYear, endYear) {
   const tableId = 'qualis-table';
   const firstCol = {
@@ -10,14 +14,73 @@ function updateQualisTableView(stats, startYear, endYear) {
     type: 'data',
   };
   const totalCols = {
-    keys: ['totA', 'totB', 'totABC'],
-    labels: ['#A', '#B', 'Total'],
+    keys: ['totA', 'totB', 'tot', 'percA', 'percB'],
+    labels: ['Tot A', 'Tot B', 'Total', '% A', '% B'],
     type: 'total',
   };
+
+  const removeTags = ['view'];
 
   updateTableView(
     tableId,
     stats,
+    removeTags,
+    firstCol,
+    dataCols,
+    totalCols,
+    startYear,
+    endYear,
+    // getKeyDataVal function
+    (stats, currYear, key) => {
+      // return key data in stats for the given year
+      return stats[key][currYear];
+      // parseFloat(
+    },
+    // updateYearTotalCounts function
+    (yearTotalCounts, stats, currYear, key) => {
+      yearTotalCounts['tot'] += stats[key][currYear];
+      // increment year total counts based on col val
+      const keyChar = key.slice(0, 1);
+      if (keyChar == 'A') {
+        yearTotalCounts['totA'] += stats[key][currYear];
+      } else if (keyChar == 'B') {
+        yearTotalCounts['totB'] += stats[key][currYear];
+      }
+      // return updated yearTotalCounts
+      return yearTotalCounts;
+    }
+  );
+  // adjust column table widths to accommodate the widest column
+  const dataSelector = 'th[type="data"], td[type="data"]';
+  const totalSelector =
+    'th[type="total"], td[type="total"], th[type="percent"], td[type="percent"]';
+  const padding = 16;
+  adjustColumnWidths(tableId, dataSelector, totalSelector, padding);
+}
+
+function updateScoreTableView(stats, areaData, startYear, endYear) {
+  const tableId = 'qualis-table';
+  const firstCol = {
+    label: 'Ano',
+    type: 'year',
+  };
+  const dataCols = {
+    keys: ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C', 'N'],
+    labels: ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C', 'N'],
+    type: 'data',
+  };
+  const totalCols = {
+    keys: ['totA', 'totB', 'tot', 'percA', 'percB'],
+    labels: ['Tot A', 'Tot B', 'Total', '% A', '% B'],
+    type: 'total',
+  };
+
+  const removeTags = ['view'];
+
+  updateTableView(
+    tableId,
+    stats,
+    removeTags,
     firstCol,
     dataCols,
     totalCols,
@@ -30,6 +93,7 @@ function updateQualisTableView(stats, startYear, endYear) {
     },
     // updateYearTotalCounts function
     (yearTotalCounts, stats, currYear, key) => {
+      yearTotalCounts['tot'] += stats[key][currYear];
       // increment year total counts based on col val
       const keyChar = key.slice(0, 1);
       if (keyChar == 'A') {
@@ -37,46 +101,6 @@ function updateQualisTableView(stats, startYear, endYear) {
       } else if (keyChar == 'B') {
         yearTotalCounts['totB'] += stats[key][currYear];
       }
-      yearTotalCounts['totABC'] += stats[key][currYear];
-      // return updated yearTotalCounts
-      return yearTotalCounts;
-    }
-  );
-}
-
-function updateScoreTableView(stats, startYear, endYear) {
-  const tableId = 'score-table';
-  const firstCol = {
-    label: 'Ano',
-    type: 'year',
-  };
-  const dataCols = {
-    keys: ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C', 'N'],
-    labels: ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C', 'N'],
-    type: 'data',
-  };
-  const totalCols = {
-    keys: ['tot'],
-    labels: ['Total'],
-    type: 'total',
-  };
-
-  updateTableView(
-    tableId,
-    stats,
-    firstCol,
-    dataCols,
-    totalCols,
-    startYear,
-    endYear,
-    // getColDataVal function
-    (stats, currYear, col) => {
-      // return col data in stats for the given year
-      return getQualisScore(col, stats[col][currYear]);
-    },
-    // updateYearTotalCounts function
-    (yearTotalCounts, stats, currYear, col) => {
-      yearTotalCounts['tot'] += getQualisScore(col, stats[col][currYear]);
       // return updated yearTotalCounts
       return yearTotalCounts;
     }
@@ -85,9 +109,9 @@ function updateScoreTableView(stats, startYear, endYear) {
   // add Qualis scores to score table header
 
   // get score table element
-  const scoreTable = document.querySelector('#score-table');
+  const scoreTable = document.querySelector('#qualis-table');
 
-  // // get score table header
+  // get score table header
   const scoreTableHead = scoreTable.querySelector('thead');
 
   // create score row and add it to score table header
@@ -102,45 +126,71 @@ function updateScoreTableView(stats, startYear, endYear) {
   scoreRowFirstCell.textContent = '';
   scoreRow.appendChild(scoreRowFirstCell);
 
-  // create qualis score cells
+  // create qualis score data cells
   for (const key of dataCols.keys) {
     // create new score row cell
     const scoreRowCell = document.createElement('th');
     scoreRowCell.setAttribute('type', 'score');
-    scoreRowCell.textContent = `${getQualisScore(key, 1)} pts`;
+    const cellScore = getQualisScore(key, 1, areaData.scores);
+    scoreRowCell.textContent = `${cellScore} ${cellScore <= 1 ? 'pt' : 'pts'}`;
     scoreRow.appendChild(scoreRowCell);
   }
 
-  // create last cell for total label
-  const scoreRowLastCell = document.createElement('th');
-  scoreRowLastCell.setAttribute('type', 'score-total');
-  scoreRowLastCell.textContent = '';
-  scoreRow.appendChild(scoreRowLastCell);
+  // create qualis score total cells
+  for (const key of totalCols.keys) {
+    // create new score row cell
+    const scoreRowCell = document.createElement('th');
+    if (key.slice(0, 1) === 'p') {
+      scoreRowCell.setAttribute('type', 'percent');
+    } else {
+      scoreRowCell.setAttribute('type', totalCols.type);
+    }
+    scoreRowCell.setAttribute('type', 'score');
+    scoreRow.appendChild(scoreRowCell);
+  }
+
+  // adjust column table widths to accommodate the widest column
+  const dataSelector =
+    'th[type="data"], th[type="score"], td[type="data"], td[type="score"]';
+  const totalSelector =
+    'th[type="total"], th[type="score-total"], td[type="total"], td[type="score-total"], th[type="percent"], td[type="percent"]';
+  const padding = 16;
+  adjustColumnWidths(tableId, dataSelector, totalSelector, padding);
+
+  // insert or update area scores source and link after score table
+  const messageHTML = `Fonte da pontuação: <a href="${areaData.source.url}" target="_blank" title="Visualizar ${areaData.source.label}">${areaData.source.label}</a> da ${areaData.label} (ano-base: ${areaData.base_year})`;
+  insertMessageAfter(scoreTable, messageHTML, 'area-scores-source', 'view');
 }
 
 function updateTableView(
   tableId,
   stats,
+  removeTags,
   firstCol,
   dataCols,
   totalCols,
   startYear,
   endYear,
   getKeyDataVal,
-  updateYearTotalCounts
+  updateYearTotalCounts,
+  scores = null
 ) {
   // get stats input state (if available)
-  const statsState = getStatsInputState('stats');
+  const statsState = getInputState('stats');
   // console.log(statsState);
 
-  // delete current view if it already exists
-  removeElements("[tag='view']");
+  // remove elements with given tags
+  for (const tag of removeTags) {
+    removeElements(`[tag="${tag}"]`);
+  }
 
   // create stats check box
   const form = document.querySelector('#form-filters');
-  createStatsCheckboxes(form, [
-    { id: 'stats-input', label: 'Exibir estatísticas' },
-  ]);
+  createCheckBoxes(
+    form,
+    [{ id: 'stats-input', label: 'Exibir estatísticas' }],
+    'view'
+  );
 
   // get view div element
   const div = document.querySelector('#view-div');
@@ -165,32 +215,43 @@ function updateTableView(
 
   // create the first table head row cell (for the year column)
   const tableHeadRowFirstCell = document.createElement('th');
-  tableHeadRowFirstCell.setAttribute('type', firstCol.type);
+  setAttributes(tableHeadRowFirstCell, {
+    type: firstCol.type,
+  });
   tableHeadRowFirstCell.textContent = firstCol.label;
   tableHeadRow.appendChild(tableHeadRowFirstCell);
 
   // create the header row cells for data labels
   for (const label of dataCols.labels) {
-    // create new table head row cell
-    const tableHeadRowCountCell = document.createElement('th');
-    tableHeadRowCountCell.setAttribute('type', dataCols.type);
-    tableHeadRowCountCell.textContent = label;
-    tableHeadRow.appendChild(tableHeadRowCountCell);
+    if (label !== '') {
+      // create new table head row cell
+      const tableHeadRowCountCell = document.createElement('th');
+      tableHeadRowCountCell.setAttribute('type', dataCols.type);
+      tableHeadRowCountCell.textContent = label;
+      tableHeadRow.appendChild(tableHeadRowCountCell);
+    }
   }
 
   // create the header row cells for total labels
   for (const label of totalCols.labels) {
     // create new table head row cell
     const tableHeadRowTotalCell = document.createElement('th');
-    tableHeadRowTotalCell.setAttribute('type', totalCols.type);
     tableHeadRowTotalCell.textContent = label;
+    if (label.slice(0, 1) === '%') {
+      tableHeadRowTotalCell.setAttribute('type', 'percent');
+    } else {
+      tableHeadRowTotalCell.setAttribute('type', totalCols.type);
+    }
     tableHeadRow.appendChild(tableHeadRowTotalCell);
   }
 
   // reset data counts
   let dataCounts = {};
   for (const key of dataCols.keys) {
-    dataCounts[key] = 0;
+    // create data count if data col label is non empty
+    if (dataCols.labels[dataCols.keys.indexOf(key)] !== '') {
+      dataCounts[key] = 0;
+    }
   }
 
   // reset total counts
@@ -219,7 +280,6 @@ function updateTableView(
     if (stats.year[currYear] >= startYear && stats.year[currYear] <= endYear) {
       // create new row for current year
       const newRow = document.createElement('tr');
-
       // create new cell with current year
       const newYearCell = document.createElement('td');
       newYearCell.setAttribute('type', 'year');
@@ -232,21 +292,24 @@ function updateTableView(
       for (const key of totalCols.keys) {
         yearTotalCounts[key] = 0;
       }
-
       // create cells with data cols
       for (const key of dataCols.keys) {
-        // create new table cell
-        const newCell = document.createElement('td');
-        // assign result of data val function to new cell
-        const dataVal = getKeyDataVal(stats, currYear, key);
-        newCell.textContent = dataVal;
-        newCell.setAttribute('type', dataCols.type);
-        // add new cell to current row
-        newRow.appendChild(newCell);
-
-        // increment data count with data val
-        dataCounts[key] += dataVal;
-
+        // create table cell if data col label is non empty
+        if (dataCols.labels[dataCols.keys.indexOf(key)] !== '') {
+          const dataVal =
+            scores === null
+              ? getKeyDataVal(stats, currYear, key)
+              : getKeyDataVal(stats, currYear, key, scores);
+          // increment data count with data val
+          dataCounts[key] += dataVal;
+          // create new table cell
+          const newCell = document.createElement('td');
+          // assign result of data val function to new cell
+          newCell.textContent = formatNumber(dataVal, 3);
+          newCell.setAttribute('type', dataCols.type);
+          // add new cell to current row
+          newRow.appendChild(newCell);
+        }
         // increment year total counts
         yearTotalCounts = updateYearTotalCounts(
           yearTotalCounts,
@@ -255,30 +318,38 @@ function updateTableView(
           key
         );
       }
-
-      // create cells with total cols
-      for (const key of totalCols.keys) {
-        // create new table cell
-        const newCell = document.createElement('td');
-        // assign year total count to new cell
-        newCell.textContent = yearTotalCounts[key];
-        newCell.setAttribute('type', totalCols.type);
-        // add new cell to current row
-        newRow.appendChild(newCell);
-
-        // increment total count
-        totalCounts[key] += yearTotalCounts[key];
-      }
-
-      // add current row to table body
-      tableBody.appendChild(newRow);
-
       // update total stats
       totalStats = updateTotalStats(
         totalStats,
         yearTotalCounts,
         stats.year[currYear]
       );
+      // create cells with total cols
+      for (const key of totalCols.keys) {
+        // create new table cell
+        const newCell = document.createElement('td');
+        // assign year total count to new cell
+        if (key.slice(0, 1) === 'p') {
+          newCell.textContent = formatNumber(
+            totalStats[key].countList[currYear],
+            1
+          );
+          newCell.setAttribute('type', 'percent');
+        } else {
+          // newCell.textContent = formatNumber(yearTotalCounts[key], 3);
+          newCell.textContent = formatNumber(
+            totalStats[key].countList[currYear],
+            3
+          );
+          newCell.setAttribute('type', totalCols.type);
+        }
+        // add new cell to current row
+        newRow.appendChild(newCell);
+        // increment total count
+        totalCounts[key] += yearTotalCounts[key];
+      }
+      // add current row to table body
+      tableBody.appendChild(newRow);
     }
   }
 
@@ -296,11 +367,31 @@ function updateTableView(
     totalStats,
     (col, dataCounts, totalCounts) => {
       if (Object.keys(dataCounts).includes(col)) {
-        return { type: 'data', content: dataCounts[col] };
+        return { type: 'data', content: formatNumber(dataCounts[col], 3) };
       } else {
-        return { type: 'total', content: totalCounts[col] };
+        const colChar = col.slice(0, 1);
+        if (colChar === 'p') {
+          // handle percentage total col
+          const totCol = 'tot' + col.slice(4);
+          const totPercVal = (totalCounts[totCol] / totalCounts.tot) * 100;
+          return {
+            type: 'percent',
+            content: formatNumber(totPercVal, 1),
+          };
+        } else {
+          return { type: 'total', content: formatNumber(totalCounts[col], 2) };
+        }
       }
     }
+  );
+
+  addTableStatsRows(
+    tableFoot,
+    dataCounts,
+    totalCounts,
+    totalStats,
+    'stats',
+    'none'
   );
 
   // create stats checkbox input listener
@@ -308,15 +399,15 @@ function updateTableView(
   statsInput.addEventListener('change', function () {
     if (endYear - startYear > 0) {
       if (this.checked) {
-        addTableStatsRows(
-          tableFoot,
-          dataCounts,
-          totalCounts,
-          totalStats,
-          'stats'
-        );
+        const statsRows = document.querySelectorAll('[tag="stats"]');
+        for (const statRow of statsRows) {
+          statRow.style.display = '';
+        }
       } else {
-        removeTableFooter(tableFoot, 'stats');
+        const statsRows = document.querySelectorAll('[tag="stats"]');
+        for (const statRow of statsRows) {
+          statRow.style.display = 'none';
+        }
       }
     }
   });
@@ -334,7 +425,8 @@ function addTableStatsRows(
   dataCounts,
   totalCounts,
   totalStats,
-  tag
+  tag,
+  display = ''
 ) {
   // mean row
   addTableFootRow(
@@ -345,18 +437,22 @@ function addTableStatsRows(
     totalCounts,
     totalStats,
     (col, dataCounts, totalCounts, totalStats) => {
+      // console.log('col', col, 'totalCounts', totalCounts);
       if (Object.keys(totalCounts).includes(col)) {
+        const colContent =
+          col.slice(0, 1) === 'p'
+            ? totalStats[col].countList.mean().toFixed(1)
+            : totalStats[col].countList.mean().toFixed(2);
         return {
           type: 'total',
-          content: totalStats[col].countList
-            .mean()
-            .toFixed(2)
-            .replace('.', ','),
+          content: colContent,
+          // .replace('.', ','),
         };
       } else {
         return { type: 'data', content: '' };
       }
-    }
+    },
+    display
   );
 
   // median row
@@ -369,17 +465,20 @@ function addTableStatsRows(
     totalStats,
     (col, dataCounts, totalCounts, totalStats) => {
       if (Object.keys(totalCounts).includes(col)) {
+        const colContent =
+          col.slice(0, 1) === 'p'
+            ? totalStats[col].countList.median().toFixed(1)
+            : totalStats[col].countList.mean().toFixed(2);
         return {
           type: 'total',
-          content: totalStats[col].countList
-            .median()
-            .toFixed(2)
-            .replace('.', ','),
+          content: colContent,
+          // .replace('.', ','),
         };
       } else {
         return { type: 'data', content: '' };
       }
-    }
+    },
+    display
   );
 
   // trend row
@@ -392,19 +491,20 @@ function addTableStatsRows(
     totalStats,
     (col, dataCounts, totalCounts, totalStats) => {
       if (Object.keys(totalCounts).includes(col)) {
+        const colContent = linearRegression(
+          totalStats[col].yearList,
+          totalStats[col].countList
+        ).slope.toFixed(2);
         return {
           type: 'total',
-          content: linearRegression(
-            totalStats[col].yearList,
-            totalStats[col].countList
-          )
-            .slope.toFixed(2)
-            .replace('.', ','),
+          content: colContent,
+          // .replace('.', ','),
         };
       } else {
         return { type: 'data', content: '' };
       }
-    }
+    },
+    display
   );
 
   // best year row
@@ -425,13 +525,14 @@ function addTableStatsRows(
       } else {
         return { type: 'data', content: '' };
       }
-    }
+    },
+    display
   );
 }
 
-function removeTableFooter(tableFoot, footTag) {
-  removeElements(`[tag='${footTag}']`);
-}
+// function removeTableFooter(tableFoot, footTag) {
+//   removeElements(`[tag='${footTag}']`);
+// }
 
 function addTableFootRow(
   tableFoot,
@@ -440,11 +541,12 @@ function addTableFootRow(
   dataCounts,
   totalCounts,
   totalStats,
-  getCellContentType
+  getCellContentType,
+  display = ''
 ) {
   // create table footer row
   const tableFootRow = document.createElement('tr');
-  tableFootRow.setAttribute('tag', footTag);
+  setAttributes(tableFootRow, { tag: footTag, style: `display: ${display};` });
   tableFoot.appendChild(tableFootRow);
 
   // create the first footer row cell (for the row label)
@@ -466,8 +568,11 @@ function addTableFootRow(
         totalStats
       );
       // set cell type
-      tableFootRowCell.setAttribute('type', cellContentType.type);
-      // set cell content
+      if (col.slice(0, 1) === 'p') {
+        tableFootRowCell.setAttribute('type', 'percent');
+      } else {
+        tableFootRowCell.setAttribute('type', cellContentType.type);
+      }
       tableFootRowCell.textContent = cellContentType.content;
       // add new foot row cell to table footer row
       tableFootRow.appendChild(tableFootRowCell);

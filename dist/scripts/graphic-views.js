@@ -1,3 +1,7 @@
+//
+// graphic views lib
+//
+
 function updateQualisGraphicView(stats, startYear, endYear) {
   const dataCounts = {
     A: {
@@ -20,9 +24,10 @@ function updateQualisGraphicView(stats, startYear, endYear) {
   };
 
   const chartOptions = {
+    id: 'qualis-chart',
     legend: {
       display: true,
-      label: 'Estrato Qualis',
+      label: 'Estrato',
       labels: {
         padding: 20,
       },
@@ -30,80 +35,160 @@ function updateQualisGraphicView(stats, startYear, endYear) {
     yStepSize: 1,
   };
 
+  const removeTags = ['view'];
+
   updateGraphicView(
     stats,
+    removeTags,
     dataCounts,
     chartOptions,
     startYear,
     endYear,
     // updateYearCounts function
-    (yearCounts, stats, key, currYear) => {
+    (dataCounts, yearCounts, stats, key, currYear) => {
       // get key's first character
       const keyChar = key.slice(0, 1);
-      // increment year counts based on key's first character
-      const countVal = stats[key][currYear];
-      yearCounts[keyChar] += countVal;
-      yearCounts.tot += countVal;
+      if (keyChar in dataCounts) {
+        // increment year counts based on key's first character
+        const countVal = stats[key][currYear];
+        yearCounts[keyChar] += countVal;
+        yearCounts.tot += countVal;
+      }
       // return updated year counts
       return yearCounts;
     }
   );
 }
 
-function updateScoreGraphicView(stats, startYear, endYear) {
+function updateScoreGraphicView(stats, areaData, startYear, endYear) {
   const dataCounts = {
-    Pontos: {
+    A: {
       background: '#415e98', // 10% white over #2c4c8c - see https://colorkit.co/color-shades-generator/2c4c8c/
       border: 'white',
     },
+    B: {
+      background: '#8094ba', // 40% white over #2c4c8c
+      border: 'white',
+    },
+    // Pontos: {
+    //   background: '#415e98', // 10% white over #2c4c8c - see https://colorkit.co/color-shades-generator/2c4c8c/
+    //   border: 'white',
+    // },
     tot: {},
   };
 
   const chartOptions = {
+    id: 'score-chart',
     legend: {
       display: true,
-      label: 'Pontuação Qualis',
+      label: 'Estrato',
       labels: {
         padding: 20,
-        generateLabels: function (chart) {
-          const originalLabels =
-            Chart.defaults.plugins.legend.labels.generateLabels(chart);
-          // Modify the label text
-          for (var i = 0; i < originalLabels.length; i++) {
-            originalLabels[i].text = 'Pontos acumulados';
-          }
-          return originalLabels;
-        },
+        // generateLabels: function (chart) {
+        //   const originalLabels =
+        //     Chart.defaults.plugins.legend.labels.generateLabels(chart);
+        //   // Modify the label text
+        //   for (var i = 0; i < originalLabels.length; i++) {
+        //     originalLabels[i].text = 'Pontos acumulados';
+        //   }
+        //   return originalLabels;
+        // },
       },
     },
-    yStepSize: 10,
+    yStepSize: Object.values(areaData.scores).max() < 10 ? 1 : 10,
   };
+
+  const removeTags = ['view'];
 
   updateGraphicView(
     stats,
+    removeTags,
     dataCounts,
     chartOptions,
     startYear,
     endYear,
     // updateYearCounts function
-    (yearCounts, stats, key, currYear) => {
-      // increment year counts based on key's Qualis score
-      const countVal = getQualisScore(key, stats[key][currYear]);
-      yearCounts.Pontos += countVal;
-      yearCounts.tot += countVal;
+    (dataCounts, yearCounts, stats, key, currYear) => {
+      // get key's first character
+      const keyChar = key.slice(0, 1);
+      if (keyChar in dataCounts) {
+        // increment year counts based on key's first character
+        const countVal = stats[key][currYear];
+        yearCounts[keyChar] += countVal;
+        yearCounts.tot += countVal;
+      }
+      // yearCounts.Pontos += countVal;
       // return updated year counts
       return yearCounts;
     }
   );
+
+  // insert or update area scores source and link after score chart
+  const scoreChart = document.getElementById('score-chart');
+  const messageHTML = `Fonte da pontuação: <a href="${areaData.source.url}" target="_blank" title="Visualizar ${areaData.source.label}">${areaData.source.label}</a> da ${areaData.label} (ano-base: ${areaData.base_year})`;
+  insertMessageAfter(scoreChart, messageHTML, 'area-scores-source', 'view');
 }
+
+// function updateJcrGraphicView(stats, startYear, endYear) {
+//   const dataCounts = {
+//     JCR: {
+//       background: '#415e98', // 10% white over #2c4c8c - see https://colorkit.co/color-shades-generator/2c4c8c/
+//       border: 'white',
+//     },
+//     tot: {},
+//   };
+
+//   const chartOptions = {
+//     id: 'jcr-chart',
+//     legend: {
+//       display: true,
+//       label: '',
+//       labels: {
+//         padding: 20,
+//         generateLabels: function (chart) {
+//           const originalLabels =
+//             Chart.defaults.plugins.legend.labels.generateLabels(chart);
+//           // Modify the label text
+//           for (var i = 0; i < originalLabels.length; i++) {
+//             originalLabels[i].text = 'JCR acumulado';
+//           }
+//           return originalLabels;
+//         },
+//       },
+//     },
+//     yStepSize: 1,
+//   };
+
+//   const removeTags = ['view'];
+
+//   updateGraphicView(
+//     stats,
+//     removeTags,
+//     dataCounts,
+//     chartOptions,
+//     startYear,
+//     endYear,
+//     // updateYearCounts function
+//     (yearCounts, stats, key, currYear) => {
+//       // increment year counts based on JCR
+//       const countVal = stats[key][currYear];
+//       yearCounts.JCR += countVal;
+//       yearCounts.tot += countVal;
+//       // return updated year counts
+//       return yearCounts;
+//     }
+//   );
+// }
 
 function updateGraphicView(
   stats,
+  removeTags,
   dataCounts,
   chartOptions,
   startYear,
   endYear,
-  updateYearCounts
+  updateYearCounts,
+  scores = null
 ) {
   // reset total stats
   let totalStats = {};
@@ -116,17 +201,20 @@ function updateGraphicView(
   }
 
   // get stats input state (if available)
-  const statsState = getStatsInputState('stats');
+  const statsState = getInputState('stats');
   // console.log(statsState);
 
-  // delete current view if it already exists
-  removeElements("[tag='view']");
-
+  // remove elements with given tags
+  for (const tag of removeTags) {
+    removeElements(`[tag="${tag}"]`);
+  }
   // create stats check box
   const form = document.querySelector('#form-filters');
-  createStatsCheckboxes(form, [
-    { id: 'stats-input', label: 'Exibir estatísticas' },
-  ]);
+  createCheckBoxes(
+    form,
+    [{ id: 'stats-input', label: 'Exibir estatísticas' }],
+    'view'
+  );
 
   // calculate author stats for the selected period
   for (let currYear = 0; currYear < stats.year.length; currYear++) {
@@ -143,11 +231,17 @@ function updateGraphicView(
           continue;
         }
         // increment year counts
-        yearCounts = updateYearCounts(yearCounts, stats, key, currYear);
+        yearCounts = updateYearCounts(
+          dataCounts,
+          yearCounts,
+          stats,
+          key,
+          currYear
+        );
       }
 
       // update total stats
-      console.log('yearCounts: ', yearCounts);
+      // console.log('yearCounts: ', yearCounts);
       totalStats = updateTotalStats(
         totalStats,
         yearCounts,
@@ -162,7 +256,7 @@ function updateGraphicView(
 
   // create canvas element
   const canvas = document.createElement('canvas');
-  canvas.setAttribute('tag', 'view');
+  setAttributes(canvas, { id: chartOptions.id, tag: 'view' });
 
   // add canvas to view div
   div.append(canvas);
@@ -182,7 +276,7 @@ function updateGraphicView(
         yMax: mean,
         yScaleID: 'y',
         label: {
-          content: 'Média ' + mean.replace('.', ','),
+          content: 'Média ' + mean,
           position: 'end',
           padding: 4,
           backgroundColor: 'rgba(44, 76, 140, 0.7)', // 'rgba(0, 0, 0, 0.7)',
@@ -212,7 +306,7 @@ function updateGraphicView(
         yMax: median,
         yScaleID: 'y',
         label: {
-          content: 'Mediana ' + median.replace('.', ','),
+          content: 'Mediana ' + median,
           position: '50%',
           // xAdjust: 50,
           padding: 4,
@@ -269,7 +363,7 @@ function updateGraphicView(
         yMax: maxPoint.y.toFixed(2),
         yScaleID: 'y',
         label: {
-          content: 'Tendência ' + regression.slope.toFixed(2).replace('.', ','),
+          content: 'Tendência ' + regression.slope.toFixed(2),
           position: 'end',
           padding: 4,
           backgroundColor: 'rgba(44, 76, 140, 0.7)', // 'rgba(0, 0, 0, 0.7)',
@@ -323,40 +417,6 @@ function updateGraphicView(
     const statsInput = document.querySelector('#stats-input');
     statsInput.checked = statsState;
     statsInput.dispatchEvent(new Event('change'));
-  }
-}
-
-function getStatsInputState(tag) {
-  // attempt to get stat input element
-  const statsInput = document.querySelector('#' + tag + '-input');
-
-  return statsInput ? statsInput.checked : false;
-}
-
-function createStatsCheckboxes(parentElem, boxes) {
-  for (const box of boxes) {
-    // create box input element
-    const boxInput = document.createElement('input');
-    setAttributes(boxInput, {
-      type: 'checkbox',
-      id: box.id,
-      tag: 'view',
-    });
-
-    // add box input immediately after sibling element
-    parentElem.insertAdjacentElement('beforeend', boxInput);
-
-    // create box label
-    const boxLabel = document.createElement('label');
-    setAttributes(boxLabel, {
-      for: box.id,
-      id: box.id + '-label',
-      tag: 'view',
-    });
-    boxLabel.textContent = box.label;
-
-    // add box label immediately after box input
-    insertAfter(boxInput, boxLabel);
   }
 }
 

@@ -1,0 +1,68 @@
+[
+  {
+    "issn": "0083-7792",
+    "title": "WEBBIA",
+    "qualis": "B1",
+    "alt_issn": "2169-4060"
+  },
+  {
+    "issn": "0101-6040",
+    "title": "REVISTA DAE",
+    "qualis": "B1",
+    "alt_issn": "2675-4959"
+  },
+  {
+    "issn": "1057-7149",
+    "title": "IEEE TRANSACTIONS ON IMAGE PROCESSING",
+    "qualis": "A1",
+    "alt_issn": "1941-0042"
+  },
+  {
+    "issn": "2348-2451",
+    "title": "ASIAN JOURNAL OF LEGAL EDUCATION",
+    "qualis": "A2",
+    "alt_issn": "2322-0058"
+  },
+  {
+    "issn": "1130-2887",
+    "title": "AMÉRICA LATINA HOY",
+    "qualis": "A2",
+    "alt_issn": "2340-4396"
+  },
+  {
+    "issn": "1822-7864",
+    "title": "PROBLEMS OF EDUCATION IN THE 21ST CENTURY - (RECENT RESEARCH)",
+    "qualis": "A2",
+    "alt_issn": "2538-7111"
+  },
+  {
+    "issn": "1556-6013",
+    "title": "IEEE TRANSACTIONS ON INFORMATION FORENSICS AND SECURITY",
+    "qualis": "A1",
+    "alt_issn": "1556-6021"
+  },
+  {
+    "issn": "1548-1603",
+    "title": "GISCIENCE AND REMOTE SENSING",
+    "qualis": "A1",
+    "alt_issn": "1943-7226"
+  },
+  {
+    "issn": "2236-3297",
+    "title": "JOURNAL ON 3D INTERACTIVE SYSTEMS",
+    "area": "CIÊNCIA DA COMPUTAÇÃO",
+    "alt_issn": "2763-7719"
+  },
+  {
+    "issn": "0098-5589",
+    "title": "IEEE TRANSACTIONS ON SOFTWARE ENGINEERING",
+    "qualis": "A1",
+    "alt_issn": "1939-3520"
+  },
+  {
+    "issn": "1523-2867",
+    "title": "ACM SIGPLAN NOTICES",
+    "qualis": "A2",
+    "alt_issn": "0362-1340"
+  }
+]

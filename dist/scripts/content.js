@@ -1,20 +1,39 @@
-(async () => await main())();
+// Wait for all images to load
+window.addEventListener('load', function () {
+  // Execute content script
+  (async () => await main())();
+});
 
 async function main() {
   // Start the timer
   console.time('Execution time');
 
-  // Define data source paths, texts, URLs and base years
-  const dataSourceInfo = {
+  // inject dependencies into Lattes page
+  const dependencies = [
+    {
+      type: 'css',
+      url: 'https://use.fontawesome.com/releases/v6.2.1/css/all.css',
+    },
+  ];
+  injectDependencies(dependencies);
+
+  // Define Qualis data source paths, texts, URLs and base years
+  const qualisDataSourceInfo = {
     capes: {
       pathList: ['data/qualis-capes-2017-2020.json'],
-      text: 'Qualis/CAPES',
+      label: 'Qualis/CAPES',
+      url: 'https://sucupira.capes.gov.br/sucupira/public/consultas/coleta/veiculoPublicacaoQualis/listaConsultaGeralPeriodicos.jsf',
+      baseYear: '2020',
+    },
+    capes_alt: {
+      pathList: ['data/qualis-capes-2017-2020-complemento.json'],
+      label: 'Qualis/CAPES (via ISSN alternativo)',
       url: 'https://sucupira.capes.gov.br/sucupira/public/consultas/coleta/veiculoPublicacaoQualis/listaConsultaGeralPeriodicos.jsf',
       baseYear: '2020',
     },
     pucrs: {
       pathList: ['data/qualis-pucrs-2022.json'],
-      text: 'Qualis/PUC-RS',
+      label: 'Qualis/PUC-RS',
       url: 'https://ppgcc.github.io/discentesPPGCC/pt-BR/qualis/',
       baseYear: '2021',
     },
@@ -23,35 +42,51 @@ async function main() {
         'data/scopus-citescore-2011-2020-part-1.json',
         'data/scopus-citescore-2011-2020-part-2.json',
       ],
-      text: 'Scopus',
+      label: 'Scopus',
       url: 'https://www.scopus.com/',
       baseYear: '2020',
     },
   };
 
-  const ImagesURLs = {
+  const imagesURLs = {
     qlattesIconURL: chrome.runtime.getURL('images/icon-16.png'),
     qlattesLogoURL: chrome.runtime.getURL('images/qlattes-logo.png'),
-    exclamationIconURL: chrome.runtime.getURL('images/exclamation-icon.png'),
+    // exclamationIconURL: chrome.runtime.getURL('images/exclamation-icon.png'),
     scopusIconURL: chrome.runtime.getURL('images/scopus-icon-16.png'),
     scholarIconURL: chrome.runtime.getURL('images/scholar-hat-icon-18.png'),
   };
 
   // define alert message (may be blank)
-  const alertMessage = `Novidades da Versão 0.1.7:</br></br>
-    <ul style="margin-left: 20px; line-height: 1.5;">
-    <li>As anotações no CV Lattes agora incluem o ícone <img
-      src="${ImagesURLs.scholarIconURL}"
-      alt="Ícone do Google Acadêmico"
-      style="margin-left: 0px; margin-bottom: -4px"
-    /> com um link para buscar o título dos artigos diretamente no Google Acadêmico; quando disponível, o link para a página do periódico no portal da Scopus também é incluído com o ícone <img
-      src="${ImagesURLs.scopusIconURL}"
-      alt="Ícone da Scopus"
-      style="margin-left: 0px; margin-bottom: -4px"
-    />.</li>
-    <li>A ferramenta agora possibilita visualizar a pontuação do Qualis na forma de tabela e gráfico, considerando os pontos de cada estrato (A1=100, A2=85, etc.) atribuídos pela CAPES. Os pontos dos estratos estão descritos na aba "Instruções de Uso" da página de visualização de dados da ferramenta.</li>
-    <li>As visualizações dos cinco e dez artigos mais bem classificados agora incluem o título dos artigos.</li>
-    </ul>`;
+  // const alertMessage = `Novidades da Versão 0.2.0:</br></br>
+  //   <ul style="margin-left: 20px; line-height: 1.5;">
+  //   <li>As anotações no CV Lattes agora incluem o ícone <img
+  //     src="${imagesURLs.scholarIconURL}"
+  //     alt="Ícone do Google Acadêmico"
+  //     style="margin-left: 0px; margin-bottom: -4px"
+  //   /> com um link para buscar o título dos artigos diretamente no Google Acadêmico; quando disponível, o link para a página do periódico no portal da Scopus também é incluído com o ícone <img
+  //     src="${imagesURLs.scopusIconURL}"
+  //     alt="Ícone da Scopus"
+  //     style="margin-left: 0px; margin-bottom: -4px"
+  //   />.</li>
+  //   <li>A ferramenta agora possibilita visualizar a pontuação do Qualis na forma de tabela e gráfico, considerando os pontos de cada estrato (A1=100, A2=85, etc.) atribuídos pela CAPES. Os pontos dos estratos estão descritos na aba "Instruções de Uso" da página de visualização de dados da ferramenta.</li>
+  //   <li>As visualizações dos cinco e dez artigos mais bem classificados agora incluem o título dos artigos.</li>
+  //   </ul>`;
+
+  // Megaphone: 1F4E3; Loud speaker: 1F4E2
+
+  const recentUpdatesHTML = `</br><span style="font-size: 1.3em; margin-bottom: -2px; display:inline-block; transform: scaleX(-1);">&#x1F4E2</span>  Últimas atualizações (versão 0.2.0 @ 2023)</br></br>
+  <ul style="margin-left: 20px; line-height: 1.5;">
+  <li>Tabelas de classificação e pontuação Qualis incluem os percentuais agregados dos estratos A e B.</li>
+  <li>Gráfico de pontuação Qualis exibe os pontos acumulados nos estratos A e B.</li>
+  <li>Pontuação Qualis dos artigos calculada de acordo com a Área do Conhecimento (quando disponível).</li>
+  <li>Opção para exportar os dados do CV para um arquivo externo no formato CSV.</li>
+  <li>Menu de seleção dos CVs ordenado alfabeticamente por nome.</li>
+  <li>Dados de um novo CV exibidos na mesma visualização selecionada para o CV anterior.</li>
+  <li>Lista de ISSNs alternativos para classificar periódicos com ISSN não incluído no Qualis da CAPES. </li>
+  <li>Redução da quantidade de abas da página de visualização de dados. Informações adicionais sobre a ferramenta estão disponíveis na <a href="https://github.com/nabormendonca/qlattes" target="_blank">página do projeto</a> no GitHub.</li>
+  <li>Correção de bugs na extração do título de artigos contendo caracteres especiais.</li>
+  </ul>
+  </br><p style="font-size: 13px; line-height: 1.5;">Omissões, erros e sugestões de melhoria podem ser comunicados por meio do formulário integrado à página de visualização de dados.</p>`;
 
   // attempt to get CV name and link from Lattes page
   const nameLink = getLattesNameAndLink();
@@ -63,31 +98,86 @@ async function main() {
     return;
   }
 
-  // get data sources
-  const pucrsData = await getDataArray(dataSourceInfo, 'pucrs');
-  console.log('fetched PUC-RS data source', pucrsData);
-
-  const scopusData = await getDataArray(dataSourceInfo, 'scopus');
-  console.log('fetched Scopus data source', scopusData);
-
-  const capesData = await getDataArray(dataSourceInfo, 'capes');
-  console.log('fetched CAPES data source', capesData);
-
+  // get data sources from extension's local files
+  const qualisData = {};
+  for (const dataSource of Object.keys(qualisDataSourceInfo)) {
+    qualisData[dataSource] = await getQualisDataSourceFromFile(
+      qualisDataSourceInfo[dataSource]
+    );
+  }
   // start processing Lattes page
   processLattesPage(
     nameLink,
-    ImagesURLs,
-    alertMessage,
-    {
-      pucrs: pucrsData,
-      scopus: scopusData,
-      capes: capesData,
-    },
-    dataSourceInfo
+    imagesURLs,
+    recentUpdatesHTML,
+    qualisData,
+    qualisDataSourceInfo
   );
-
   // End the timer
   console.timeEnd('Execution time');
+}
+
+function injectDependencies(dependencies) {
+  // get page head element
+  const headElem = document.querySelector('head');
+
+  for (const dependency of dependencies) {
+    if (dependency.type == 'css') {
+      const linkElem = document.createElement('link');
+      setAttributes(linkElem, {
+        rel: 'stylesheet',
+        href: dependency.url,
+      });
+      // inject link element into page head
+      headElem.append(linkElem);
+    }
+  }
+}
+
+// fetch JSON from URL
+async function fetchJSON(url) {
+  var json = [];
+
+  // fetch url
+  const response = await fetch(url);
+
+  // check response status
+  if (response.status === 200) {
+    // get response contents
+    json = await response.json();
+  } else {
+    // log response status code and text
+    console.log(response.status);
+    console.log(response.statusText);
+  }
+
+  return json;
+}
+
+async function getQualisDataSourceFromFile(dataSource) {
+  let outputData = [];
+
+  // read data source from file(s)
+  for (const dataSourcePath of dataSource.pathList) {
+    // get data source url
+    const dataSourceUrl = chrome.runtime.getURL(dataSourcePath);
+
+    // read data source from url
+    const data = await fetchJSON(dataSourceUrl);
+    console.log(
+      `fetched file ${dataSourcePath} of data source ${dataSource.label}`
+    );
+
+    // concat data source into output data array
+    outputData = outputData.concat(data);
+  }
+  console.log(
+    `Data source "${dataSource.label}" has size ${
+      new Blob([JSON.stringify(outputData)]).size
+    }`
+  );
+
+  return outputData;
 }
 
 function getLattesNameAndLink() {
@@ -110,63 +200,24 @@ function getLattesNameAndLink() {
   return { name, link };
 }
 
-async function getDataArray(dataSourceInfo, dataSourceName) {
-  let dataArray = [];
-
-  // read data source from file(s)
-  for (const dataSourcePath of dataSourceInfo[dataSourceName].pathList) {
-    // get data source url
-    const dataSourceUrl = chrome.runtime.getURL(dataSourcePath);
-
-    // read data source from url
-    const dataSource = await fetchJSON(dataSourceUrl);
-    console.log(
-      `fetched file ${dataSourcePath} of data source ${dataSourceName}`
-    );
-
-    // concat data source into output data array
-    dataArray = dataArray.concat(dataSource);
-  }
-  console.log(
-    `Array ${dataSourceName} size: ${
-      new Blob([JSON.stringify(dataArray)]).size
-    }`
-  );
-
-  return dataArray;
-}
-
-async function fetchJSON(url) {
-  var json = [];
-
-  // fetch url
-  const response = await fetch(url);
-
-  // check response status
-  if (response.status === 200) {
-    // get response contents
-    json = await response.json();
-  } else {
-    // log response status code and text
-    console.log(response.status);
-    console.log(response.statusText);
-  }
-
-  return json;
-}
-
 async function processLattesPage(
   nameLink,
-  ImagesURLs,
-  alertMessage,
+  imagesURLs,
+  recentUpdatesHTML,
   qualisData,
   dataSourceInfo
 ) {
   console.log(qualisData);
 
-  // do not process Lattes page if already annotated
-  const alertDiv = document.querySelector('#annotation-alert-div');
-  if (alertDiv) return;
+  // // do not process Lattes page if already annotated
+  // const alertDiv = document.querySelector('#annotation-alert-div');
+  // if (alertDiv) return;
+
+  // get visualization page URL
+  const visualizationURL = chrome.runtime.getURL('html/visualization.html');
+
+  // inject alert div into Lattes page
+  injectAnnotationDiv(imagesURLs, visualizationURL);
 
   // reset Qualis data cache
   var qualisDataCache = {};
@@ -174,7 +225,7 @@ async function processLattesPage(
   // Annotate Lattes page with Qualis classification
   // and return annotated Lattes info
   const lattesInfo = annotateLattesPage(
-    ImagesURLs,
+    imagesURLs,
     qualisData,
     qualisDataCache,
     dataSourceInfo
@@ -182,12 +233,17 @@ async function processLattesPage(
 
   // inject annotation alert into Lattes page
   if (lattesInfo) {
-    injectAnnotationAlert(ImagesURLs, alertMessage);
+    injectAnnotationMessage(
+      imagesURLs,
+      visualizationURL,
+      recentUpdatesHTML,
+      lattesInfo.length
+    );
   }
 
-  // Consolidate Lattes stats from Lattes info
-  const statsInfo = consolidateQualisResults(lattesInfo);
-  console.log(statsInfo);
+  // Consolidate publication data from Lattes info
+  const pubInfo = consolidateQualisData(lattesInfo);
+  console.log('pubInfo:', pubInfo);
 
   // attempt to read Lattes data from local storage area
   const lattesData = await chrome.storage.local.get('lattes_data');
@@ -204,63 +260,85 @@ async function processLattesPage(
     );
   }
   // add current Lattes data to Lattes data array
-  lattesDataArray.push({ nameLink: nameLink, statsInfo: statsInfo });
+  lattesDataArray.push({ nameLink: nameLink, pubInfo: pubInfo });
 
   // Save Lattes data array to local storage area
   await chrome.storage.local.set({ lattes_data: lattesDataArray });
-  console.log('Lattes name, link, stats saved!');
+  console.log('Lattes name, link, publication info saved!');
 }
 
 // Annotate and extract journal info form Lattes page
 function annotateLattesPage(
-  ImagesURLs,
+  imagesURLs,
   qualisData,
   qualisDataCache,
   dataSourceInfo
 ) {
   console.log('Searching for journal publications...');
   //console.log(qualisData);
+  var qualisInfo = [];
+  qualisInfo = annotatePublishedArticles(
+    imagesURLs,
+    qualisData,
+    qualisDataCache,
+    dataSourceInfo
+  );
+  // qualisinfo = qualisInfo.concat(
+  //   annotateAcceptedArticles(
+  //     imagesURLs,
+  //     qualisData,
+  //     qualisDataCache,
+  //     dataSourceInfo
+  //   )
+  // );
+  return qualisInfo;
+}
 
-  // get search first element
+function annotatePublishedArticles(
+  imagesURLs,
+  qualisData,
+  qualisDataCache,
+  dataSourceInfo
+) {
+  // get first published paper element
   const startElem = document.querySelector("div[id='artigos-completos']");
 
-  // may return null if the selector doesn't match anything.
+  // return empty array if there is no published paper in the CV
   if (!startElem) return [];
 
   const qualisInfo = [];
 
-  // find all full articles
+  // find all published articles
   const pubElems = startElem.querySelectorAll("div[class='artigo-completo']");
 
   for (const pubElem of pubElems) {
     //console.log(pubElem);
-
     const qualisPubInfo = {
       year: NaN,
       issn: '',
       title: '',
       pubName: '',
       qualisLabels: '',
+      jcrData: {},
     };
-
     // get year of publication
     qualisPubInfo.year = parseInt(
       pubElem.querySelector(
         "span[class='informacao-artigo'][data-tipo-ordenacao='ano']"
       ).textContent
     );
-
     // skip current element if it has no year value
     if (isNaN(qualisPubInfo.year)) continue;
-
-    // get last item of journal element
-    const pubElemLastItem = pubElem.querySelector('div[cvuri]');
-
-    if (pubElemLastItem) {
+    // get publication data
+    const pubElemData = pubElem.querySelector('div[cvuri]');
+    if (pubElemData) {
       // get Journal info items
-      const pubInfoString = escapeHtml(pubElemLastItem.getAttribute('cvuri'));
-      const pubInfoItems = pubInfoString.split(/\?(?!&)|&(?=\w+)/);
-
+      const pubInfoString = escapeHtml(pubElemData.getAttribute('cvuri'))
+        .split('?')
+        .slice(1)
+        .join('?')
+        .replace(/<\/?monospace>/gi, '');
+      const pubInfoItems = pubInfoString.split(/&(?=\w+)/);
       for (const pubInfoItem of pubInfoItems) {
         // get journal ISSN
         if (pubInfoItem.includes('issn=')) {
@@ -269,12 +347,11 @@ function annotateLattesPage(
             ? issnStr.substring(0, 4) + '-' + issnStr.substring(4, 8)
             : '';
         }
-
         // get paper title
         if (pubInfoItem.includes('titulo=')) {
           qualisPubInfo.title = pubInfoItem.split('titulo=')[1];
+          // console.log('title:', qualisPubInfo.title);
         }
-
         // get publication name
         if (pubInfoItem.includes('nomePeriodico=')) {
           qualisPubInfo.pubName = pubInfoItem.split('nomePeriodico=')[1];
@@ -282,7 +359,6 @@ function annotateLattesPage(
           qualisPubInfo.pubName = qualisPubInfo.pubName.toUpperCase();
         }
       }
-
       // get journal Qualis classification labels
       const qualisLabels = getQualis(
         qualisPubInfo.issn,
@@ -291,27 +367,36 @@ function annotateLattesPage(
         qualisDataCache,
         dataSourceInfo
       );
-
-      // // use journal name in Qualis labels if available
-      // if (qualisLabels.pubName) {
-      //   qualisPubInfo.pubName = qualisLabels.pubName;
-      // }
-
       // add Qualis labels to Qualis info list
       qualisPubInfo.qualisLabels = qualisLabels;
+      // get JCR data
+      const jcrData = pubElem.querySelector('img[class="ajaxJCR jcrTip"]');
+      console.log('JCR data:', jcrData);
+      if (jcrData) {
+        const jcrRegex = /JCR\s+(\d{4})\):\s+([\d.]+)/;
+        const match = jcrRegex.exec(jcrData.getAttribute('original-title'));
+        console.log('JCR match:', match);
+        if (match && match.length == 3) {
+          qualisPubInfo.jcrData = {
+            jcr: match[2],
+            baseYear: match[1],
+          };
+        } else {
+          console.log('No JCR match found');
+        }
+      }
 
       // inject Qualis info into Lattes page
       injectQualisAnnotation(
-        pubElemLastItem,
+        pubElemData,
         qualisPubInfo,
-        ImagesURLs,
+        imagesURLs,
         dataSourceInfo
       );
     }
     // add journal info to JourInfoList
     qualisInfo.push(qualisPubInfo);
   }
-
   return qualisInfo;
 }
 
@@ -344,8 +429,8 @@ function getQualis(issn, pubName, qualisData, qualisDataCache, dataSourceInfo) {
     return qualisDataCache[issn];
   } else {
     // check whether an alternative issn exists and is in data cache
-    altIssn = getAlternativeIssn(issn, qualisData.scopus);
-    if (altIssn.length && altIssn in qualisDataCache) {
+    altIssn = getAlternativeIssn(issn, qualisData.capes_alt, qualisData.scopus);
+    if (altIssn !== '' && altIssn in qualisDataCache) {
       return qualisDataCache[altIssn];
     }
   }
@@ -375,38 +460,53 @@ function getQualis(issn, pubName, qualisData, qualisDataCache, dataSourceInfo) {
       // search for issn in Scopus data source
       qualisLabels = getQualisFromScopusData(
         issn,
+        altIssn,
         qualisData.scopus,
         dataSourceInfo
       );
     }
   }
-
   // add labels to Qualis cache
   qualisDataCache.issn = qualisLabels;
 
-  if (altIssn.length) {
+  if (altIssn !== '') {
     qualisDataCache.altIssn = qualisLabels;
   }
 
-  console.log({ qualisLabels });
+  // console.log({ qualisLabels });
 
   return qualisLabels;
 }
 
-function getAlternativeIssn(issn, scopusData) {
-  // search for issn in Scopus data
-  var match = scopusData.find(
-    (elem) => elem.issn == issn || elem['e-issn'] == issn
+function getAlternativeIssn(issn, capesAltData, scopusData) {
+  // search for issn in Capes complementary data
+  var match = capesAltData.find(
+    (elem) => elem.issn === issn || elem.alt_issn === issn
   );
-
-  if (!match) return '';
-
-  if (match['e-issn'].length && match['e-issn'] != issn) {
-    return match['e-issn'];
-  } else if (match.issn.length > 0 && match.issn != issn) {
-    return match.issn;
+  if (match) {
+    if (match.alt_issn !== issn) {
+      return match.alt_issn;
+    } else if (match.issn !== issn) {
+      return match.issn;
+    } else {
+      return '';
+    }
   } else {
-    return '';
+    // search for issn in Scopus data
+    match = scopusData.find(
+      (elem) => elem.issn === issn || elem['e-issn'] === issn
+    );
+    if (match) {
+      if (match['e-issn'].length && match['e-issn'] !== issn) {
+        return match['e-issn'];
+      } else if (match.issn.length > 0 && match.issn !== issn) {
+        return match.issn;
+      } else {
+        return '';
+      }
+    } else {
+      return '';
+    }
   }
 }
 
@@ -429,26 +529,31 @@ function getQualisFromCapesData(
   };
 
   // search for issn in CAPES data source
-  var match = capesData.find(
-    (elem) => elem.issn == issn || (altIssn && elem.issn == altIssn)
-  );
+  var match = capesData.find((elem) => elem.issn === issn);
+  if (match) {
+    qualisLabels.source = 'capes';
+  } else if (altIssn !== '') {
+    match = capesData.find((elem) => elem.issn === altIssn);
+    if (match) {
+      qualisLabels.source = 'capes_alt';
+    }
+  }
 
   if (match) {
-    console.log(match);
-
+    // console.log(match);
     // assign matched CAPES data to empty Qualis labels
     qualisLabels.qualis = match.qualis;
     qualisLabels.pubName = match.title.toUpperCase();
-    qualisLabels.source = 'capes';
-    qualisLabels.baseYear = dataSourceInfo.capes.baseYear;
+    qualisLabels.baseYear = dataSourceInfo[qualisLabels.source].baseYear;
 
     // attempt to get link to Scopus for issn
     const qualisLabelsScopus = getQualisFromScopusData(
       issn,
+      altIssn,
       scopusData,
       dataSourceInfo
     );
-    console.log(qualisLabelsScopus);
+    // console.log(qualisLabelsScopus);
 
     if (qualisLabelsScopus.qualis != 'N') {
       qualisLabels.linkScopus = qualisLabelsScopus.linkScopus;
@@ -508,7 +613,7 @@ function getQualisFromPucrsData(
   return qualisLabels;
 }
 
-function getQualisFromScopusData(issn, scopusData, dataSourceInfo) {
+function getQualisFromScopusData(issn, altIssn, scopusData, dataSourceInfo) {
   // set default labels
   const qualisLabels = {
     pubName: '',
@@ -524,10 +629,14 @@ function getQualisFromScopusData(issn, scopusData, dataSourceInfo) {
   var match = scopusData.find(
     (elem) => elem.issn == issn || elem['e-issn'] == issn
   );
+  if (!match && altIssn !== '') {
+    match = scopusData.find(
+      (elem) => elem.issn == altIssn || elem['e-issn'] == altIssn
+    );
+  }
 
   if (match) {
-    console.log(match);
-
+    // console.log(match);
     // assign matched Scopus data to empty Qualis labels
     qualisLabels.qualis = calculateQualisFromPercentil(match.percentil);
     qualisLabels.pubName = match.title.toUpperCase();
@@ -557,39 +666,48 @@ function calculateQualisFromPercentil(percentil) {
   return 'N';
 }
 
-function injectQualisAnnotation(elem, pubInfo, ImagesURLs, dataSourceInfo) {
+function injectQualisAnnotation(elem, pubInfo, imagesURLs, dataSourceInfo) {
   // create annotation element
   const annotElem = document.createElement('p');
 
   // create QLattes icon elem
   const qlattesImgElem = document.createElement('img');
   setAttributes(qlattesImgElem, {
-    src: ImagesURLs.qlattesIconURL,
+    src: imagesURLs.qlattesIconURL,
     // style: "vertical-align:middle",
     style: 'margin-bottom:-4px',
   });
   // inject QLattes icon elem
   annotElem.insertAdjacentElement('afterbegin', qlattesImgElem);
-
   // create Qualis labels annotations
   let qualisAnnot;
-
   const issnLabel = pubInfo.issn ? `, ISSN ${pubInfo.issn}` : pubInfo.issn;
-
   if (pubInfo.qualisLabels.qualis == 'N') {
     qualisAnnot = ` Não classificado${issnLabel}`;
   } else {
-    // add ISSN label
+    // add Qualis category and ISSN
     qualisAnnot = ` ${pubInfo.qualisLabels.qualis}${issnLabel}`;
-
-    // add Data source label
-    qualisAnnot += `, fonte ${createTextLinkHTML(
-      dataSourceInfo[pubInfo.qualisLabels.source].text,
-      '',
-      dataSourceInfo[pubInfo.qualisLabels.source].url
-    )} (ano-base ${dataSourceInfo[pubInfo.qualisLabels.source].baseYear})`;
+    // add Data source and base year
+    const dataSourceLabel =
+      pubInfo.qualisLabels.source == 'capes_alt'
+        ? `${createTextLinkHTML(
+            dataSourceInfo.capes.label,
+            '',
+            dataSourceInfo.capes.url
+          )} (${
+            dataSourceInfo[pubInfo.qualisLabels.source].baseYear
+          }) via ISSN alternativo`
+        : `${createTextLinkHTML(
+            dataSourceInfo[pubInfo.qualisLabels.source].label,
+            '',
+            dataSourceInfo[pubInfo.qualisLabels.source].url
+          )} (${dataSourceInfo[pubInfo.qualisLabels.source].baseYear})`;
+    qualisAnnot += `, fonte ${dataSourceLabel}`;
+    // add JCR and base year (if available)
+    // if (Object.keys(pubInfo.jcrData).length > 0) {
+    //   qualisAnnot += `, JCR ${pubInfo.jcrData.jcr} (${pubInfo.jcrData.baseYear})`;
+    // }
   }
-
   // add icon with link to search for paper title in Google Scholar
   const baseUrl = 'https://scholar.google.com/scholar?q=';
   const titleParam =
@@ -597,20 +715,18 @@ function injectQualisAnnotation(elem, pubInfo, ImagesURLs, dataSourceInfo) {
     encodeURIComponent(pubInfo.title).replace(/%20/g, '+') +
     '%22';
   const linkScholar = `${baseUrl}${titleParam}`;
-
   qualisAnnot += ` ${createIconLinkHTML(
-    ImagesURLs.scholarIconURL,
+    imagesURLs.scholarIconURL,
     'margin-bottom:-4px',
-    'Clique para buscar a publicação no Google Acadêmico',
+    'Buscar o título da publicação no Google Acadêmico',
     linkScholar
   )}`;
-
   // add icon with link to Scopus page (if available)
   qualisAnnot += pubInfo.qualisLabels.linkScopus
     ? ` ${createIconLinkHTML(
-        ImagesURLs.scopusIconURL,
+        imagesURLs.scopusIconURL,
         'margin-bottom:-4px',
-        'Clique para visualizar a página do periódico na Scopus',
+        'Visualizar a página do periódico na Scopus',
         pubInfo.qualisLabels.linkScopus
       )}`
     : '';
@@ -621,68 +737,73 @@ function injectQualisAnnotation(elem, pubInfo, ImagesURLs, dataSourceInfo) {
   elem.insertAdjacentElement('afterend', annotElem);
 }
 
-function injectAnnotationAlert(ImagesURLs, alertMessage) {
-  // create link to font awesome stylesheet
-  const linkElem = document.createElement('link');
-  setAttributes(linkElem, {
-    rel: 'stylesheet',
-    href: 'https://use.fontawesome.com/releases/v6.2.1/css/all.css',
-  });
-
-  // get page head element
-  const headElem = document.querySelector('head');
-
-  // inject font awesome link into page head
-  headElem.append(linkElem);
-
+function injectAnnotationDiv(imagesURLs, visualizationURL) {
   // get main content div
   const mainContentDiv = document.getElementsByClassName('main-content')[0];
-
-  // get visualization page URL
-  const visualizationURL = chrome.runtime.getURL('html/visualization.html');
-
-  // create alert HTML element (class="rodape-cv" style="margin: 0px 5px; color: #326C94; font-size: 1.2em;")
-  const alertHeaderHTML = `
-  <div class="layout-cell-pad-main" style="padding: 10px 10px">
-    <div class="rodape-cv" style="margin: 0px 5px; color: #666666; font-size: 12px;">
-      <a href="${visualizationURL}" target="_blank" id="qlattes-logo" style="margin: 0px 0px;" title="Abrir QLattes">
-        <img src="${ImagesURLs.qlattesLogoURL}" width="70" style="margin-left: -3px; margin-bottom: -4px;">
-      </a>
-      anotou o Qualis dos artigos em periódicos nesta página.
-      </br>`;
-  // <i class="fa-solid fa-circle-exclamation" style="color: #FAB005; font-size: 1.6em; padding-bottom: 10px"></i>
-  // <img src="${exclamationIconURL}" width="20" style="margin-left: 0px; margin-bottom: -2px;">
-  const alertMessageHTML = alertMessage
-    ? `
-      </br> 
-      <img src="${ImagesURLs.exclamationIconURL}" width="18" style="margin-left: 0px; margin-bottom: -1px;"> ${alertMessage}
-      </br>`
-    : '';
-  const alertButtonsHTML = `
-      <a href="#artigos-completos">
-        <button style="color: #edf2f7; background-color: #3569a7; box-shadow: 1px 1px 1px #2e5469; padding: 4px 0.5em 3px; font-size: 12px; border-radius: 4px; cursor: pointer; width: 120px; text-align: left; margin-top: 10px; margin-bottom: 5px;">
-          <i class="fa-solid fa-book-open" style="font-size: 1em;"></i> Visualizar artigos
-        </button>
-      </a> 
-      <a href="${visualizationURL}" target="_blank" id="qlattes-link">
-        <button style="color: #edf2f7; background-color: #3569a7; box-shadow: 1px 1px 1px #2e5469; padding: 4px 0.5em 3px; font-size: 12px; border-radius: 4px; cursor: pointer; width: 120px; text-align: left; margin-top: 10px; margin-bottom: 5px; margin-left: 5px;">
-          <i class="fa-solid fa-square-poll-vertical" style="font-size: 1.1em;"></i>
-          Visualizar dados
-        </button>
-      </a>
-    </div>
-  </div>`;
 
   // create new alert div
   const alertDiv = document.createElement('div');
   setAttributes(alertDiv, {
     class: 'main-content max-width min-width',
-    id: 'annotation-alert-div',
+    id: 'annot-div',
   });
-  alertDiv.innerHTML = alertHeaderHTML + alertMessageHTML + alertButtonsHTML;
 
   // inject alert div into Lattes page just before the main content div
   mainContentDiv.parentNode.insertBefore(alertDiv, mainContentDiv);
+
+  console.log('Alert div injected!');
+}
+
+function injectAnnotationMessage(
+  imagesURLs,
+  visualizationURL,
+  recentUpdatesHTML,
+  pubCount
+) {
+  var annotHeaderHTML;
+  var annotButtonsHTML;
+  if (pubCount > 0) {
+    // define number of publications string
+    const pubCountString =
+      pubCount > 1 ? 'artigos em periódicos' : 'artigo em periódico';
+
+    annotHeaderHTML = `
+    <a href="${visualizationURL}" target="_blank" id="qlattes-logo" style="margin: 0px 0px;" title="Abrir QLattes">
+      <img src="${imagesURLs.qlattesLogoURL}" width="70" style="margin-left: -3px; margin-bottom: -4px;">
+    </a>
+    anotou o Qualis de ${pubCount} ${pubCountString} neste CV.
+    </br>`;
+    annotButtonsHTML = `
+    <a href="#artigos-completos">
+      <button style="color: #edf2f7; background-color: #3569a7; box-shadow: 1px 1px 1px #2e5469; padding: 4px 0.5em 3px; font-size: 12px; border-radius: 4px; cursor: pointer; width: 118px; text-align: left; margin-top: 15px; margin-bottom: 15px;">
+        <i class="fa-solid fa-note-sticky fa-flip-vertical" style="font-size: 1.1em; margin-top: 0px; margin-right: 2px;"></i> Ver anotações
+      </button>
+    </a> 
+    <a href="${visualizationURL}" target="_blank" id="qlattes-link">
+      <button style="color: #edf2f7; background-color: #3569a7; box-shadow: 1px 1px 1px #2e5469; padding: 4px 0.5em 3px; font-size: 12px; border-radius: 4px; cursor: pointer; width: 118px; text-align: left; margin-top: 10px; margin-bottom: 5px; margin-left: 5px;">
+        <i class="fa-solid fa-chart-simple" style="font-size: 1.1em; margin-top: 0px; margin-right: 2px;"></i>
+        Visualizar dados
+      </button>
+    </a>`;
+  } else {
+    annotHeaderHTML = `
+    <a href="${visualizationURL}" target="_blank" id="qlattes-logo" style="margin: 0px 0px;" title="Abrir QLattes">
+      <img src="${imagesURLs.qlattesLogoURL}" width="70" style="margin-left: -3px; margin-bottom: -4px;">
+    </a>
+    não anotou nenhuma publicação em periódico neste CV.
+    </br>`;
+    annotButtonsHTML = '';
+  }
+
+  // get alert div element
+  const annotDiv = document.getElementById('annot-div');
+  // define alert div contents
+  annotDiv.innerHTML = `
+  <div class="layout-cell-pad-main" style="padding: 10px 10px">
+    <div class="rodape-cv" style="margin: 0px 5px; color: #666666; font-size: 13px;">
+    ${annotHeaderHTML}${annotButtonsHTML}${recentUpdatesHTML}    
+    </div>
+  </div>`;
 }
 
 function setAttributes(elem, attrs) {
@@ -692,9 +813,7 @@ function setAttributes(elem, attrs) {
 }
 
 function createTextLinkHTML(text, tooltip, targetUrl) {
-  return `<a href="${targetUrl}" target="_blank" title="${tooltip}">
-            ${text}
-          </a>`;
+  return `<a href="${targetUrl}" target="_blank" title="${tooltip}">${text}</a>`;
 }
 
 function createIconLinkHTML(iconUrl, iconStyle, tooltip, targetUrl) {
@@ -703,95 +822,151 @@ function createIconLinkHTML(iconUrl, iconStyle, tooltip, targetUrl) {
           </a>`;
 }
 
-function consolidateQualisResults(qualisInfo) {
-  const qualisCounts = {
-    year: [],
-    A1: [],
-    A2: [],
-    A3: [],
-    A4: [],
-    B1: [],
-    B2: [],
-    B3: [],
-    B4: [],
-    C: [],
-    N: [],
-  };
-
-  const currYearCounts = {
-    A1: 0,
-    A2: 0,
-    A3: 0,
-    A4: 0,
-    B1: 0,
-    B2: 0,
-    B3: 0,
-    B4: 0,
-    C: 0,
-    N: 0,
-  };
-
-  var pubInfoList = [];
-
-  var pubInfoYearList = [];
-
+function consolidateQualisData(qualisInfo) {
+  var pubData = [];
+  var pubDataYear = [];
   var currYear = 0;
-
   for (let i = 0; i < qualisInfo.length; i++) {
     // console.log(currYear);
     // console.log(currYearCounts);
-    // console.log(qualisCounts);
-
-    if (currYear != qualisInfo[i].year) {
+    // console.log(pubCounts);
+    if (currYear !== qualisInfo[i].year) {
       if (currYear > 0) {
-        // add current year counts to Qualis results
-        for (const key of Object.keys(currYearCounts)) {
-          qualisCounts[key].push(currYearCounts[key]);
-        }
-
         // add current year publication list to pubInfoList
-        pubInfoList.push({ year: currYear, pubList: pubInfoYearList });
-
-        // reset year counts
-        for (const key of Object.keys(currYearCounts)) {
-          currYearCounts[key] = 0;
-        }
-
+        pubData.push({ year: currYear, pubList: pubDataYear });
         // reset pubInfoYearList
-        pubInfoYearList = [];
+        pubDataYear = [];
       }
       // update current year
       currYear = qualisInfo[i].year;
-
-      // add current year to Qualis results
-      qualisCounts.year.push(currYear);
     }
-    // increment year counts
-    currYearCounts[qualisInfo[i].qualisLabels.qualis] += 1;
-
     // create pubInfo
-    const pubInfo = {
+    const pubDataItem = {
       issn: qualisInfo[i].issn,
       title: qualisInfo[i].title,
       pubName: qualisInfo[i].pubName,
       qualis: qualisInfo[i].qualisLabels.qualis,
       // percentil: qualisInfo[i].qualisLabels.percentil,
       baseYear: qualisInfo[i].qualisLabels.baseYear,
+      jcr:
+        Object.keys(qualisInfo[i].jcrData).length > 0
+          ? qualisInfo[i].jcrData.jcr
+          : 0,
+      jcrYear:
+        Object.keys(qualisInfo[i].jcrData).length > 0
+          ? qualisInfo[i].jcrData.baseYear
+          : '',
     };
-
     // add pubInfo to pubInfoYearList
-    pubInfoYearList.push(pubInfo);
+    pubDataYear.push(pubDataItem);
   }
-
-  if (qualisCounts.year.length > qualisCounts.A1.length) {
-    // add year counts to Qualis results
-    for (const key of Object.keys(currYearCounts)) {
-      qualisCounts[key].push(currYearCounts[key]);
-    }
-
-    // add pubInfoYearList to pubInfoList
-    pubInfoList.push({ year: currYear, pubList: pubInfoYearList });
+  if (qualisInfo.length > pubData.length) {
+    // add pubInfoYear to pubInfo
+    pubData.push({ year: currYear, pubList: pubDataYear });
   }
-
-  return { stats: qualisCounts, pubInfo: pubInfoList };
+  return pubData;
 }
+
+// function consolidateQualisResults(qualisInfo) {
+//   const pubCounts = {
+//     year: [],
+//     A1: [],
+//     A2: [],
+//     A3: [],
+//     A4: [],
+//     B1: [],
+//     B2: [],
+//     B3: [],
+//     B4: [],
+//     C: [],
+//     N: [],
+//     jcr: [],
+//   };
+
+//   const currYearCounts = {
+//     A1: 0,
+//     A2: 0,
+//     A3: 0,
+//     A4: 0,
+//     B1: 0,
+//     B2: 0,
+//     B3: 0,
+//     B4: 0,
+//     C: 0,
+//     N: 0,
+//     jcr: 0,
+//   };
+
+//   var pubInfoList = [];
+//   var pubInfoYearList = [];
+//   var currYear = 0;
+
+//   for (let i = 0; i < qualisInfo.length; i++) {
+//     // console.log(currYear);
+//     // console.log(currYearCounts);
+//     // console.log(pubCounts);
+
+//     if (currYear != qualisInfo[i].year) {
+//       if (currYear > 0) {
+//         // add current year counts to Qualis results
+//         for (const key of Object.keys(currYearCounts)) {
+//           pubCounts[key].push(currYearCounts[key]);
+//         }
+
+//         // add current year publication list to pubInfoList
+//         pubInfoList.push({ year: currYear, pubList: pubInfoYearList });
+
+//         // reset year counts
+//         for (const key of Object.keys(currYearCounts)) {
+//           currYearCounts[key] = 0;
+//         }
+
+//         // reset pubInfoYearList
+//         pubInfoYearList = [];
+//       }
+//       // update current year
+//       currYear = qualisInfo[i].year;
+
+//       // add current year to Qualis results
+//       pubCounts.year.push(currYear);
+//     }
+//     // increment year counts
+//     currYearCounts[qualisInfo[i].qualisLabels.qualis] += 1;
+//     currYearCounts.jcr +=
+//       Object.keys(qualisInfo[i].jcrData).length > 0
+//         ? parseFloat(qualisInfo[i].jcrData.jcr)
+//         : 0;
+
+//     // create pubInfo
+//     const pubInfo = {
+//       issn: qualisInfo[i].issn,
+//       title: qualisInfo[i].title,
+//       pubName: qualisInfo[i].pubName,
+//       qualis: qualisInfo[i].qualisLabels.qualis,
+//       // percentil: qualisInfo[i].qualisLabels.percentil,
+//       baseYear: qualisInfo[i].qualisLabels.baseYear,
+//       jcr:
+//         Object.keys(qualisInfo[i].jcrData).length > 0
+//           ? qualisInfo[i].jcrData.jcr
+//           : 0,
+//       jcrYear:
+//         Object.keys(qualisInfo[i].jcrData).length > 0
+//           ? qualisInfo[i].jcrData.baseYear
+//           : '',
+//     };
+
+//     // add pubInfo to pubInfoYearList
+//     pubInfoYearList.push(pubInfo);
+//   }
+
+//   if (pubCounts.year.length > pubCounts.A1.length) {
+//     // add year counts to Qualis results
+//     for (const key of Object.keys(currYearCounts)) {
+//       pubCounts[key].push(currYearCounts[key]);
+//     }
+//     // add pubInfoYearList to pubInfoList
+//     pubInfoList.push({ year: currYear, pubList: pubInfoYearList });
+//   }
+
+//   return { stats: pubCounts, pubInfo: pubInfoList };
+// }
