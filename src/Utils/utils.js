@@ -1,3 +1,4 @@
+/*global chrome*/
 /**
  * Mathematical util functions
  */
@@ -64,6 +65,110 @@ export function linearRegression(xData, yData) {
     calcY: (x) => b0 + b1 * x,
   };
 }
+
+/**
+ * Data functions
+ */
+
+export async function updateLattesData() {
+  const lattesData = await chrome.storage.local.get('lattes_data');
+
+  let authorNameLinkList = [];
+  for (const lattesDataElem of lattesData['lattes_data']) {
+    authorNameLinkList.push(lattesDataElem.nameLink);
+  }
+  return authorNameLinkList;
+}
+
+export async function getLattesAuthorStats(authorLink) {
+  const lattesData = await chrome.storage.local.get('lattes_data');
+  let authorStats = {
+    stats: [],
+    minYear: NaN,
+    maxYear: NaN,
+    totalPubs: NaN,
+    pubInfo: [],
+  };
+
+  // get Lattes stats for author link
+  var match = lattesData['lattes_data'].find(
+    (elem) => elem.nameLink.link == authorLink
+  );
+
+  if (match) {
+    // add missing years (if any) to author stats
+    authorStats = addMissingYearsToAuthorStats(
+      match.statsInfo.stats,
+      match.statsInfo.pubInfo
+    );
+    console.log('author stats with missing years:', authorStats);
+
+    // get min and max years from author stats
+    authorStats.minYear = authorStats.stats.year.slice(-1)[0];
+    authorStats.maxYear = authorStats.stats.year[0];
+
+    // get total journal publications
+    var totalPubs = 0;
+    for (const key of Object.keys(authorStats.stats)) {
+      if (key != 'year') {
+        totalPubs += authorStats.stats[key].reduce(
+          (partialSum, a) => partialSum + a,
+          0
+        );
+      }
+    }
+
+    authorStats.totalPubs = totalPubs;
+  }
+
+  return authorStats;
+}
+
+export function addMissingYearsToAuthorStats(stats, pubInfo) {
+  const newStats = {};
+  // reset new stats count lists
+  for (const key of Object.keys(stats)) {
+    newStats[key] = [];
+  }
+  const newPubInfo = [];
+
+  let currYear = new Date().getFullYear() + 1;
+  for (let i = 0; i < pubInfo.length; i++) {
+    // add empty results for missing years (if any)
+    for (let year = currYear - 1; year > pubInfo[i].year; year--) {
+      // add empty counts to missing year stats
+      for (const key of Object.keys(newStats)) {
+        if (key == 'year') {
+          newStats[key].push(year);
+        } else {
+          newStats[key].push(0);
+        }
+      }
+
+      // add empty list to missing year publications
+      newPubInfo.push({ year: year, pubList: [] });
+    }
+
+    // copy current year counts to new stats
+    for (const key of Object.keys(newStats)) {
+      newStats[key].push(stats[key][i]);
+    }
+    // copy current year publication list to new publication info
+    newPubInfo.push(pubInfo[i]);
+
+    // update current year
+    currYear = pubInfo[i].year;
+  }
+
+  return {
+    stats: newStats,
+    minYear: NaN,
+    maxYear: NaN,
+    totalPubs: NaN,
+    pubInfo: newPubInfo,
+  };
+}
+
 
 /**
  * Data stats util functions

@@ -1,16 +1,5 @@
-import { useEffect } from 'react';
 import '../App.css';
-
-// sort an array of objects by their keys
-Array.prototype.sortByKeys = function (keys) {
-  var sortedArray = this.slice();
-
-  for (const key of keys.reverse()) {
-    sortedArray.sort((a, b) => (a[key] < b[key] ? -1 : 1));
-  }
-
-  return sortedArray;
-};
+import '../Utils/utils.js';
 
 function TopView({pubInfo, startYear, endYear, topN}) {
   let topPubs = [];

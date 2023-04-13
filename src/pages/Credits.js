@@ -2,7 +2,8 @@ import '../App.css';
 
 function Credits() {
   return (
-    <div class="content">
+    <div class="content content-text">
+      <h1>Créditos</h1>
       <p>
         Concepção e implementação:
         <a href="https://sites.google.com/site/nabormendonca/" target="_blank">Nabor Mendonça</a>

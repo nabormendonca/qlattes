@@ -10,6 +10,7 @@ import Credits from './pages/Credits';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import DataInformation from './pages/DataInformation';
 import FutureEnhancements from './pages/FutureEnhancements';
+import About from './pages/About';
 
 function App() {
   return (
@@ -18,14 +19,7 @@ function App() {
       <Routes>
         <Route exact path="/index.html" element={<Analysis/>}/>
         <Route exact path="/index.html/instructions"  element={<Instructions/>}/>
-        <Route exact path="/index.html/about"  element={
-          <div class="content">
-            <p>
-              about
-            </p>
-          </div>
-        }
-        />
+        <Route exact path="/index.html/about"  element={<About/>} />
         <Route exact path="/index.html/comments" element={<Comments/>}/>
         <Route exact path="/index.html/credits" element={<Credits/>}/>
         <Route exact path="/index.html/data-information" element={<DataInformation/>}/>
