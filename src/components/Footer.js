@@ -29,7 +29,7 @@ function Footer() {
       </div>
       <div class="footer-section">
         <p class="footer-section-header">Sobre</p>
-        <p>FDBHSJFDSFDSFSDFSDFSDF</p>
+        <p>Write something about the extension</p>
         <Link to="/index.html/credits">Créditos</Link>
       </div>
       <div class="footer-section">

@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "chart.js": "^4.2.1",
     "chartjs-plugin-annotation": "^2.2.1",
+    "npm-watch": "^0.11.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
@@ -19,6 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "watch": "npm-watch",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -39,5 +41,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js,jsx"
+    }
   }
 }
