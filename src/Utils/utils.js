@@ -215,15 +215,170 @@ export function getBoundedTrendPoint(regression, x, xList, yBound) {
   return { x: newXIndex, y: y };
 }
 
+export function addStatisticFromTotal(totalCols, totalStats) {
+  // add new foot row cell to table footer row
+  let meanRow = []
+  let medianRow = []
+  let trendRow = []
+  let bestYearRow = []
+
+  // add empty cells
+  for (const col of Object.keys(qualisScores)) {
+    meanRow.push(<th type="data"></th>);
+    medianRow.push(<th type="data"></th>);
+    trendRow.push(<th type="data"></th>);
+    bestYearRow.push(<th type="data"></th>);
+  }
+
+  // Best Year
+  for (const col of totalCols) {
+    meanRow.push(<th type='total'>{totalStats[col].countList
+      .mean()
+      .toFixed(2)
+      .replace('.', ',')}</th>);
+    medianRow.push(<th type='total'>{totalStats[col].countList
+      .median()
+      .toFixed(2)
+      .replace('.', ',')}</th>);
+    trendRow.push(<th type='total'>{linearRegression(
+      totalStats[col].yearList,
+      totalStats[col].countList
+    )
+      .slope.toFixed(2)
+      .replace('.', ',')}</th>);
+    bestYearRow.push(<th type='total'>{totalStats[col].best.year > 0 ? totalStats[col].best.year : ''}</th>);
+  }
+
+  return (<>
+    <tr> <th type="label">Média</th> {meanRow} </tr>
+    <tr> <th type="label">Mediana</th> {medianRow} </tr>
+    <tr> <th type="label">Tendência</th> {trendRow} </tr>
+    <tr> <th type="label">Melhor ano</th> {bestYearRow} </tr>
+  </>)
+}
+
+export function getTableClass(rowsLength) {
+  const rowHeight = 20.5;
+  const statsTableMaxHeight = 0.5;
+  const maxHeight = window.innerHeight*statsTableMaxHeight;
+  const bodyHeight = rowHeight*rowsLength;
+  if (bodyHeight > maxHeight) {
+    return "styled-table has-scroll";
+  }
+  return "styled-table";
+}
+
+export function getStatisticsAnnotations(totalStats, showStatistics, end, init) {
+  const lineAnnotations = [];
+
+  if (showStatistics && end - init > 0) {
+    // create mean line annotation
+    const mean = totalStats.tot.countList.mean().toFixed(2);    
+    lineAnnotations.push({
+      id: "mean",
+      type: 'line',
+      mode: 'horizontal',
+      borderColor: '#2c4c8c',
+      value: mean,
+      scaleID: "y",
+      borderWidth: 1,
+      borderDash: [6, 6],
+      label: {
+        content: 'Média ' + mean.replace('.', ','),
+        position: 'end',
+        padding: 4,
+        backgroundColor: 'rgba(44, 76, 140, 0.7)',
+        font: {
+          size: 11,
+        },
+        z: 10,
+        display: true,
+      }
+    });
+    
+    // create median line annotation
+    const median = totalStats.tot.countList.median().toFixed(2);
+    lineAnnotations.push({
+      id: "median",
+      type: 'line',
+      mode: 'horizontal',
+      borderColor: '#2c4c8c',
+      value: median,
+      scaleID: "y",
+      borderWidth: 1,
+      borderDash: [4, 4],
+      label: {
+        content: 'Mediana ' + median.replace('.', ','),
+        position: '50%',
+        padding: 4,
+        backgroundColor: 'rgba(44, 76, 140, 0.7)',
+        font: {
+          size: 11,
+        },
+        z: 10,
+        display: true,
+      }
+    });
+
+    // get max counts in totalStats
+    const maxCount = totalStats.tot.countList.max();
+
+    // create trend line annotation
+    const regression = linearRegression(
+      totalStats.tot.yearList,
+      totalStats.tot.countList
+    );
+    const minPoint = getBoundedTrendPoint(
+      regression,
+      init,
+      totalStats.tot.yearList.slice().reverse(),
+      {
+        min: 0,
+        max: maxCount,
+      }
+    );
+    const maxPoint = getBoundedTrendPoint(
+      regression,
+      end,
+      totalStats.tot.yearList.slice().reverse(),
+      {
+        min: 0,
+        max: maxCount,
+      }
+    );
+    lineAnnotations.push({
+      id: "trend",
+      type: 'line',
+      borderColor: '#2c4c8c',
+      xMin: minPoint.x,
+      xMax: maxPoint.x,
+      xScaleID: 'x',
+      yMin: minPoint.y.toFixed(2),
+      yMax: maxPoint.y.toFixed(2),
+      yScaleID: 'y',
+      borderWidth: 1,
+      borderDash: [2, 2],
+      label: {
+        content: 'Tendência ' + regression.slope.toFixed(2).replace('.', ','),
+        position: 'end',
+        padding: 4,
+        backgroundColor: 'rgba(44, 76, 140, 0.7)', // 'rgba(0, 0, 0, 0.7)',
+        font: {
+          size: 11,
+        },
+        z: 10,
+        display: true,
+      }
+    })
+  }
+
+  return lineAnnotations;
+}
+
 /**
  * Qualis util functions
  */
 
-export const dataCols = {
-  keys: ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C', 'N'],
-  labels: ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C', 'N'],
-  type: 'data',
-};
 export const qualisScores = {
   A1: 100,
   A2: 85,
