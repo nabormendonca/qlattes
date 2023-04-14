@@ -63,6 +63,7 @@ h1 {
   margin-top: 0px;
   color: var(--main-bg-color);
 }
+
 .text-centered {
   text-align: center;
 }
@@ -163,7 +164,7 @@ input[type='text'] {
 
 .table-wrapper {
   margin: 10px auto;
-  max-width: 80%;
+  max-width: 55%;
 }
 
 .styled-table-text {
