@@ -162,7 +162,7 @@ async function processLattesPage(
   qualisData,
   dataSourceInfo
 ) {
-  console.log(qualisData);
+  // console.log(qualisData);
 
   // do not process Lattes page if already annotated
   const alertDiv = document.querySelector('#annotation-alert-div');
@@ -187,27 +187,22 @@ async function processLattesPage(
 
   // Consolidate Lattes stats from Lattes info
   const statsInfo = consolidateQualisResults(lattesInfo);
-  console.log(statsInfo);
+  // console.log(statsInfo);
 
   // attempt to read Lattes data from local storage area
   const lattesData = await chrome.storage.local.get('lattes_data');
-  var lattesDataArray = [];
+  var lattesDataObject = {};
 
   // check whether Lattes data on local storage is not empty
   if (Object.keys(lattesData).length !== 0) {
     // get existing Lattes data items
-    lattesDataArray = lattesData['lattes_data'];
-
-    // make sure current Lattes data is not already in the existing array
-    lattesDataArray = lattesDataArray.filter(
-      (elem) => elem.nameLink.link != nameLink.link
-    );
+    lattesDataObject = lattesData['lattes_data'];
   }
   // add current Lattes data to Lattes data array
-  lattesDataArray.push({ nameLink: nameLink, statsInfo: statsInfo });
+  lattesDataObject[nameLink.link] = { name: nameLink.name, statsInfo};
 
   // Save Lattes data array to local storage area
-  await chrome.storage.local.set({ lattes_data: lattesDataArray });
+  await chrome.storage.local.set({ lattes_data: lattesDataObject });
   console.log('Lattes name, link, stats saved!');
 }
 
@@ -388,7 +383,7 @@ function getQualis(issn, pubName, qualisData, qualisDataCache, dataSourceInfo) {
     qualisDataCache.altIssn = qualisLabels;
   }
 
-  console.log({ qualisLabels });
+  // console.log({ qualisLabels });
 
   return qualisLabels;
 }
@@ -434,7 +429,7 @@ function getQualisFromCapesData(
   );
 
   if (match) {
-    console.log(match);
+    // console.log(match);
 
     // assign matched CAPES data to empty Qualis labels
     qualisLabels.qualis = match.qualis;
@@ -448,7 +443,7 @@ function getQualisFromCapesData(
       scopusData,
       dataSourceInfo
     );
-    console.log(qualisLabelsScopus);
+    // console.log(qualisLabelsScopus);
 
     if (qualisLabelsScopus.qualis != 'N') {
       qualisLabels.linkScopus = qualisLabelsScopus.linkScopus;
@@ -526,7 +521,7 @@ function getQualisFromScopusData(issn, scopusData, dataSourceInfo) {
   );
 
   if (match) {
-    console.log(match);
+    // console.log(match);
 
     // assign matched Scopus data to empty Qualis labels
     qualisLabels.qualis = calculateQualisFromPercentil(match.percentil);

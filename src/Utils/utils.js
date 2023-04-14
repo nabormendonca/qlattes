@@ -74,9 +74,10 @@ export async function updateLattesData() {
   const lattesData = await chrome.storage.local.get('lattes_data');
 
   let authorNameLinkList = [];
-  for (const lattesDataElem of lattesData['lattes_data']) {
-    authorNameLinkList.push(lattesDataElem.nameLink);
-  }
+  if (Object.keys(lattesData).length !== 0)
+    for (const [link, info] of Object.entries(lattesData['lattes_data'])) {
+      authorNameLinkList.push({ link, name: info.name});
+    }
   return authorNameLinkList;
 }
 
@@ -89,11 +90,11 @@ export async function getLattesAuthorStats(authorLink) {
     totalPubs: NaN,
     pubInfo: [],
   };
+  // If there is no data saved yet
+  if (Object.keys(lattesData).length == 0) return authorStats;
 
   // get Lattes stats for author link
-  var match = lattesData['lattes_data'].find(
-    (elem) => elem.nameLink.link == authorLink
-  );
+  var match = lattesData['lattes_data'][authorLink];
 
   if (match) {
     // add missing years (if any) to author stats
@@ -101,7 +102,6 @@ export async function getLattesAuthorStats(authorLink) {
       match.statsInfo.stats,
       match.statsInfo.pubInfo
     );
-    console.log('author stats with missing years:', authorStats);
 
     // get min and max years from author stats
     authorStats.minYear = authorStats.stats.year.slice(-1)[0];

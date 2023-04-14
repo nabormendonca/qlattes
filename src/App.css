@@ -63,6 +63,9 @@ h1 {
   margin-top: 0px;
   color: var(--main-bg-color);
 }
+.text-centered {
+  text-align: center;
+}
 
 /* CONTENT STYLES */
 

@@ -26,7 +26,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["images/*.png", "data/*.json", "html/*.html"],
+      "resources": ["images/*.png", "data/*.json", "html/*.html", "*.html"],
       "matches": [
         "http://buscatextual.cnpq.br/*",
         "https://buscatextual.cnpq.br/*",

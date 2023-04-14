@@ -54,6 +54,17 @@ function Analysis() {
     if (authors.length == 0 && authorNameLinkList.length != 0) setAuthors(authorNameLinkList);
   });
 
+  if (authors.length == 0) {
+    return (
+      <div class="content content-text">
+        <h1>Ainda não temos dados de nenhum CV</h1>
+        <p class="text-centered">Pesquise pelos CVs em <a href='http://buscatextual.cnpq.br/buscatextual/busca.do' target='0'>http://buscatextual.cnpq.br/buscatextual/busca.do</a>
+        <br/>
+        Se isso for um bug, entre cem contato conosco na sessão de <a href='chrome-extension://ifegfogoaejhohjphcacjchnoojelmak/index.html/comments'>Comentários e sugestões</a> </p>
+      </div>
+    );
+  }
+
   return (
     <div class="content">
       <form id="form-filters">
