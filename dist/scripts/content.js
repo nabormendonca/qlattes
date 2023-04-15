@@ -56,37 +56,8 @@ async function main() {
     scholarIconURL: chrome.runtime.getURL('images/scholar-hat-icon-18.png'),
   };
 
-  // define alert message (may be blank)
-  // const alertMessage = `Novidades da Versão 0.2.0:</br></br>
-  //   <ul style="margin-left: 20px; line-height: 1.5;">
-  //   <li>As anotações no CV Lattes agora incluem o ícone <img
-  //     src="${imagesURLs.scholarIconURL}"
-  //     alt="Ícone do Google Acadêmico"
-  //     style="margin-left: 0px; margin-bottom: -4px"
-  //   /> com um link para buscar o título dos artigos diretamente no Google Acadêmico; quando disponível, o link para a página do periódico no portal da Scopus também é incluído com o ícone <img
-  //     src="${imagesURLs.scopusIconURL}"
-  //     alt="Ícone da Scopus"
-  //     style="margin-left: 0px; margin-bottom: -4px"
-  //   />.</li>
-  //   <li>A ferramenta agora possibilita visualizar a pontuação do Qualis na forma de tabela e gráfico, considerando os pontos de cada estrato (A1=100, A2=85, etc.) atribuídos pela CAPES. Os pontos dos estratos estão descritos na aba "Instruções de Uso" da página de visualização de dados da ferramenta.</li>
-  //   <li>As visualizações dos cinco e dez artigos mais bem classificados agora incluem o título dos artigos.</li>
-  //   </ul>`;
-
-  // Megaphone: 1F4E3; Loud speaker: 1F4E2
-
-  const recentUpdatesHTML = `</br><span style="font-size: 1.3em; margin-bottom: -2px; display:inline-block; transform: scaleX(-1);">&#x1F4E2</span>  Últimas atualizações (versão 0.2.0 @ 2023)</br></br>
-  <ul style="margin-left: 20px; line-height: 1.5;">
-  <li>Tabelas de classificação e pontuação Qualis incluem os percentuais agregados dos estratos A e B.</li>
-  <li>Gráfico de pontuação Qualis exibe os pontos acumulados nos estratos A e B.</li>
-  <li>Pontuação Qualis dos artigos calculada de acordo com a Área do Conhecimento (quando disponível).</li>
-  <li>Opção para exportar os dados do CV para um arquivo externo no formato CSV.</li>
-  <li>Menu de seleção dos CVs ordenado alfabeticamente por nome.</li>
-  <li>Dados de um novo CV exibidos na mesma visualização selecionada para o CV anterior.</li>
-  <li>Lista de ISSNs alternativos para classificar periódicos com ISSN não incluído no Qualis da CAPES. </li>
-  <li>Redução da quantidade de abas da página de visualização de dados. Informações adicionais sobre a ferramenta estão disponíveis na <a href="https://github.com/nabormendonca/qlattes" target="_blank">página do projeto</a> no GitHub.</li>
-  <li>Correção de bugs na extração do título de artigos contendo caracteres especiais.</li>
-  </ul>
-  </br><p style="font-size: 13px; line-height: 1.5;">Omissões, erros e sugestões de melhoria podem ser comunicados por meio do formulário integrado à página de visualização de dados.</p>`;
+  const recentUpdatesURL =
+    'https://github.com/nabormendonca/qlattes/releases/tag/v0.2.0';
 
   // attempt to get CV name and link from Lattes page
   const nameLink = getLattesNameAndLink();
@@ -109,7 +80,7 @@ async function main() {
   processLattesPage(
     nameLink,
     imagesURLs,
-    recentUpdatesHTML,
+    recentUpdatesURL,
     qualisData,
     qualisDataSourceInfo
   );
@@ -203,7 +174,7 @@ function getLattesNameAndLink() {
 async function processLattesPage(
   nameLink,
   imagesURLs,
-  recentUpdatesHTML,
+  recentUpdatesURL,
   qualisData,
   dataSourceInfo
 ) {
@@ -236,7 +207,7 @@ async function processLattesPage(
     injectAnnotationMessage(
       imagesURLs,
       visualizationURL,
-      recentUpdatesHTML,
+      recentUpdatesURL,
       lattesInfo.length
     );
   }
@@ -757,43 +728,45 @@ function injectAnnotationDiv(imagesURLs, visualizationURL) {
 function injectAnnotationMessage(
   imagesURLs,
   visualizationURL,
-  recentUpdatesHTML,
+  recentUpdatesURL,
   pubCount
 ) {
   var annotHeaderHTML;
-  var annotButtonsHTML;
+  var annotButtonsHTML = '';
+  var pubCountString;
   if (pubCount > 0) {
     // define number of publications string
-    const pubCountString =
-      pubCount > 1 ? 'artigos em periódicos' : 'artigo em periódico';
-
-    annotHeaderHTML = `
-    <a href="${visualizationURL}" target="_blank" id="qlattes-logo" style="margin: 0px 0px;" title="Abrir QLattes">
-      <img src="${imagesURLs.qlattesLogoURL}" width="70" style="margin-left: -3px; margin-bottom: -4px;">
-    </a>
-    anotou o Qualis de ${pubCount} ${pubCountString} neste CV.
-    </br>`;
+    const sChar = pubCount > 1 ? 's' : '';
+    pubCountString = `anotou o Qualis de ${pubCount} artigo${sChar} em periódico${sChar}  neste CV.`;
     annotButtonsHTML = `
     <a href="#artigos-completos">
-      <button style="color: #edf2f7; background-color: #3569a7; box-shadow: 1px 1px 1px #2e5469; padding: 4px 0.5em 3px; font-size: 12px; border-radius: 4px; cursor: pointer; width: 118px; text-align: left; margin-top: 15px; margin-bottom: 15px;">
+      <button style="color: #edf2f7; background-color: #3569a7; box-shadow: 1px 1px 1px #2e5469; padding: 4px 0.5em 3px; font-size: 12px; border-radius: 4px; cursor: pointer; width: 142px; text-align: left; margin-top: 15px; margin-bottom: 10px;  margin-right: 5px;">
         <i class="fa-solid fa-note-sticky fa-flip-vertical" style="font-size: 1.1em; margin-top: 0px; margin-right: 2px;"></i> Ver anotações
-      </button>
-    </a> 
-    <a href="${visualizationURL}" target="_blank" id="qlattes-link">
-      <button style="color: #edf2f7; background-color: #3569a7; box-shadow: 1px 1px 1px #2e5469; padding: 4px 0.5em 3px; font-size: 12px; border-radius: 4px; cursor: pointer; width: 118px; text-align: left; margin-top: 10px; margin-bottom: 5px; margin-left: 5px;">
-        <i class="fa-solid fa-chart-simple" style="font-size: 1.1em; margin-top: 0px; margin-right: 2px;"></i>
-        Visualizar dados
       </button>
     </a>`;
   } else {
-    annotHeaderHTML = `
+    pubCountString = `não anotou nenhum artigo em periódico neste CV.`;
+  }
+  annotHeaderHTML = `
     <a href="${visualizationURL}" target="_blank" id="qlattes-logo" style="margin: 0px 0px;" title="Abrir QLattes">
       <img src="${imagesURLs.qlattesLogoURL}" width="70" style="margin-left: -3px; margin-bottom: -4px;">
-    </a>
-    não anotou nenhuma publicação em periódico neste CV.
+    </a>${pubCountString}
     </br>`;
-    annotButtonsHTML = '';
-  }
+
+  annotButtonsHTML += `
+  <a href="${visualizationURL}" target="_blank" id="qlattes-visualization">
+    <button style="color: #edf2f7; background-color: #3569a7; box-shadow: 1px 1px 1px #2e5469; padding: 4px 0.5em 3px; font-size: 12px; border-radius: 4px; cursor: pointer; width: 142px; text-align: left; margin-top: 10px; margin-bottom: 10px; margin-right: 5px;">
+      <i class="fa-solid fa-chart-simple" style="font-size: 1.1em; margin-top: 0px; margin-right: 2px;"></i>
+      Visualizar dados
+    </button>
+  </a>
+  <a href="${recentUpdatesURL}" target="_blank" id="recent-updates">
+  <button style="color: #edf2f7; background-color: #3569a7; box-shadow: 1px 1px 1px #2e5469; padding: 4px 0.5em 3px; font-size: 12px; border-radius: 4px; cursor: pointer; width: 142px; text-align: left; margin-top: 10px; margin-bottom: 10px;">
+    <i class="fa-solid fa-bullhorn" style="font-size: 1.1em; margin-top: 0px; margin-right: 2px;"></i>
+    Últimas atualizações
+  </button>
+  </a>
+  `;
 
   // get alert div element
   const annotDiv = document.getElementById('annot-div');
@@ -801,7 +774,7 @@ function injectAnnotationMessage(
   annotDiv.innerHTML = `
   <div class="layout-cell-pad-main" style="padding: 10px 10px">
     <div class="rodape-cv" style="margin: 0px 5px; color: #666666; font-size: 13px;">
-    ${annotHeaderHTML}${annotButtonsHTML}${recentUpdatesHTML}    
+    ${annotHeaderHTML}${annotButtonsHTML}   
     </div>
   </div>`;
 }
