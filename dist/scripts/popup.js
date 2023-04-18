@@ -1,3 +1,7 @@
+//
+// popup script
+//
+
 // // open or switch to options page (no popup!)
 // if (chrome.runtime.openOptionsPage) {
 //   chrome.runtime.openOptionsPage();
