@@ -1,0 +1,867 @@
+[
+  {
+    "label": "Ciências Agrárias",
+    "areas": {
+      "alimentos": {
+        "label": "Ciência de Alimentos",
+        "scores": {
+          "A1": 100,
+          "A2": 85,
+          "A3": 70,
+          "A4": 55,
+          "B1": 40,
+          "B2": 30,
+          "B3": 20,
+          "B4": 10,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/CIENCIADEALIMENTOS.pdf"
+        },
+        "base_year": 2020
+      },
+      "agrarias-1": {
+        "label": "Ciências Agrárias I",
+        "scores": {
+          "A1": 100,
+          "A2": 85,
+          "A3": 70,
+          "A4": 55,
+          "B1": 40,
+          "B2": 30,
+          "B3": 20,
+          "B4": 10,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_C_AGRARIAS_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "medicina-veterinaria": {
+        "label": "Medicina Veterinária",
+        "scores": {
+          "A1": 1,
+          "A2": 0.85,
+          "A3": 0.7,
+          "A4": 0.55,
+          "B1": 0.4,
+          "B2": 0.25,
+          "B3": 0.1,
+          "B4": 0,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_MEDICIA_VETERINARIA_SET21.pdf"
+        },
+        "base_year": 2020
+      },
+      "zootecnia-pesca": {
+        "label": "Zootecnia / Recursos Pesqueiros",
+        "scores": {
+          "A1": 1,
+          "A2": 0.85,
+          "A3": 0.7,
+          "A4": 0.55,
+          "B1": 0.4,
+          "B2": 0.3,
+          "B3": 0.2,
+          "B4": 0.1,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/ZOOTECNIA_FICHA_OUT21.pdf"
+        },
+        "base_year": 2020
+      }
+    }
+  },
+  {
+    "label": "Ciências Biológicas",
+    "areas": {
+      "biodiversidade": {
+        "label": "Biodiversidade (sem pontuação)",
+        "scores": {},
+        "source": {},
+        "base_year": 2020
+      },
+      "biologicas-1": {
+        "label": "Ciências Biológicas I (sem pontuação)",
+        "scores": {},
+        "source": {},
+        "base_year": 2020
+      },
+      "biologicas-2": {
+        "label": "Ciências Biológicas II",
+        "scores": {
+          "A1": 100,
+          "A2": 85,
+          "A3": 70,
+          "A4": 60,
+          "B1": 50,
+          "B2": 30,
+          "B3": 20,
+          "B4": 10,
+          "C": 0
+        },
+        "source": {
+          "label": "Relatório Quadrienal Final",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/19122022_RelatorioQuadrienalFinalCINCIASBIOLGICASII.pdf"
+        },
+        "base_year": 2020
+      },
+      "biologicas-3": {
+        "label": "Ciências Biológicas III (sem pontuação)",
+        "scores": {},
+        "source": {},
+        "base_year": 2020
+      }
+    }
+  },
+  {
+    "label": "Ciências da Saúde",
+    "areas": {
+      "educacao-fisica": {
+        "label": "Educação Física",
+        "scores": {
+          "A1": 100,
+          "A2": 90,
+          "A3": 80,
+          "A4": 70,
+          "B1": 60,
+          "B2": 50,
+          "B3": 40,
+          "B4": 30,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_ED_FISICA_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "enfermagem": {
+        "label": "Enfermagem",
+        "scores": {
+          "A1": 100,
+          "A2": 85,
+          "A3": 70,
+          "A4": 60,
+          "B1": 50,
+          "B2": 35,
+          "B3": 20,
+          "B4": 10,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_ENFERMAGEM_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "farmacia": {
+        "label": "Farmácia",
+        "scores": {
+          "A1": 100,
+          "A2": 85,
+          "A3": 70,
+          "A4": 60,
+          "B1": 50,
+          "B2": 35,
+          "B3": 20,
+          "B4": 10,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_FARMACIA_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "medicina-1": {
+        "label": "Medicina I",
+        "scores": {
+          "A1": 100,
+          "A2": 80,
+          "A3": 60,
+          "A4": 40,
+          "B1": 30,
+          "B2": 20,
+          "B3": 10,
+          "B4": 5,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_MED_01_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "medicina-2": {
+        "label": "Medicina II",
+        "scores": {
+          "A1": 90,
+          "A2": 80,
+          "A3": 60,
+          "A4": 40,
+          "B1": 20,
+          "B2": 15,
+          "B3": 10,
+          "B4": 5,
+          "C": 0
+        },
+        "source": {
+          "label": "Relatório de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/19122022_RelatriodeAvaliaodeMEDICINAIIFINAL.pdf"
+        },
+        "base_year": 2020
+      },
+      "medicina-3": {
+        "label": "Medicina III",
+        "scores": {
+          "A1": 1,
+          "A2": 0.875,
+          "A3": 0.75,
+          "A4": 0.625,
+          "B1": 0.5,
+          "B2": 0.375,
+          "B3": 0.25,
+          "B4": 0.125,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_MED_03_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "nutricao": {
+        "label": "Nutrição",
+        "scores": {
+          "A1": 1,
+          "A2": 0.85,
+          "A3": 0.7,
+          "A4": 0.6,
+          "B1": 0.5,
+          "B2": 0.35,
+          "B3": 0.2,
+          "B4": 0.1,
+          "C": 0
+        },
+        "source": {
+          "label": "Relatório de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/19122022_RELATRIOAVALIAOQUADRIENALNUTRIOFINAL.pdf"
+        },
+        "base_year": 2020
+      },
+      "odontologia": {
+        "label": "Odontologia (sem pontuação)",
+        "scores": {},
+        "source": {},
+        "base_year": 2020
+      },
+      "saude-coletiva": {
+        "label": "Saúde Coletiva (sem pontuação)",
+        "scores": {},
+        "source": {},
+        "base_year": 2020
+      }
+    }
+  },
+  {
+    "label": "Ciências Humanas",
+    "areas": {
+      "antropologia-arqueologia": {
+        "label": "Antropologia / Arqueologia",
+        "scores": {
+          "A1": 100,
+          "A2": 90,
+          "A3": 70,
+          "A4": 60,
+          "B1": 40,
+          "B2": 30,
+          "B3": 20,
+          "B4": 10,
+          "C": 0
+        },
+        "source": {
+          "label": "Relatório de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/19122022_RELATORIO_AVALIACAO_QUADRIENAL_comnotaAntropologia_Arqueologia.pdf"
+        },
+        "base_year": 2020
+      },
+      "politica-rel-internacionais": {
+        "label": "Ciência Política e Relações Internacionais",
+        "scores": {
+          "A1": 100,
+          "A2": 85,
+          "A3": 70,
+          "A4": 55,
+          "B1": 25,
+          "B2": 20,
+          "B3": 10,
+          "B4": 5,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_CPOL_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "religiao-teologia": {
+        "label": "Ciências da Religião e Teologia",
+        "scores": {
+          "A1": 100,
+          "A2": 87.5,
+          "A3": 75,
+          "A4": 62.5,
+          "B1": 0,
+          "B2": 0,
+          "B3": 0,
+          "B4": 0,
+          "C": 0
+        },
+        "source": {
+          "label": "Relatório de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/19122022_RELATORIO_AVALIACAO_QUADRIENAL_comnotaCienciasReligiao.pdf"
+        },
+        "base_year": 2020
+      },
+      "educacao": {
+        "label": "Educação",
+        "scores": {
+          "A1": 100,
+          "A2": 85,
+          "A3": 75,
+          "A4": 65,
+          "B1": 55,
+          "B2": 40,
+          "B3": 25,
+          "B4": 10,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_EDUCACAO_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "filosofia": {
+        "label": "Filosofia",
+        "scores": {
+          "A1": 1,
+          "A2": 0.85,
+          "A3": 0.75,
+          "A4": 0.65,
+          "B1": 0.55,
+          "B2": 0.4,
+          "B3": 0.25,
+          "B4": 0.1,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHAFILOSOFIA.pdf"
+        },
+        "base_year": 2020
+      },
+      "geografia": {
+        "label": "Geografia (sem pontuação)",
+        "scores": {},
+        "source": {},
+        "base_year": 2020
+      },
+      "historia": {
+        "label": "História",
+        "scores": {
+          "A1": 100,
+          "A2": 90,
+          "A3": 80,
+          "A4": 70,
+          "B1": 60,
+          "B2": 50,
+          "B3": 30,
+          "B4": 20,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_HISTORIA_09_03.pdf"
+        },
+        "base_year": 2020
+      },
+      "psicologia": {
+        "label": "Psicologia",
+        "scores": {
+          "A1": 100,
+          "A2": 87.5,
+          "A3": 75,
+          "A4": 62.5,
+          "B1": 50,
+          "B2": 37.5,
+          "B3": 25,
+          "B4": 12.5,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_PSICOLOGIA_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "sociologia": {
+        "label": "Sociologia",
+        "scores": {
+          "A1": 100,
+          "A2": 90,
+          "A3": 70,
+          "A4": 60,
+          "B1": 40,
+          "B2": 20,
+          "B3": 10,
+          "B4": 5,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHASOCIOLOGIA_def.pdf"
+        },
+        "base_year": 2020
+      }
+    }
+  },
+  {
+    "label": "Ciências Sociais Aplicadas",
+    "areas": {
+      "administracao-contabilidade-turismo": {
+        "label": "Administração, Ciências Contábeis e Turismo",
+        "scores": {
+          "A1": 100,
+          "A2": 80,
+          "A3": 70,
+          "A4": 60,
+          "B1": 50,
+          "B2": 40,
+          "B3": 30,
+          "B4": 10,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_ADMINISTRACAO_P_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "arquitetura-urbanismo-design": {
+        "label": "Arquitetura, Urbanismo e Design (sem pontuação)",
+        "scores": {},
+        "source": {},
+        "base_year": 2020
+      },
+      "comunicacao-informacao": {
+        "label": "Comunicação e Informação",
+        "scores": {
+          "A1": 100,
+          "A2": 80,
+          "A3": 70,
+          "A4": 60,
+          "B1": 50,
+          "B2": 30,
+          "B3": 20,
+          "B4": 10,
+          "C": 0
+        },
+        "source": {
+          "label": "Relatório de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/19122022_RELATORIO_AVALIACAO_QUADRIENAL_comnotaComunicao_Informao.pdf"
+        },
+        "base_year": 2020
+      },
+      "direito": {
+        "label": "Direito",
+        "scores": {
+          "A1": 200,
+          "A2": 180,
+          "A3": 160,
+          "A4": 140,
+          "B1": 80,
+          "B2": 60,
+          "B3": 40,
+          "B4": 20,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/copy_of_FICHA_DIREITO_2_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "economia": {
+        "label": "Economia",
+        "scores": {
+          "A1": 100,
+          "A2": 80,
+          "A3": 60,
+          "A4": 40,
+          "B1": 25,
+          "B2": 15,
+          "B3": 10,
+          "B4": 5,
+          "C": 0
+        },
+        "source": {
+          "label": "Relatório de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/19122022_RELATORIO_AVALIACAO_QUADRIENAL_comnotaEconomia.pdf"
+        },
+        "base_year": 2020
+      },
+      "planejamento-urbano-demografia": {
+        "label": "Planejamento Urbano e Regional / Demografia",
+        "scores": {
+          "A1": 1.1,
+          "A2": 0.9,
+          "A3": 0.85,
+          "A4": 0.7,
+          "B1": 0.55,
+          "B2": 0.4,
+          "B3": 0.25,
+          "B4": 0.1,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_PLURD_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "servico-social": {
+        "label": "Serviço Social",
+        "scores": {
+          "A1": 1,
+          "A2": 0.85,
+          "A3": 0.7,
+          "A4": 0.6,
+          "B1": 0,
+          "B2": 0,
+          "B3": 0,
+          "B4": 0,
+          "C": 0
+        },
+        "source": {
+          "label": "Relatório de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/19122022_RELATORIO_AVALIACAO_QUADRIENAL_comnotaServioSocial.pdf"
+        },
+        "base_year": 2020
+      }
+    }
+  },
+  {
+    "label": "Linguística, Letras e Artes",
+    "areas": {
+      "artes": {
+        "label": "Artes (sem pontuação)",
+        "scores": {},
+        "source": {},
+        "base_year": 2020
+      },
+      "linguistica-literatura": {
+        "label": " Linguística e Literatura (sem pontuação)",
+        "scores": {},
+        "source": {},
+        "base_year": 2020
+      }
+    }
+  },
+  {
+    "label": "Ciências Exatas e da Terra",
+    "areas": {
+      "astronomia-fisica": {
+        "label": "Astronomia / Física (sem pontuação)",
+        "scores": {},
+        "source": {},
+        "base_year": 2020
+      },
+      "computacao": {
+        "label": "Ciência da Computação",
+        "scores": {
+          "A1": 1,
+          "A2": 0.875,
+          "A3": 0.75,
+          "A4": 0.625,
+          "B1": 0.5,
+          "B2": 0.2,
+          "B3": 0.1,
+          "B4": 0.05,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_AVALIACAO_CCOMP.pdf"
+        },
+        "base_year": 2020
+      },
+      "geociencias": {
+        "label": "Geociências",
+        "scores": {
+          "A1": 87.5,
+          "A2": 75,
+          "A3": 62.5,
+          "A4": 50,
+          "B1": 37.5,
+          "B2": 25,
+          "B3": 12.5,
+          "B4": 6.25,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_GEOCIENCIAS.pdf"
+        },
+        "base_year": 2020
+      },
+      "mat-prob-docentes": {
+        "label": "Matemática / Prob. Estatística (Docentes)",
+        "scores": {
+          "A1": 14,
+          "A2": 12,
+          "A3": 7,
+          "A4": 6,
+          "B1": 3,
+          "B2": 2,
+          "B3": 1.5,
+          "B4": 1,
+          "C": 0
+        },
+        "source": {
+          "label": "Relatório de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/19122022_01.MAPE_Quadrienal_relatorio_Final.pdf"
+        },
+        "base_year": 2020
+      },
+      "mat-prob-discentes": {
+        "label": "Matemática / Prob. Estatística (Discentes)",
+        "scores": {
+          "A1": 128,
+          "A2": 64,
+          "A3": 32,
+          "A4": 16,
+          "B1": 8,
+          "B2": 4,
+          "B3": 2,
+          "B4": 1,
+          "C": 0
+        },
+        "source": {
+          "label": "Relatório de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/19122022_01.MAPE_Quadrienal_relatorio_Final.pdf"
+        },
+        "base_year": 2020
+      },
+      "quimica-discentes": {
+        "label": "Química (Discentes)",
+        "scores": {
+          "A1": 93.75,
+          "A2": 81.25,
+          "A3": 68.75,
+          "A4": 56.25,
+          "B1": 43.75,
+          "B2": 31.25,
+          "B3": 18.75,
+          "B4": 6.25,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_QUIMICA_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      }
+    }
+  },
+  {
+    "label": "Engenharias",
+    "areas": {
+      "engenharias-1": {
+        "label": "Engenharias I",
+        "scores": {
+          "A1": 1,
+          "A2": 0.9,
+          "A3": 0.75,
+          "A4": 0.6,
+          "B1": 0.4,
+          "B2": 0.3,
+          "B3": 0.15,
+          "B4": 0.05,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_ENG_01_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "engenharias-2": {
+        "label": "Engenharias II",
+        "scores": {
+          "A1": 1,
+          "A2": 0.875,
+          "A3": 0.75,
+          "A4": 0.675,
+          "B1": 0.5,
+          "B2": 0,
+          "B3": 0,
+          "B4": 0,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_ENG2_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "engenharias-3": {
+        "label": "Engenharias III",
+        "scores": {
+          "A1": 1,
+          "A2": 0.875,
+          "A3": 0.75,
+          "A4": 0.625,
+          "B1": 0.5,
+          "B2": 0.375,
+          "B3": 0.25,
+          "B4": 0.125,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/ENG_III_Ficha_Avaliacao_02_07.pdf"
+        },
+        "base_year": 2020
+      },
+      "engenharias-4": {
+        "label": "Engenharias IV",
+        "scores": {
+          "A1": 1,
+          "A2": 0.875,
+          "A3": 0.75,
+          "A4": 0.6,
+          "B1": 0.3,
+          "B2": 0.2,
+          "B3": 0.1,
+          "B4": 0.05,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/Ficha_Avaliacao_Engenharias_IV_Jul2021.pdf"
+        },
+        "base_year": 2020
+      }
+    }
+  },
+  {
+    "label": "Multidisciplinar",
+    "areas": {
+      "biotecnologia": {
+        "label": "Biotecnologia",
+        "scores": {
+          "A1": 100,
+          "A2": 85,
+          "A3": 70,
+          "A4": 55,
+          "B1": 40,
+          "B2": 25,
+          "B3": 10,
+          "B4": 0,
+          "C": 0
+        },
+        "source": {
+          "label": "Relatório de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/19122022_48.BIOT_Quadrienal_Relatorio_Final.pdf"
+        },
+        "base_year": 2020
+      },
+      "ambientais": {
+        "label": "Ciências Ambientais",
+        "scores": {
+          "A1": 1,
+          "A2": 0.85,
+          "A3": 0.7,
+          "A4": 0.6,
+          "B1": 0.5,
+          "B2": 0.35,
+          "B3": 0.2,
+          "B4": 0.1,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_CIENCIAS_AMB_ATUALIZADA.pdf"
+        },
+        "base_year": 2020
+      },
+      "ensino": {
+        "label": "Ensino",
+        "scores": {
+          "A1": 100,
+          "A2": 85,
+          "A3": 75,
+          "A4": 60,
+          "B1": 50,
+          "B2": 35,
+          "B3": 25,
+          "B4": 10,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/FICHA_ENSINO.pdf"
+        },
+        "base_year": 2020
+      },
+      "interdisciplinar": {
+        "label": "Interdisciplinar",
+        "scores": {
+          "A1": 1,
+          "A2": 0.875,
+          "A3": 0.75,
+          "A4": 0.625,
+          "B1": 0.5,
+          "B2": 0.375,
+          "B3": 0.25,
+          "B4": 0.125,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/FICHA_AVA_INTERDISCIPLINAR_JUL_21.pdf"
+        },
+        "base_year": 2020
+      },
+      "materiais": {
+        "label": "Materiais",
+        "scores": {
+          "A1": 1,
+          "A2": 0.9,
+          "A3": 0.7,
+          "A4": 0.6,
+          "B1": 0.4,
+          "B2": 0.3,
+          "B3": 0.2,
+          "B4": 0.1,
+          "C": 0
+        },
+        "source": {
+          "label": "Ficha de Avaliação",
+          "url": "https://www.gov.br/capes/pt-br/centrais-de-conteudo/documentos/avaliacao/MATERIAIS_2.0.pdf"
+        },
+        "base_year": 2020
+      }
+    }
+  }
+]

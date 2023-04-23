@@ -1,3 +1,5 @@
+/*global chrome*/
+
 import '../App.css';
 import { useState } from 'react';
 import QualisTableView from '../components/QualisTableView';
@@ -8,8 +10,9 @@ import TopView from '../components/TopView';
 import { FaTrashAlt, FaUserAlt, FaChartBar, FaRegCalendarCheck } from 'react-icons/fa';
 import { updateLattesData, getLattesAuthorStats } from '../Utils/utils';
 
-function Analysis() {
+function Analysis(props) {
   const [author, setAuthor] = useState("");
+  const [area, setArea] = useState(props.area);
   const [authors, setAuthors] = useState([]);
   const [viewType, setViewType] = useState("");
   const [stats, setStats] = useState([]);
@@ -20,6 +23,7 @@ function Analysis() {
   const [showStatistics, setShowStatistics] = useState(false);
   const [initYearInput, setInitYearInput] = useState(initYear);
   const [endYearInput, setEndYearInput] = useState(endYear);
+  const allQualisScores = props.allQualisScores;
 
   async function handleAuthorSelector(value) {
     setAuthor(value);
@@ -39,10 +43,10 @@ function Analysis() {
     setEndYearInput(endYear);
     switch (value) {
       case "last5":
-        setInitYearInput(endYear-5);
+        setInitYearInput(endYear-4);
         break;
       case "last10":
-        setInitYearInput(endYear-10);
+        setInitYearInput(endYear-9);
         break;
       case "all":
         setInitYearInput(initYear);
@@ -50,7 +54,7 @@ function Analysis() {
     }
   }
 
-  updateLattesData().then((authorNameLinkList) => {
+  updateLattesData().then(async (authorNameLinkList) => {
     if (authors.length == 0 && authorNameLinkList.length != 0) setAuthors(authorNameLinkList);
   });
 
@@ -64,9 +68,11 @@ function Analysis() {
       </div>
     );
   }
+  
+  console.log('allQualisScores: ', allQualisScores);
 
   return (
-    <div class="content">
+    <div class="content form">
       <form id="form-filters">
         <div class="select-icon">
           <FaUserAlt color='#415e98'/> 
@@ -74,11 +80,24 @@ function Analysis() {
             <option value="" disabled="true" selected="true" hidden="true">Selecione um CV</option>
             {authors.map(op => <option value={op.link}>{op.name}</option>)}
           </select>
+          { author != "" && 
+            <button id="clear-data-button" title="Remover dados do CV" onClick={() => setAuthor("")}>
+              <FaTrashAlt color='#415e98'/>
+            </button>
+          }
         </div>
         { author != "" ? <>
-          <button id="clear-data-button" title="Remover dados do CV" onClick={() => setAuthor("")}>
-            <FaTrashAlt color='#415e98'/>
-          </button>
+          <p id="total-pubs-div">{totalPubs} artigos em periódicos entre {initYear} e {endYear}</p>
+          <div class="select-icon">
+            <FaChartBar color='#415e98'/>
+            <select id="area-select" value={area} onChange={e => setArea(e.target.value)}>
+              <option value="" disabled="true" selected="true" hidden="true">Selecione uma Área do Conhecimento</option>
+              <option value="undefined">Sem Área do Conhecimento</option>
+              {allQualisScores.map(greatArea => <optgroup label={greatArea.label}>
+                {Object.keys(greatArea.areas).map(area => <option value={area}>{greatArea.areas[area].label}</option>)}
+                </optgroup>)}
+            </select>
+          </div>
           <div class="select-icon">
             <FaChartBar color='#415e98'/>
             <select id="view-type-select" value={viewType} onChange={e => setViewType(e.target.value)}>
@@ -97,9 +116,11 @@ function Analysis() {
               </optgroup>
             </select>
           </div>
-          <input id="init-year-input" class="year-input" type="number" min={initYear} max={endYear} value={initYearInput} required="required" onChange={e => setInitYearInput(e.target.value)}/>
-          <p> a </p>
-          <input id="end-year-input" class="year-input" type="number" min={initYear} max={endYear} value={endYearInput} required="required" onChange={e => setEndYearInput(e.target.value)}/>
+          <div class="year-selection">
+            <input id="init-year-input" class="year-input" type="number" min={initYear} max={endYear} value={initYearInput} required="required" onChange={e => setInitYearInput(e.target.value)}/>
+            <p> a </p>
+            <input id="end-year-input" class="year-input" type="number" min={initYear} max={endYear} value={endYearInput} required="required" onChange={e => setEndYearInput(e.target.value)}/>
+          </div>
           <div class="select-icon">
             <FaRegCalendarCheck color='#415e98'/>
             <select id="period-select" onChange={e => handleSelectedPeriod(e.target.value)}>
@@ -108,13 +129,12 @@ function Analysis() {
               <option value="all" selected="true"> Todo o período do CV</option>
             </select>
           </div>
-          {viewType != "top5View" && viewType != "top10View" ? (<div>
+          {viewType != "top5View" && viewType != "top10View" ? (<div style={{ marginLeft: '13px' }}>
             <input id="showStatistics" type="checkbox" value={showStatistics} onChange={(e) =>setShowStatistics(!showStatistics)}/>
             <label for="showStatistics">Exibir estatísticas</label>
           </div>) : null }
         </> : null}
       </form>
-      { author != "" && <p id="total-pubs-div">{totalPubs} artigos em periódicos entre {initYear} e {endYear}</p> }
       <div class="table-wrapper">
         {viewType == "qualisTableView" ? <QualisTableView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics}/> : null}
         {viewType == "qualisGraphicView" ? <QualisGraphicView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics}/> : null}

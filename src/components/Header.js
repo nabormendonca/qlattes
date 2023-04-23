@@ -12,14 +12,14 @@ function Header() {
         <Link to="/index.html" class={path=="/index.html" ? "tablinks active" : "tablinks"}>
           Visualização
         </Link>
-        <Link to="/index.html/instructions" class={path=="/index.html/instructions" ? "tablinks active" : "tablinks"}>
-          Instruções de uso
+        <Link to="/index.html/questions" class={path=="/index.html/questions" ? "tablinks active" : "tablinks"}>
+          Dúvidas frequentes
+        </Link>
+        <Link to="/index.html/comments" class={path=="/index.html/instructions" ? "tablinks active" : "tablinks"}>
+          Comentários e sugestões
         </Link>
         <Link to="/index.html/about" class={path=="/index.html/about" ? "tablinks active" : "tablinks"}>
           Sobre
-        </Link>
-        <Link to="/index.html/questions" class={path=="/index.html/questions" ? "tablinks active" : "tablinks"}>
-          Dúvidas frequentes
         </Link>
       </div>
     </header>

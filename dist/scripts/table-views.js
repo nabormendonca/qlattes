@@ -530,10 +530,6 @@ function addTableStatsRows(
   );
 }
 
-// function removeTableFooter(tableFoot, footTag) {
-//   removeElements(`[tag='${footTag}']`);
-// }
-
 function addTableFootRow(
   tableFoot,
   footTag,

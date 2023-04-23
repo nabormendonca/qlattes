@@ -15,7 +15,7 @@
   --score-table-min-width: 720px;
   --score-table-data-cols-width: 55px;
   --score-table-total-cols-width: 65px;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 /** Mozilla Firefox root settings */
@@ -24,7 +24,7 @@
     --year-input-width: 68px;
     --period-select-width: 216px;
     --stats-table-max-height: 240px;
-    font-size: 16px;
+    font-size: 15px;
   }
 }
 
@@ -38,7 +38,7 @@ body {
   flex-direction: column;
   height: 100vh;
   font-family: 'Lato', sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   margin: 0px;
 }
 
@@ -75,6 +75,11 @@ h1 {
   text-align: left;
   margin: 30px 15px;
 }
+.content.form {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
 
 .content-text {
   margin: 30px 10%;
@@ -84,8 +89,8 @@ h1 {
 
 #form-filters {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
   gap: 10px;
 }
@@ -114,6 +119,10 @@ h1 {
 }
 
 select {
+  white-space: normal;
+  width: 250px;
+  word-wrap: break-word;
+  height: 50px;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 25px;
@@ -123,7 +132,7 @@ select {
   box-sizing: border-box;
   cursor: pointer;
   accent-color: var(--main-accent-color);
-  font-size: 16px;
+  font-size: 15px;
 }
 
 input[type='text'] {
@@ -138,7 +147,7 @@ input[type='text'] {
   box-sizing: border-box;
   height: 28px;
   min-width: 322px;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .year-input {
@@ -152,19 +161,28 @@ input[type='text'] {
   height: 28px;
   width: var(--year-input-width);
   accent-color: var(--main-accent-color);
-  font-size: 16px;
+  font-size: 15px;
+}
+
+.year-selection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 18px;
+  gap: 5px;
 }
 
 #total-pubs-div {
-  text-align: center;
   margin: 10px;
+  margin-left: 12px;
 }
 
 /* TABLE STYLES */
 
 .table-wrapper {
   margin: 10px auto;
-  max-width: 55%;
+  max-width: 60%;
+  min-width: 50%;
 }
 
 .styled-table-text {

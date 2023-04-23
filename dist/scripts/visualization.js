@@ -844,6 +844,8 @@ function createAreaSelect() {
   if (typeof areaData !== 'undefined') {
     console.log(`Area ${areaData.label} set`);
     areaSelect.value = areaData.area;
+    // areaLabel = areaData.label;
+    // areaScores = areaData.scores;
     updateArea();
   }
 

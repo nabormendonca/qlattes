@@ -1,4 +1,5 @@
 /*global chrome*/
+
 /**
  * Mathematical util functions
  */
@@ -69,6 +70,31 @@ export function linearRegression(xData, yData) {
 /**
  * Data functions
  */
+
+
+//
+// Fetch URL functions
+//
+
+// fetch JSON from URL
+export async function fetchJSON(url) {
+  var json = [];
+
+  // fetch url
+  const response = await fetch(url);
+
+  // check response status
+  if (response.status === 200) {
+    // get response contents
+    json = await response.json();
+  } else {
+    // log response status code and text
+    console.log(response.status);
+    console.log(response.statusText);
+  }
+
+  return json;
+}
 
 export async function updateLattesData() {
   const lattesData = await chrome.storage.local.get('lattes_data');
@@ -373,6 +399,46 @@ export function getStatisticsAnnotations(totalStats, showStatistics, end, init) 
   }
 
   return lineAnnotations;
+}
+
+export function getGraphicInfo(datasets, years, totalStats, showStatistics, end, init) {  
+  const lineAnnotations = getStatisticsAnnotations(totalStats, showStatistics, end, init);
+  const options = {
+    plugins: {
+      annotation: {
+        annotations: lineAnnotations
+      },
+      legend: {
+        position: 'top',
+      },
+    },
+    // responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        stacked: true,
+        grid: {
+          display: false,
+        },
+      },
+    },
+    borderWidth: 1,
+    minBarThickness: 5,
+    maxBarThickness: 12,
+  };
+  console.log('year', years);
+  console.log('1:', years.filter(year => year >= init && year <= end))
+  const data = {
+    labels: years.filter(year => year >= init && year <= end).map(year => year.toString()).reverse(),
+    datasets
+  };
+
+  return { options, data }
 }
 
 /**

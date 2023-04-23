@@ -2,7 +2,7 @@ import '../App.css';
 import {
   qualisScores,
   updateTotalStats,
-  getStatisticsAnnotations
+  getGraphicInfo
 } from '../Utils/utils';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import {
@@ -45,8 +45,10 @@ function QualisGraphicView({init, end, stats, showStatistics}) {
     };
   }
   for (const year of stats.year) {
-    for (const count of Object.keys(dataCounts)) {
-      dataCounts[count][year] = 0;
+    if (year >= init && year <= end) {
+      for (const count of Object.keys(dataCounts)) {
+        dataCounts[count][year] = 0;
+      }
     }
   }
 
@@ -73,57 +75,29 @@ function QualisGraphicView({init, end, stats, showStatistics}) {
     }
   }
   
-  const lineAnnotations = getStatisticsAnnotations(totalStats, showStatistics, end, init);
-  const options = {
-    plugins: {
-      annotation: {
-        annotations: lineAnnotations
-      }
+  const datasets = [
+    {
+      label: 'A',
+      data: dataCounts.A,
+      backgroundColor: '#415e98',
     },
-    responsive: true,
-    scales: {
-      x: {
-        stacked: true,
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        stacked: true,
-        grid: {
-          display: false,
-        },
-      },
+    {
+      label: 'B',
+      data: dataCounts.B,
+      backgroundColor: '#657cab',
     },
-    borderWidth: 1,
-    minBarThickness: 5,
-    maxBarThickness: 12,
-  };
-  const data = {
-    labels: stats.year.map(year => year.toString()).reverse(),
-    datasets: [
-      {
-        label: 'A',
-        data: dataCounts.A,
-        backgroundColor: '#415e98',
-      },
-      {
-        label: 'B',
-        data: dataCounts.B,
-        backgroundColor: '#657cab',
-      },
-      {
-        label: 'C',
-        data: dataCounts.C,
-        backgroundColor: '#9dabc9',
-      },
-      {
-        label: 'N',
-        data: dataCounts.N,
-        backgroundColor: '#c3cbde',
-      },
-    ],
-  };
+    {
+      label: 'C',
+      data: dataCounts.C,
+      backgroundColor: '#9dabc9',
+    },
+    {
+      label: 'N',
+      data: dataCounts.N,
+      backgroundColor: '#c3cbde',
+    },
+  ]
+  const {data, options} = getGraphicInfo(datasets, stats.year, totalStats, showStatistics, end, init);
 
   return (
     <>
