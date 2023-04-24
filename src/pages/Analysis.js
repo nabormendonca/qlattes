@@ -60,7 +60,6 @@ function Analysis(props) {
 
     // get selected area
     const newArea = event.target.value;
-    setArea(newArea);
 
     if (newArea === 'undefined') {
       // save area data to local store
@@ -71,6 +70,11 @@ function Analysis(props) {
         source: {},
         base_year: '',
       }});
+
+      if (viewType == "scoreTableView" || viewType == "scoreGraphicView") {
+        alert(`Para visualizar a pontuação Qualis, é necessário selecionar uma Área do Conhecimento.`)
+        setViewType("");
+      }
     } else {
       // find selected area data in Qualis score data
       var match = allQualisScores.find((elem) =>
@@ -84,14 +88,13 @@ function Analysis(props) {
             ...match.areas[newArea]
           }
           setAreaData(currAreaData);
+          setArea(newArea);
 
           // save area data to local store
           chrome.storage.local.set({ area_data: currAreaData});
         } else {
           // show no scores alert and reset area select to previous area (if any)
-          alert(
-            'Esta Área do Conhecimento não definiu pontuação específica para os estratos do Qualis.'
-          );
+          alert('Esta Área do Conhecimento não definiu pontuação específica para os estratos do Qualis.');
           if (prevArea !== '') {
             // reset area select to previously selected option
             event.target.value = prevArea;
@@ -102,6 +105,20 @@ function Analysis(props) {
         }
       }
     }
+  }
+  function handleViewTypeChange(value) {
+    console.log('areaData', areaData, Object.keys(areaData).length === 0)
+    console.log('value', value, (value == "scoreTableView" || value == "scoreGraphicView"))
+    console.log((value == "scoreTableView" || value == "scoreGraphicView") && Object.keys(areaData).length === 0)
+    if ((value == "scoreTableView" || value == "scoreGraphicView") && Object.keys(areaData).length === 0) {
+      alert(`Para visualizar a pontuação Qualis, é necessário selecionar uma Área do Conhecimento.`)
+      return;
+    }
+    setViewType(value);
+  }
+  function handleClearButton() {
+    setAuthor("");
+    setViewType("");
   }
 
   if (authors.length == 0) {
@@ -125,7 +142,7 @@ function Analysis(props) {
             {authors.map(op => <option value={op.link}>{op.name}</option>)}
           </select>
           { author != "" && <>
-            <button id="clear-data-button" title="Remover dados do CV" onClick={() => setAuthor("")}>
+            <button id="clear-data-button" title="Remover dados do CV" onClick={() => handleClearButton()}>
               <FaTrashAlt color='#415e98'/>
             </button>
             <button id="clear-data-button" title="Exportar dados do CV" onClick={() => exportCV()}>
@@ -147,7 +164,7 @@ function Analysis(props) {
           </div>
           <div class="select-icon">
             <FaChartBar color='#415e98'/>
-            <select id="view-type-select" value={viewType} onChange={e => setViewType(e.target.value)}>
+            <select id="view-type-select" value={viewType} onChange={e => handleViewTypeChange(e.target.value)}>
               <option value="" disabled="true" selected="true" hidden="true"> Selecione uma visualização</option>
               <optgroup label="Classificação">
                 <option value="qualisTableView">Tabela de classificação Qualis</option>

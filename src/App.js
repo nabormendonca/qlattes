@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [allQualisScores, setAllQualisScores] = useState([]);
-  const [area, setArea] = useState("");
+  const [area, setArea] = useState({});
   const [authors, setAuthors] = useState([]);
 
   async function getInfos() {
@@ -27,7 +27,7 @@ function App() {
 
     // Update area data (if previously saved in local store)
     const data = await chrome.storage.local.get(['area_data']);
-    if (Object.keys(data).length > 0 && data?.area_data?.area) {
+    if (Object.keys(data).length > 0) {
       setArea(data.area_data);
     }
 

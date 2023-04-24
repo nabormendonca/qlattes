@@ -435,8 +435,7 @@ export function getGraphicInfo(datasets, years, totalStats, showStatistics, end,
     minBarThickness: 5,
     maxBarThickness: 12,
   };
-  console.log('year', years);
-  console.log('1:', years.filter(year => year >= init && year <= end))
+  
   const data = {
     labels: years.filter(year => year >= init && year <= end).map(year => year.toString()).reverse(),
     datasets

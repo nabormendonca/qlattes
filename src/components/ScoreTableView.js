@@ -6,6 +6,10 @@ import {
 } from '../Utils/utils.js';
 
 function ScoreTableView({init, end, stats, showStatistics, areaData}) {
+  if (!areaData || Object.keys(areaData).length === 0) {
+    alert(`Para visualizar a pontuação Qualis, é necessário selecionar uma Área do Conhecimento.`);
+    return;
+  }
   const qualisScores = areaData.scores;
   const dataCols = Object.keys(qualisScores);
   const totalCols = {
@@ -52,7 +56,7 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
       // create cells with data cols
       for (const key of dataCols) {
         const dataVal = qualisScores[key] * stats[key][currYear];
-        newRow.push(<td type='data'>{dataVal}</td>);
+        newRow.push(<td type='data'>{dataVal.toFixed(2)}</td>);
         yearTotalCounts['tot'] += dataVal;
         totalCounts[key] += dataVal;
         
@@ -61,7 +65,7 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
       }
 
       for (const key of totalCols.keys) {
-        newRow.push(<td type={totalCols.type}>{yearTotalCounts[key]}</td>);
+        newRow.push(<td type={totalCols.type}>{yearTotalCounts[key].toFixed(2)}</td>);
         // increment total count
         totalCounts[key] += yearTotalCounts[key];
       }
@@ -95,8 +99,8 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
       <tfoot>
         <tr tag="total">
           <th type="year">Total</th>
-          {dataCols.map(key => <th type="data">{totalCounts[key]}</th>)}
-          {totalCols.keys.map(key => <th type={totalCols.type}>{totalCounts[key]}</th>)}
+          {dataCols.map(key => <th type="data">{totalCounts[key].toFixed(2)}</th>)}
+          {totalCols.keys.map(key => <th type={totalCols.type}>{totalCounts[key].toFixed(2)}</th>)}
         </tr>
         {showStatistics ? addStatisticFromTotal(totalCols.keys, totalStats): null}
       </tfoot>

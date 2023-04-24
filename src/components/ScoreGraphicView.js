@@ -23,6 +23,10 @@ ChartJS.register(
 );
 
 function ScoreGraphicView({init, end, stats, showStatistics, areaData}) {
+  if (!areaData || Object.keys(areaData).length === 0) {
+    alert(`Para visualizar a pontuação Qualis, é necessário selecionar uma Área do Conhecimento.`);
+    return;
+  }
   const qualisScores = areaData.scores;
   const dataCols = Object.keys(qualisScores);
   const dataCounts = {
