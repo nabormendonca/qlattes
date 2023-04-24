@@ -19,27 +19,33 @@ import { useEffect, useState } from 'react';
 function App() {
   const [allQualisScores, setAllQualisScores] = useState([]);
   const [area, setArea] = useState("");
+  const [authors, setAuthors] = useState([]);
 
   async function getInfos() {
-    // update area data (if previously saved in local store)
+    // Get Qualis Scores
     setAllQualisScores(await fetchJSON(chrome.runtime.getURL('data/qualis-scores-by-area-2017-2020.json')));
+
+    // Update area data (if previously saved in local store)
     const data = await chrome.storage.local.get(['area_data']);
     if (Object.keys(data).length > 0 && data?.area_data?.area) {
       setArea(data.area_data.area);
     }
-    
+
+    // Get Authors
+    updateLattesData().then(async (authorNameLinkList) => {
+      if (authors.length == 0 && authorNameLinkList.length != 0) setAuthors(authorNameLinkList);
+    });
   }
 
   useEffect(() => {
-    getInfos();
-    
+    getInfos()
   });
   
   return (
     <div className="body">
       <Header/>
       <Routes>
-        <Route exact path="/index.html" element={<Analysis allQualisScores={allQualisScores} area={area}/>}/>
+        <Route exact path="/index.html" element={<Analysis allQualisScores={allQualisScores} area={area} authors={authors}/>}/>
         <Route exact path="/index.html/instructions"  element={<Instructions/>}/>
         <Route exact path="/index.html/about"  element={<About/>} />
         <Route exact path="/index.html/comments" element={<Comments/>}/>

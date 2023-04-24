@@ -195,6 +195,10 @@ export function addMissingYearsToAuthorStats(stats, pubInfo) {
   };
 }
 
+export function exportCV() {
+
+}
+
 
 /**
  * Data stats util functions

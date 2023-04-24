@@ -1,5 +1,3 @@
-/*global chrome*/
-
 import '../App.css';
 import { useState } from 'react';
 import QualisTableView from '../components/QualisTableView';
@@ -7,13 +5,12 @@ import QualisGraphicView from '../components/QualisGraphicView';
 import ScoreGraphicView from '../components/ScoreGraphicView';
 import ScoreTableView from '../components/ScoreTableView';
 import TopView from '../components/TopView';
-import { FaTrashAlt, FaUserAlt, FaChartBar, FaRegCalendarCheck } from 'react-icons/fa';
-import { updateLattesData, getLattesAuthorStats } from '../Utils/utils';
+import { FaTrashAlt, FaUserAlt, FaChartBar, FaRegCalendarCheck, FaFileExport } from 'react-icons/fa';
+import { getLattesAuthorStats, exportCV } from '../Utils/utils';
 
 function Analysis(props) {
   const [author, setAuthor] = useState("");
   const [area, setArea] = useState(props.area);
-  const [authors, setAuthors] = useState([]);
   const [viewType, setViewType] = useState("");
   const [stats, setStats] = useState([]);
   const [pubInfo, setPubInfo] = useState([]);
@@ -24,6 +21,7 @@ function Analysis(props) {
   const [initYearInput, setInitYearInput] = useState(initYear);
   const [endYearInput, setEndYearInput] = useState(endYear);
   const allQualisScores = props.allQualisScores;
+  const authors = props.authors;
 
   async function handleAuthorSelector(value) {
     setAuthor(value);
@@ -54,10 +52,6 @@ function Analysis(props) {
     }
   }
 
-  updateLattesData().then(async (authorNameLinkList) => {
-    if (authors.length == 0 && authorNameLinkList.length != 0) setAuthors(authorNameLinkList);
-  });
-
   if (authors.length == 0) {
     return (
       <div class="content content-text">
@@ -68,8 +62,6 @@ function Analysis(props) {
       </div>
     );
   }
-  
-  console.log('allQualisScores: ', allQualisScores);
 
   return (
     <div class="content form">
@@ -80,11 +72,14 @@ function Analysis(props) {
             <option value="" disabled="true" selected="true" hidden="true">Selecione um CV</option>
             {authors.map(op => <option value={op.link}>{op.name}</option>)}
           </select>
-          { author != "" && 
+          { author != "" && <>
             <button id="clear-data-button" title="Remover dados do CV" onClick={() => setAuthor("")}>
               <FaTrashAlt color='#415e98'/>
             </button>
-          }
+            <button id="clear-data-button" title="Exportar dados do CV" onClick={() => exportCV()}>
+              <FaFileExport color='#415e98'/>
+            </button>
+          </>}
         </div>
         { author != "" ? <>
           <p id="total-pubs-div">{totalPubs} artigos em periódicos entre {initYear} e {endYear}</p>
