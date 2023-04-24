@@ -1,3 +1,5 @@
+/*global chrome*/
+
 import '../App.css';
 import { useState } from 'react';
 import QualisTableView from '../components/QualisTableView';
@@ -10,7 +12,8 @@ import { getLattesAuthorStats, exportCV } from '../Utils/utils';
 
 function Analysis(props) {
   const [author, setAuthor] = useState("");
-  const [area, setArea] = useState(props.area);
+  const [area, setArea] = useState(props.areaData.area);
+  const [areaData, setAreaData] = useState(props.areaData);
   const [viewType, setViewType] = useState("");
   const [stats, setStats] = useState([]);
   const [pubInfo, setPubInfo] = useState([]);
@@ -51,6 +54,55 @@ function Analysis(props) {
         break;
     }
   }
+  function handleAreaChange(event) {
+    // get previous area (if any)
+    var prevArea = area;
+
+    // get selected area
+    const newArea = event.target.value;
+    setArea(newArea);
+
+    if (newArea === 'undefined') {
+      // save area data to local store
+      chrome.storage.local.set({ area_data: {
+        area: newArea,
+        scores: {},
+        label: 'Sem Área do Conhecimento',
+        source: {},
+        base_year: '',
+      }});
+    } else {
+      // find selected area data in Qualis score data
+      var match = allQualisScores.find((elem) =>
+        Object.keys(elem.areas).includes(newArea)
+      );
+
+      if (match) {
+        if (Object.keys(match.areas[newArea].scores).length > 0) {
+          const currAreaData = {
+            area: newArea,
+            ...match.areas[newArea]
+          }
+          setAreaData(currAreaData);
+
+          // save area data to local store
+          chrome.storage.local.set({ area_data: currAreaData});
+        } else {
+          // show no scores alert and reset area select to previous area (if any)
+          alert(
+            'Esta Área do Conhecimento não definiu pontuação específica para os estratos do Qualis.'
+          );
+          if (prevArea !== '') {
+            // reset area select to previously selected option
+            event.target.value = prevArea;
+          } else {
+            // reset area select to placeholder option
+            event.target.selectedIndex = 0;
+          }
+        }
+      }
+    }
+  }
 
   if (authors.length == 0) {
     return (
@@ -85,7 +137,7 @@ function Analysis(props) {
           <p id="total-pubs-div">{totalPubs} artigos em periódicos entre {initYear} e {endYear}</p>
           <div class="select-icon">
             <FaChartBar color='#415e98'/>
-            <select id="area-select" value={area} onChange={e => setArea(e.target.value)}>
+            <select id="area-select" value={area} onChange={e => handleAreaChange(e)}>
               <option value="" disabled="true" selected="true" hidden="true">Selecione uma Área do Conhecimento</option>
               <option value="undefined">Sem Área do Conhecimento</option>
               {allQualisScores.map(greatArea => <optgroup label={greatArea.label}>
@@ -133,8 +185,8 @@ function Analysis(props) {
       <div class="table-wrapper">
         {viewType == "qualisTableView" ? <QualisTableView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics}/> : null}
         {viewType == "qualisGraphicView" ? <QualisGraphicView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics}/> : null}
-        {viewType == "scoreTableView" ? <ScoreTableView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics}/> : null}
-        {viewType == "scoreGraphicView" ? <ScoreGraphicView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics}/> : null}
+        {viewType == "scoreTableView" ? <ScoreTableView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics} areaData={areaData}/> : null}
+        {viewType == "scoreGraphicView" ? <ScoreGraphicView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics} areaData={areaData}/> : null}
         {viewType == "top5View" ? <TopView topN={5} startYear={initYearInput} endYear={endYearInput} pubInfo={pubInfo}/> : null}
         {viewType == "top10View" ? <TopView topN={10} startYear={initYearInput} endYear={endYearInput} pubInfo={pubInfo}/> : null}
       </div>

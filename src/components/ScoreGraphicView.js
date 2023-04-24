@@ -1,9 +1,7 @@
 import '../App.css';
 import {
-  getQualisScore,
   updateTotalStats,
   getGraphicInfo,
-  qualisScores
 } from '../Utils/utils';
 import {
   Chart as ChartJS,
@@ -24,7 +22,8 @@ ChartJS.register(
   Legend
 );
 
-function ScoreGraphicView({init, end, stats, showStatistics}) {
+function ScoreGraphicView({init, end, stats, showStatistics, areaData}) {
+  const qualisScores = areaData.scores;
   const dataCols = Object.keys(qualisScores);
   const dataCounts = {
     Pontos: {
@@ -43,7 +42,7 @@ function ScoreGraphicView({init, end, stats, showStatistics}) {
   // reset year total counts
   for (const year of stats.year) {
     if (year >= init && year <= end) {
-      datasets.data[year] = 0;
+      datasets[0].data[year] = 0;
     }
   }
   
@@ -66,8 +65,8 @@ function ScoreGraphicView({init, end, stats, showStatistics}) {
       }
 
       for (const key of dataCols) {
-        const countVal = getQualisScore(key, stats[key][currYear]);
-        datasets.data[stats.year[currYear]] += countVal;
+        const countVal = qualisScores[key] * stats[key][currYear];
+        datasets[0].data[stats.year[currYear]] += countVal;
         yearCounts.Pontos += countVal;
         yearCounts.tot += countVal;
       }

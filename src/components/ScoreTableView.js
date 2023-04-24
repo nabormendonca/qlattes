@@ -2,12 +2,11 @@ import '../App.css';
 import {
   addStatisticFromTotal,
   updateTotalStats,
-  getQualisScore,
-  getTableClass,
-  qualisScores
+  getTableClass
 } from '../Utils/utils.js';
 
-function ScoreTableView({init, end, stats, showStatistics}) {
+function ScoreTableView({init, end, stats, showStatistics, areaData}) {
+  const qualisScores = areaData.scores;
   const dataCols = Object.keys(qualisScores);
   const totalCols = {
     keys: ['tot'],
@@ -52,7 +51,7 @@ function ScoreTableView({init, end, stats, showStatistics}) {
       
       // create cells with data cols
       for (const key of dataCols) {
-        const dataVal = getQualisScore(key, stats[key][currYear]);
+        const dataVal = qualisScores[key] * stats[key][currYear];
         newRow.push(<td type='data'>{dataVal}</td>);
         yearTotalCounts['tot'] += dataVal;
         totalCounts[key] += dataVal;
