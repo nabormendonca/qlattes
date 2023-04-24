@@ -107,9 +107,6 @@ function Analysis(props) {
     }
   }
   function handleViewTypeChange(value) {
-    console.log('areaData', areaData, Object.keys(areaData).length === 0)
-    console.log('value', value, (value == "scoreTableView" || value == "scoreGraphicView"))
-    console.log((value == "scoreTableView" || value == "scoreGraphicView") && Object.keys(areaData).length === 0)
     if ((value == "scoreTableView" || value == "scoreGraphicView") && Object.keys(areaData).length === 0) {
       alert(`Para visualizar a pontuação Qualis, é necessário selecionar uma Área do Conhecimento.`)
       return;

@@ -30,23 +30,16 @@ function ScoreGraphicView({init, end, stats, showStatistics, areaData}) {
   const qualisScores = areaData.scores;
   const dataCols = Object.keys(qualisScores);
   const dataCounts = {
-    Pontos: {
-      background: '#415e98',
-      border: 'white',
-    },
+    A: {},
+    B: {},
     tot: {},
   };
-  const datasets = [
-    {
-      label: 'Pontos acumulados',
-      data: {},
-      backgroundColor: '#415e98',
-    }
-  ]
   // reset year total counts
-  for (const year of stats.year) {
-    if (year >= init && year <= end) {
-      datasets[0].data[year] = 0;
+  for (const key of Object.keys(dataCounts)) {
+    for (const year of stats.year) {
+      if (year >= init && year <= end) {
+        dataCounts[key][year] = 0;
+      }
     }
   }
   
@@ -70,8 +63,14 @@ function ScoreGraphicView({init, end, stats, showStatistics, areaData}) {
 
       for (const key of dataCols) {
         const countVal = qualisScores[key] * stats[key][currYear];
-        datasets[0].data[stats.year[currYear]] += countVal;
-        yearCounts.Pontos += countVal;
+
+        if (key.includes('A')) {
+          yearCounts.A += countVal;
+          dataCounts.A[stats.year[currYear]] += countVal;
+        } else {
+          yearCounts.B += countVal;
+          dataCounts.B[stats.year[currYear]] += countVal;
+        }
         yearCounts.tot += countVal;
       }
 
@@ -83,6 +82,18 @@ function ScoreGraphicView({init, end, stats, showStatistics, areaData}) {
     }
   }
 
+  const datasets = [
+    {
+      label: 'A',
+      data: dataCounts.A,
+      backgroundColor: '#415e98',
+    },
+    {
+      label: 'B',
+      data: dataCounts.B,
+      backgroundColor: '#657cab',
+    }
+  ]
   const {data, options} = getGraphicInfo(datasets, stats.year, totalStats, showStatistics, end, init);
 
   return (
