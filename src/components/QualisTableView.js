@@ -9,8 +9,8 @@ import {
 function QualisTableView({init, end, stats, showStatistics}) {
   const dataCols = Object.keys(qualisScores);
   const totalCols = {
-    keys: ['totA', 'totB', 'totABC'],
-    labels: ['#A', '#B', 'Total'],
+    keys: ['totA', 'totB', 'totABC', '%A', '%B'],
+    labels: ['Tot A', 'Tot B', 'Total', '%A', '%B'],
     type: 'total',
   };
 
@@ -22,10 +22,7 @@ function QualisTableView({init, end, stats, showStatistics}) {
 
   // reset total counts
   let totalCounts = {};
-  for (const key of dataCols) {
-    totalCounts[key] = 0;
-  }
-  for (const key of totalCols.keys) {
+  for (const key of [...dataCols, ...totalCols.keys]) {
     totalCounts[key] = 0;
   }
 
@@ -69,8 +66,11 @@ function QualisTableView({init, end, stats, showStatistics}) {
         dataCounts[key] += stats[key][currYear];
       }
 
+      yearTotalCounts['%A'] = yearTotalCounts['totABC']==0 ? 0 : (yearTotalCounts['totA']/yearTotalCounts['totABC']*100);
+      yearTotalCounts['%B'] = yearTotalCounts['totABC']==0 ? 0 : (yearTotalCounts['totB']/yearTotalCounts['totABC']*100);
+
       for (const key of totalCols.keys) {
-        newRow.push(<td type={totalCols.type}>{yearTotalCounts[key]}</td>);
+        newRow.push(<td type={totalCols.type}>{Math.round((yearTotalCounts[key] + Number.EPSILON) * 100) / 100}</td>);
         // increment total count
         totalCounts[key] += yearTotalCounts[key];
       }
@@ -86,6 +86,9 @@ function QualisTableView({init, end, stats, showStatistics}) {
     }
   }
 
+  totalCounts['%A'] = totalCounts['totABC']==0 ? 0 : (totalCounts['totA']/totalCounts['totABC']*100);
+  totalCounts['%B'] = totalCounts['totABC']==0 ? 0 : (totalCounts['totB']/totalCounts['totABC']*100);
+
   return (
     <table class={getTableClass(rows.length)} id="qualis-table">
       <thead><tr>
@@ -97,8 +100,8 @@ function QualisTableView({init, end, stats, showStatistics}) {
       <tfoot>
         <tr tag="total">
           <th type="year">Total</th>
-          {dataCols.map(key => <th type="data">{totalCounts[key]}</th>)}
-          {totalCols.keys.map(key => <th type="total">{totalCounts[key]}</th>)}
+          {dataCols.map(key => <th type="data">{Math.round((totalCounts[key] + Number.EPSILON) * 100) / 100}</th>)}
+          {totalCols.keys.map(key => <th type="total">{Math.round((totalCounts[key] + Number.EPSILON) * 100) / 100}</th>)}
         </tr>
         {showStatistics ? addStatisticFromTotal(totalCols.keys, totalStats): null}
       </tfoot>

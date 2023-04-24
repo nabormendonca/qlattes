@@ -89,6 +89,7 @@ function ScoreGraphicView({init, end, stats, showStatistics, areaData}) {
     <>
       <h1>Pontuação Qualis</h1>
       <Bar options={options} data={data} />
+      <p>Fonte da pontuação: <a href={areaData.source.url} target="_blank" title={"Visualizar "+areaData.source.label}>{areaData.source.label}</a> da {areaData.label} (ano-base: {areaData.base_year})</p>
     </>
   );
 }

@@ -13,8 +13,8 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
   const qualisScores = areaData.scores;
   const dataCols = Object.keys(qualisScores);
   const totalCols = {
-    keys: ['tot'],
-    labels: ['Total'],
+    keys: ['totA', 'totB', 'totABC', '%A', '%B'],
+    labels: ['Tot A', 'Tot B', 'Total', '%A', '%B'],
     type: 'total',
   };
 
@@ -56,16 +56,26 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
       // create cells with data cols
       for (const key of dataCols) {
         const dataVal = qualisScores[key] * stats[key][currYear];
-        newRow.push(<td type='data'>{dataVal.toFixed(2)}</td>);
-        yearTotalCounts['tot'] += dataVal;
+        const keyChar = key.slice(0, 1);
+
+        newRow.push(<td type='data'>{Math.round((dataVal + Number.EPSILON) * 100) / 100}</td>);
+        if (keyChar == 'A') {
+          yearTotalCounts['totA'] += dataVal;
+        } else if (keyChar == 'B') {
+          yearTotalCounts['totB'] += dataVal;
+        }
+        yearTotalCounts['totABC'] += dataVal;
         totalCounts[key] += dataVal;
         
         // increment data count with data val
-        dataCounts[key] += stats[key][currYear];
+        dataCounts[key] += dataVal;
       }
 
+      yearTotalCounts['%A'] = yearTotalCounts['totABC']==0 ? 0 : (yearTotalCounts['totA']/yearTotalCounts['totABC']*100);
+      yearTotalCounts['%B'] = yearTotalCounts['totABC']==0 ? 0 : (yearTotalCounts['totB']/yearTotalCounts['totABC']*100);
+      
       for (const key of totalCols.keys) {
-        newRow.push(<td type={totalCols.type}>{yearTotalCounts[key].toFixed(2)}</td>);
+        newRow.push(<td type={totalCols.type}>{Math.round((yearTotalCounts[key] + Number.EPSILON) * 100) / 100}</td>);
         // increment total count
         totalCounts[key] += yearTotalCounts[key];
       }
@@ -81,7 +91,11 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
     }
   }
 
+  totalCounts['%A'] = totalCounts['totABC']==0 ? 0 : (totalCounts['totA']/totalCounts['totABC']*100);
+  totalCounts['%B'] = totalCounts['totABC']==0 ? 0 : (totalCounts['totB']/totalCounts['totABC']*100);
+
   return (
+    <>
     <table class={getTableClass(rows.length)} id="score-table" tag="view">
       <thead>
         <tr>
@@ -92,19 +106,21 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
         <tr>
           <th type="year"></th>
           {Object.values(qualisScores).map((score) => <th type="data">{score} pts</th>)}
-          <th type="total"></th>
+          {totalCols.keys.map((total) => <th type="total"></th>)}
         </tr>
       </thead>
       <tbody>{rows}</tbody>
       <tfoot>
         <tr tag="total">
           <th type="year">Total</th>
-          {dataCols.map(key => <th type="data">{totalCounts[key].toFixed(2)}</th>)}
-          {totalCols.keys.map(key => <th type={totalCols.type}>{totalCounts[key].toFixed(2)}</th>)}
+          {dataCols.map(key => <th type="data">{Math.round((totalCounts[key] + Number.EPSILON) * 100) / 100}</th>)}
+          {totalCols.keys.map(key => <th type={totalCols.type}>{Math.round((totalCounts[key] + Number.EPSILON) * 100) / 100}</th>)}
         </tr>
         {showStatistics ? addStatisticFromTotal(totalCols.keys, totalStats): null}
       </tfoot>
     </table>
+    <p>Fonte da pontuação: <a href={areaData.source.url} target="_blank" title={"Visualizar "+areaData.source.label}>{areaData.source.label}</a> da {areaData.label} (ano-base: {areaData.base_year})</p>
+    </>
   );
 }
 
