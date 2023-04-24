@@ -142,7 +142,7 @@ function Analysis(props) {
             <button id="clear-data-button" title="Remover dados do CV" onClick={() => handleClearButton()}>
               <FaTrashAlt color='#415e98'/>
             </button>
-            <button id="clear-data-button" title="Exportar dados do CV" onClick={() => exportCV()}>
+            <button id="clear-data-button" title="Exportar dados do CV" onClick={() => exportCV(author, areaData)}>
               <FaFileExport color='#415e98'/>
             </button>
           </>}

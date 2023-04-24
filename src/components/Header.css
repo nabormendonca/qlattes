@@ -33,3 +33,7 @@
   border-bottom: 1px solid;
   border-color: var(--tab-bg-color);
 }
+
+.logo {
+  margin-left: 3%;
+}
