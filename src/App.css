@@ -36,7 +36,6 @@ body {
   text-align: center;
   display: flex;
   flex-direction: column;
-  height: 100vh;
   font-family: 'Lato', sans-serif;
   font-size: 15px;
   margin: 0px;
@@ -73,12 +72,13 @@ h1 {
 .content {
   flex-grow: 1;
   text-align: left;
-  margin: 30px 15px;
+  margin: 15px;
 }
 .content.form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-start;
+  gap: 10px;
 }
 
 .content-text {
@@ -90,9 +90,10 @@ h1 {
 #form-filters {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 10px;
+  margin: 0 auto;
 }
 
 #clear-data-button {
@@ -120,9 +121,8 @@ h1 {
 
 select {
   white-space: normal;
-  width: 250px;
+  width: var(--select-width);
   word-wrap: break-word;
-  height: 50px;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 25px;
@@ -177,10 +177,15 @@ input[type='text'] {
   margin-left: 12px;
 }
 
+.general-filters {
+  display: flex;
+  flex-direction: row;
+}
+
 /* TABLE STYLES */
 
 .table-wrapper {
-  margin: 10px auto;
+  margin: auto;
   max-width: 70%;
   min-width: 50%;
 }

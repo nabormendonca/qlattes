@@ -55,7 +55,6 @@ function App() {
         <Route exact path="/index.html/privacy-policy" element={<PrivacyPolicy/>}/>
         <Route exact path="/index.html/questions" element={<Questions/>}/>
       </Routes>
-      <Footer/>
     </div>
   );
 }

@@ -145,10 +145,14 @@ function Analysis(props) {
             <button id="clear-data-button" title="Exportar dados do CV" onClick={() => exportCV(author, areaData)}>
               <FaFileExport color='#415e98'/>
             </button>
+            <p id="total-pubs-div">{totalPubs} artigos em periódicos entre {initYear} e {endYear}</p>
+            {viewType != "top5View" && viewType != "top10View" ? (<div style={{ marginLeft: '13px' }}>
+              <input id="showStatistics" type="checkbox" value={showStatistics} onChange={(e) =>setShowStatistics(!showStatistics)}/>
+              <label for="showStatistics">Exibir estatísticas</label>
+            </div>) : null }
           </>}
         </div>
-        { author != "" ? <>
-          <p id="total-pubs-div">{totalPubs} artigos em periódicos entre {initYear} e {endYear}</p>
+        { author != "" ? <div class="general-filters">
           <div class="select-icon">
             <FaChartBar color='#415e98'/>
             <select id="area-select" value={area} onChange={e => handleAreaChange(e)}>
@@ -190,11 +194,7 @@ function Analysis(props) {
               <option value="all" selected="true"> Todo o período do CV</option>
             </select>
           </div>
-          {viewType != "top5View" && viewType != "top10View" ? (<div style={{ marginLeft: '13px' }}>
-            <input id="showStatistics" type="checkbox" value={showStatistics} onChange={(e) =>setShowStatistics(!showStatistics)}/>
-            <label for="showStatistics">Exibir estatísticas</label>
-          </div>) : null }
-        </> : null}
+        </div> : null}
       </form>
       <div class="table-wrapper">
         {viewType == "qualisTableView" ? <QualisTableView init={initYearInput} end={endYearInput} stats={stats} showStatistics={showStatistics}/> : null}
