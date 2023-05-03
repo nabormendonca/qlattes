@@ -34,7 +34,6 @@ function Menu(path) {
       setSelectedMenu(menu);
     }
   }
-  console.log('oi: ', path, '=> ', path.path);
 
   return (
     <nav class="tab">
