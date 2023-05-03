@@ -7,8 +7,9 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: white;
+  color: black;
   flex-basis: 50px;
+  flex: 0 ;
   padding: 10px;
 }
 
@@ -17,8 +18,7 @@
   gap: 50px;
   display: flex;
   justify-content: center;
-  margin-right: 134px;
-  /* font-size: 20px; */
+  color: black;
 }
 
 .tablinks {
@@ -26,6 +26,7 @@
   color: black;
   font-style: normal;
   padding: 5px;
+  display: table;
 }
 
 .active {
@@ -35,5 +36,61 @@
 }
 
 .logo {
-  margin-left: 3%;
+  margin-left: 10px;
+}
+
+#github-logo {
+  width: 15px;
+  height: auto;
+  margin: 5px;
+}
+
+#qlattes-version {
+  display: flex;
+  align-items: center;
+}
+
+.children {
+  border: none;
+}
+
+.footer-section {
+  font-size: 13px;
+  text-align: end;
+  margin-right: 10px;
+}
+
+.footer-section p {
+  margin: 0;
+}
+
+.tab-list {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.tab-list li {
+  flex: 1;
+  text-align: center;
+  width: 100%; 
+  cursor: pointer;
+}
+
+.tab-list li:first-child {
+  width: auto; 
+}
+
+.child-wrapper {
+  position: absolute;
+  background: #efefef;
+  padding: 10px;
+  list-style: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.parent.active {
+  opacity: rgba(239, 239, 239, 0.5)
 }
