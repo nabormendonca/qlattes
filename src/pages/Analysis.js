@@ -30,7 +30,7 @@ function Analysis(props) {
     setAuthor(value);
 
     // get author Lattes stats and publication info for selected author
-    const authorStats = await getLattesAuthorStats(value);
+    const authorStats = await getLattesAuthorStats(value, 'qualis', areaData.scores);
 
     setInitYear(authorStats.minYear);
     setEndYear(authorStats.maxYear);
@@ -182,9 +182,9 @@ function Analysis(props) {
             </select>
           </div>
           <div class="year-selection">
-            <input id="init-year-input" class="year-input" type="number" min={initYear} max={endYear} value={initYearInput} required="required" onChange={e => setInitYearInput(e.target.value)}/>
+            <input id="init-year-input" class="year-input" type="number" min={initYear} max={endYearInput} value={initYearInput} required="required" onChange={e => setInitYearInput(e.target.value)}/>
             <p> a </p>
-            <input id="end-year-input" class="year-input" type="number" min={initYear} max={endYear} value={endYearInput} required="required" onChange={e => setEndYearInput(e.target.value)}/>
+            <input id="end-year-input" class="year-input" type="number" min={initYearInput} max={endYear} value={endYearInput} required="required" onChange={e => setEndYearInput(e.target.value)}/>
           </div>
           <div class="select-icon">
             <FaRegCalendarCheck color='#415e98'/>

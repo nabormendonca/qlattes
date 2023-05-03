@@ -40,7 +40,7 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
     };
   }
 
-  const rows = [];
+  let rows = [];
   for (let currYear = 0; currYear < stats.year.length; currYear++) {
     if (stats.year[currYear] >= init && stats.year[currYear] <= end) {
       const newRow = [];
@@ -90,6 +90,7 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
       );
     }
   }
+  rows = rows.reverse();
 
   totalCounts['%A'] = totalCounts['totABC']==0 ? 0 : (totalCounts['totA']/totalCounts['totABC']*100);
   totalCounts['%B'] = totalCounts['totABC']==0 ? 0 : (totalCounts['totB']/totalCounts['totABC']*100);

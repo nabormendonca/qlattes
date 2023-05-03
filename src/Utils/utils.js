@@ -36,6 +36,17 @@ Array.prototype.sortByKeys = function (keys) {
   return sortedArray;
 };
 
+// sort an array of objects by their keys
+Array.prototype.sortByKeysReverse = function (keys) {
+  var sortedArray = this.slice();
+
+  for (const key of keys.reverse()) {
+    sortedArray.sort((a, b) => (a[key] > b[key] ? -1 : 1));
+  }
+
+  return sortedArray;
+};
+
 // linear regression implementation based on code from https://github.com/heofs/trendline/
 export function linearRegression(xData, yData) {
   // average of X values and Y values
@@ -107,8 +118,62 @@ export async function updateLattesData() {
   return authorNameLinkList;
 }
 
-export async function getLattesAuthorStats(authorLink) {
-  const lattesData = await chrome.storage.local.get('lattes_data');
+function getQualisStats(pubInfo, metric = 'qualis', scores = {}) {
+  const qualisCats = ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C', 'N'];
+  const qualisCols = ['year'].concat(qualisCats);
+  
+  // reset Qualis stats
+  const qualisStats = {};
+  for (const col of qualisCols) {
+    qualisStats[col] = [];
+  }
+  // reset year counts
+  const yearCounts = {};
+  for (const cat of qualisCats) {
+    yearCounts[cat] = 0;
+  }
+  var currYear = 0;
+  for (const pubInfoElem of Object.keys(pubInfo)) {
+    if (currYear != pubInfoElem) {
+      if (currYear > 0) {
+        // add current year counts to Qualis results
+        for (const key of Object.keys(yearCounts)) {
+          qualisStats[key].push(yearCounts[key]);
+        }
+        // reset year counts
+        for (const key of Object.keys(yearCounts)) {
+          yearCounts[key] = 0;
+        }
+      }
+      // update current year
+      currYear = pubInfoElem;
+      // add current year to Qualis counts
+      qualisStats.year.push(currYear);
+    }
+    // increment year counts for each publication based on given metric
+    for (const pubItem of pubInfo[pubInfoElem]) {
+      if (metric === 'qualis') {
+        yearCounts[pubItem.qualis] += 1;
+      } else if (metric === 'score' && Object.keys(scores).length > 0) {
+        yearCounts[pubItem.qualis] += parseFloat(
+          getQualisScore(pubItem.qualis, 1, scores)
+        );
+      } else if (metric === 'jcr') {
+        yearCounts[pubItem.qualis] += parseFloat(pubItem.jcr);
+      }
+    }
+  }
+  if (qualisStats.year.length > qualisStats.A1.length) {
+    // add year counts to Qualis stats
+    for (const key of Object.keys(yearCounts)) {
+      qualisStats[key].push(yearCounts[key]);
+    }
+  }
+
+  return qualisStats;
+}
+
+export async function getLattesAuthorStats(authorLink, metric = 'qualis', scores = {}) {
   let authorStats = {
     stats: [],
     minYear: NaN,
@@ -116,6 +181,8 @@ export async function getLattesAuthorStats(authorLink) {
     totalPubs: NaN,
     pubInfo: [],
   };
+  const lattesData = await chrome.storage.local.get('lattes_data');
+
   // If there is no data saved yet
   if (Object.keys(lattesData).length == 0) return authorStats;
 
@@ -123,30 +190,30 @@ export async function getLattesAuthorStats(authorLink) {
   var match = lattesData['lattes_data'][authorLink];
 
   if (match) {
+    const pubInfo = 'statsInfo' in match ? match.statsInfo.pubInfo : match.pubInfo;
     // add missing years (if any) to author stats
     authorStats = addMissingYearsToAuthorStats(
-      match.statsInfo.stats,
-      match.statsInfo.pubInfo
+      getQualisStats(pubInfo, metric, scores),
+      pubInfo
     );
 
+    const pubInfoYear = Object.keys(pubInfo);
     // get min and max years from author stats
-    authorStats.minYear = authorStats.stats.year.slice(-1)[0];
-    authorStats.maxYear = authorStats.stats.year[0];
+    authorStats.minYear = pubInfoYear[0];
+    authorStats.maxYear = pubInfoYear[pubInfoYear.length-1];
 
     // get total journal publications
     var totalPubs = 0;
     for (const key of Object.keys(authorStats.stats)) {
-      if (key != 'year') {
+      if (key !== 'year' && key !== 'jcr') {
         totalPubs += authorStats.stats[key].reduce(
           (partialSum, a) => partialSum + a,
           0
         );
       }
     }
-
     authorStats.totalPubs = totalPubs;
   }
-
   return authorStats;
 }
 
@@ -156,12 +223,11 @@ export function addMissingYearsToAuthorStats(stats, pubInfo) {
   for (const key of Object.keys(stats)) {
     newStats[key] = [];
   }
-  const newPubInfo = [];
 
   let currYear = new Date().getFullYear() + 1;
-  for (let i = 0; i < pubInfo.length; i++) {
+  for (const pubInfoYear of Object.keys(pubInfo).reverse()) {
     // add empty results for missing years (if any)
-    for (let year = currYear - 1; year > pubInfo[i].year; year--) {
+    for (let year = currYear - 1; year > pubInfoYear; year--) {
       // add empty counts to missing year stats
       for (const key of Object.keys(newStats)) {
         if (key == 'year') {
@@ -170,28 +236,23 @@ export function addMissingYearsToAuthorStats(stats, pubInfo) {
           newStats[key].push(0);
         }
       }
-
-      // add empty list to missing year publications
-      newPubInfo.push({ year: year, pubList: [] });
     }
 
     // copy current year counts to new stats
     for (const key of Object.keys(newStats)) {
-      newStats[key].push(stats[key][i]);
+      newStats[key].push(stats[key][pubInfoYear]);
     }
-    // copy current year publication list to new publication info
-    newPubInfo.push(pubInfo[i]);
 
     // update current year
-    currYear = pubInfo[i].year;
+    currYear = pubInfoYear;
   }
 
   return {
-    stats: newStats,
+    stats: stats,
     minYear: NaN,
     maxYear: NaN,
     totalPubs: NaN,
-    pubInfo: newPubInfo,
+    pubInfo: pubInfo,
   };
 }
 
@@ -371,15 +432,15 @@ export function addStatisticFromTotal(totalCols, totalStats) {
 
   // Best Year
   for (const col of totalCols) {
-    meanRow.push(<th type='total'>{totalStats[col].countList
+    meanRow.push(<th type='total'>{totalStats[col].countList == 0 ? 0 : totalStats[col].countList
       .mean()
       .toFixed(2)
       .replace('.', ',')}</th>);
-    medianRow.push(<th type='total'>{totalStats[col].countList
+    medianRow.push(<th type='total'>{totalStats[col].countList == 0 ? 0 : totalStats[col].countList
       .median()
       .toFixed(2)
       .replace('.', ',')}</th>);
-    trendRow.push(<th type='total'>{linearRegression(
+    trendRow.push(<th type='total'>{totalStats[col].countList == 0 ? 0 : linearRegression(
       totalStats[col].yearList,
       totalStats[col].countList
     )
@@ -546,7 +607,7 @@ export function getGraphicInfo(datasets, years, totalStats, showStatistics, end,
   };
   
   const data = {
-    labels: years.filter(year => year >= init && year <= end).map(year => year.toString()).reverse(),
+    labels: years.filter(year => year >= init && year <= end).map(year => year.toString()),
     datasets
   };
 

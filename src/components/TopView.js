@@ -5,14 +5,14 @@ function TopView({pubInfo, startYear, endYear, topN}) {
   let topPubs = [];
 
   // build publication array from PubInfo
-  for (const pubInfoElem of pubInfo) {
+  for (const pubInfoElem of Object.keys(pubInfo)) {
     // select PubInfo elements within given start and end years
-    if (pubInfoElem.year >= startYear && pubInfoElem.year <= endYear) {
+    if (pubInfoElem >= startYear && pubInfoElem <= endYear) {
       // process publication elements of current year
-      for (const pubItem of pubInfoElem.pubList) {
+      for (const pubItem of pubInfo[pubInfoElem]) {
         // create publication entry
         const pubEntry = {
-          year: pubInfoElem.year,
+          year: pubInfoElem,
           title: pubItem.title,
           pubName: pubItem.pubName,
           issn: pubItem.issn,
@@ -26,7 +26,7 @@ function TopView({pubInfo, startYear, endYear, topN}) {
     }
   }
   // return top N publications from sorted publication array sorted by Qualis classification
-  topPubs = topPubs.sortByKeys(['qualis']).slice(0, topN);
+  topPubs = topPubs.sortByKeysReverse(['year']).sortByKeys(['qualis']).slice(0, topN);
 
   return (
     <table class="styled-table" id="top-papers-table" tag="view">
