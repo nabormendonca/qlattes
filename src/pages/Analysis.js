@@ -140,10 +140,12 @@ function Analysis(props) {
           </select>
           { author != "" && <>
             <button id="clear-data-button" title="Remover dados do CV" onClick={() => handleClearButton()}>
-              <FaTrashAlt color='#415e98'/>
+              <FaTrashAlt color='white'/>
+              Remover dados
             </button>
-            <button id="clear-data-button" title="Exportar dados do CV" onClick={() => exportCV(author, areaData)}>
-              <FaFileExport color='#415e98'/>
+            <button id="export-data-button" title="Exportar dados do CV" onClick={() => exportCV(author, areaData)}>
+              <FaFileExport color='white'/>
+              Exportar dados
             </button>
             <p id="total-pubs-div">{totalPubs} artigos em periódicos entre {initYear} e {endYear}</p>
             {viewType != "top5View" && viewType != "top10View" ? (<div style={{ marginLeft: '13px' }}>

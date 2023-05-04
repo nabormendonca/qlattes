@@ -11,7 +11,7 @@ import {
 function ScoreTableView({init, end, stats, showStatistics, areaData}) {
   useEffect(()=> {
     adjustColumnWidths();
-  }, []);
+  }, [rows]);
 
   if (!areaData || Object.keys(areaData).length === 0) {
     alert(`Para visualizar a pontuação Qualis, é necessário selecionar uma Área do Conhecimento.`);

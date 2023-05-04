@@ -104,19 +104,6 @@ h1 {
   margin: 0 auto;
 }
 
-#clear-data-button {
-  color: var(--main-bg-color);
-  background: rgba(204, 204, 204, 0);
-  padding: 0px;
-  margin-left: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-#clear-data-button:hover {
-  color: var(--main-hover-color);
-}
-
 .select-icon {
   display: flex;
   flex-direction: row;
@@ -183,6 +170,27 @@ input[type='text'] {
 #total-pubs-div {
   margin: 10px;
   margin-left: 12px;
+}
+
+#export-data-button, #clear-data-button {
+  background-color: var(--main-bg-color);
+  opacity: 0.9;
+  box-shadow: 0 0 5px rgba(0,0,0,.1);
+  padding: 4px 0.5em 4px;
+  font-size: 0.9em;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 138px;
+  text-align: left;
+  margin-left: 10px;
+  color: white;
+  height: 30px;
+  display: flex;
+  gap: 5px;
+}
+
+#export-data-button:hover, #clear-data-button:hover {
+  color: var(--main-hover-color);
 }
 
 .general-filters {

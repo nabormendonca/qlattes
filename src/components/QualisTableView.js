@@ -94,7 +94,7 @@ function QualisTableView({init, end, stats, showStatistics}) {
 
   useEffect(()=>{
     adjustColumnWidths();
-  }, []);
+  }, [rows]);
 
   return (
     <table class={getTableClass(rows.length)} id="qualis-table">
