@@ -61,7 +61,7 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
       
       // create cells with data cols
       for (const key of dataCols) {
-        const dataVal = qualisScores[key] * stats[key][currYear];
+        const dataVal = key in areaData.scores ? areaData.scores[key] * stats[key][currYear] : 0;
         const keyChar = key.slice(0, 1);
 
         newRow.push(<td type='data'>{dataVal.toString().indexOf('.') !== -1 ? dataVal.toFixed(1) : dataVal}</td>);
@@ -112,7 +112,7 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
         </tr>
         <tr>
           <th type="year"></th>
-          {Object.values(qualisScores).map((score) => <th type="data">{score} pts</th>)}
+          {Object.values(areaData.scores).map((score) => <th type="data">{score} pts</th>)}
           {totalCols.keys.map((total) => <th type="total"></th>)}
         </tr>
       </thead>
