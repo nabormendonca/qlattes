@@ -265,9 +265,6 @@ export async function exportCV(authorLink, areaData) {
   }
 
   const authorData = lattesData['lattes_data'][authorLink];
-  console.log('authorLink', authorLink)
-  console.log('authorData', authorData)
-  console.log('lattesData[lattes_data]', lattesData['lattes_data'])
   if (!authorData) {
     alert('Não achamos dados salvos sobre esse CV.');
     return;
@@ -277,15 +274,14 @@ export async function exportCV(authorLink, areaData) {
     'statsInfo' in authorData
       ? authorData.statsInfo.pubInfo
       : authorData.pubInfo;
-  if (pubInfo.length > 0) {
-    // get area select
-    const areaSelect = document.getElementById('area-select');
-    const areaString =
-      areaSelect.value !== '' && areaSelect.value !== 'undefined'
+
+  if ((Array.isArray(pubInfo) && pubInfo.length > 0) 
+    || (typeof pubInfo === 'object' && Object.entries(pubInfo).length > 0)) {
+    // get area label
+    const areaString = Object.keys(areaData).length !== 0
         ? ` utilizando a pontuação da ${areaData.label}`
         : '';
 
-    // confirm export file action
     var result = window.confirm(
       `Confirma a exportação dos dados do CV de ${authorData.name} para o formato CSV${areaString}?`
     );
@@ -300,13 +296,13 @@ export async function exportCV(authorLink, areaData) {
   }
 }
 
-function exportCVDataToFile(authorLink, name, authorData, areaData) {
+function exportCVDataToFile(authorLink, name, pubInfo, areaData) {
   // export author data in CSV format
   chrome.downloads.download({
     url:
       'data:text/csv;charset=utf-8,' +
-      encodeURIComponent(convertLattesDataToCSV(authorLink, name, authorData, areaData)),
-    filename: `${removeSpecialChars(authorData.name)}.csv`,
+      encodeURIComponent(convertLattesDataToCSV(authorLink, name, pubInfo, areaData)),
+    filename: `${removeSpecialChars(name)}.csv`,
   });
 }
 
@@ -326,23 +322,23 @@ function convertLattesDataToCSV(authorLink, name, pubInfo, areaData) {
   // get area label and scores (if available)
   var areaLabel = '';
   var areaScores;
-  if (typeof areaData !== 'undefined' && areaData.area !== 'undefined') {
+  if (Object.keys(areaData).length !== 0) {
     areaLabel = areaData.label;
     areaScores = areaData.scores;
   }
   
   const rows = [];
-  for (const pubInfoElem of pubInfo) {
-    for (const pubListElem of pubInfoElem.pubList) {
+  for (const pubInfoYear of Object.keys(pubInfo)) {
+    for (const pubListElem of pubInfo[pubInfoYear]) {
       const row = [
         `"${name}"`,
         authorLink,
-        pubInfoElem.year,
+        pubInfoYear,
         `"${pubListElem.title}"`,
         `"${pubListElem.pubName}"`,
         pubListElem.issn,
         pubListElem.qualis,
-        pubListElem.qualis !== 'N'
+        pubListElem.qualis !== 'N' && areaLabel != ''
           ? getQualisScore(pubListElem.qualis, 1, areaScores)
           : '',
         pubListElem.qualis !== 'N' ? areaLabel : '',
@@ -351,6 +347,7 @@ function convertLattesDataToCSV(authorLink, name, pubInfo, areaData) {
       rows.push(row);
     }
   }
+  
   const csvArray = [headers.join(','), ...rows.map((row) => row.join(','))];
   return csvArray.join('\n');
 }
@@ -677,6 +674,6 @@ export const qualisScores = {
 };
 
 // get Qualis score for given category
-export function getQualisScore(qualisCategory, count) {
-  return qualisScores[qualisCategory] * count;
+export function getQualisScore(qualisCategory, count, areaScores) {
+  return areaScores[qualisCategory] * count;
 }
