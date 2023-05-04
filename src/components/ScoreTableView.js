@@ -1,16 +1,22 @@
+import { useEffect } from 'react';
 import '../App.css';
 import {
+  qualisScores,
   addStatisticFromTotal,
   updateTotalStats,
-  getTableClass
+  getTableClass,
+  adjustColumnWidths
 } from '../Utils/utils.js';
 
 function ScoreTableView({init, end, stats, showStatistics, areaData}) {
+  useEffect(()=> {
+    adjustColumnWidths();
+  }, []);
+
   if (!areaData || Object.keys(areaData).length === 0) {
     alert(`Para visualizar a pontuação Qualis, é necessário selecionar uma Área do Conhecimento.`);
     return;
   }
-  const qualisScores = areaData.scores;
   const dataCols = Object.keys(qualisScores);
   const totalCols = {
     keys: ['totA', 'totB', 'totABC', '%A', '%B'],
@@ -58,7 +64,7 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
         const dataVal = qualisScores[key] * stats[key][currYear];
         const keyChar = key.slice(0, 1);
 
-        newRow.push(<td type='data'>{Math.round((dataVal + Number.EPSILON) * 100) / 100}</td>);
+        newRow.push(<td type='data'>{dataVal.toString().indexOf('.') !== -1 ? dataVal.toFixed(1) : dataVal}</td>);
         if (keyChar == 'A') {
           yearTotalCounts['totA'] += dataVal;
         } else if (keyChar == 'B') {
@@ -114,10 +120,10 @@ function ScoreTableView({init, end, stats, showStatistics, areaData}) {
       <tfoot>
         <tr tag="total">
           <th type="year">Total</th>
-          {dataCols.map(key => <th type="data">{Math.round((totalCounts[key] + Number.EPSILON) * 100) / 100}</th>)}
-          {totalCols.keys.map(key => <th type={totalCols.type}>{Math.round((totalCounts[key] + Number.EPSILON) * 100) / 100}</th>)}
+          {dataCols.map(key => <th type="data">{totalCounts[key].toString().indexOf('.') !== -1 ? totalCounts[key].toFixed(1) : totalCounts[key]}</th>)}
+          {totalCols.keys.map(key => <th type={totalCols.type}>{totalCounts[key].toString().indexOf('.') !== -1 ? totalCounts[key].toFixed(1) : totalCounts[key]}</th>)}
         </tr>
-        {showStatistics ? addStatisticFromTotal(totalCols.keys, totalStats): null}
+        {addStatisticFromTotal(totalCols.keys, totalStats, showStatistics)}
       </tfoot>
     </table>
     <p>Fonte da pontuação: <a href={areaData.source.url} target="_blank" title={"Visualizar "+areaData.source.label}>{areaData.source.label}</a> da {areaData.label} (ano-base: {areaData.base_year})</p>

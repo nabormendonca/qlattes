@@ -34,7 +34,7 @@ function TopView({pubInfo, startYear, endYear, topN}) {
         <tr>
           <th type="number">#</th>
           <th type="year">Ano</th>
-          <th type="text">Título</th>
+          <th type="title">Título</th>
           <th type="text">Periódico</th>
           <th type="issn">ISSN</th>
           <th type="qualis">Qualis</th>
@@ -45,7 +45,7 @@ function TopView({pubInfo, startYear, endYear, topN}) {
         {topPubs.map((elem, index) => <tr>
           <td type="number">{index+1}</td>
           <td type="year">{elem.year}</td>
-          <td type="text">{elem.title}</td>
+          <td type="title">{elem.title}</td>
           <td type="text">{elem.pubName}</td>
           <td type="issn">{elem.issn}</td>
           <td type="qualis">{elem.qualis}</td>

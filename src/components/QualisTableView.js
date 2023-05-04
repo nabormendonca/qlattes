@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import '../App.css';
 import {
   qualisScores,
   getTableClass,
   addStatisticFromTotal,
-  updateTotalStats
+  updateTotalStats,
+  adjustColumnWidths
 } from '../Utils/utils.js';
 
 function QualisTableView({init, end, stats, showStatistics}) {
@@ -70,7 +72,7 @@ function QualisTableView({init, end, stats, showStatistics}) {
       yearTotalCounts['%B'] = yearTotalCounts['totABC']==0 ? 0 : (yearTotalCounts['totB']/yearTotalCounts['totABC']*100);
 
       for (const key of totalCols.keys) {
-        newRow.push(<td type={totalCols.type}>{Math.round((yearTotalCounts[key] + Number.EPSILON) * 100) / 100}</td>);
+        newRow.push(<td type={totalCols.type}>{yearTotalCounts[key].toString().indexOf('.') !== -1 ? yearTotalCounts[key].toFixed(1) : yearTotalCounts[key]}</td>);
         // increment total count
         totalCounts[key] += yearTotalCounts[key];
       }
@@ -90,6 +92,10 @@ function QualisTableView({init, end, stats, showStatistics}) {
   totalCounts['%A'] = totalCounts['totABC']==0 ? 0 : (totalCounts['totA']/totalCounts['totABC']*100);
   totalCounts['%B'] = totalCounts['totABC']==0 ? 0 : (totalCounts['totB']/totalCounts['totABC']*100);
 
+  useEffect(()=>{
+    adjustColumnWidths();
+  }, []);
+
   return (
     <table class={getTableClass(rows.length)} id="qualis-table">
       <thead><tr>
@@ -101,10 +107,10 @@ function QualisTableView({init, end, stats, showStatistics}) {
       <tfoot>
         <tr tag="total">
           <th type="year">Total</th>
-          {dataCols.map(key => <th type="data">{Math.round((totalCounts[key] + Number.EPSILON) * 100) / 100}</th>)}
-          {totalCols.keys.map(key => <th type="total">{Math.round((totalCounts[key] + Number.EPSILON) * 100) / 100}</th>)}
+          {dataCols.map(key => <th type="data">{totalCounts[key].toString().indexOf('.') !== -1 ? totalCounts[key].toFixed(1) : totalCounts[key]}</th>)}
+          {totalCols.keys.map(key => <th type="total">{totalCounts[key].toString().indexOf('.') !== -1 ? totalCounts[key].toFixed(1) : totalCounts[key]}</th>)}
         </tr>
-        {showStatistics ? addStatisticFromTotal(totalCols.keys, totalStats): null}
+        {addStatisticFromTotal(totalCols.keys, totalStats, showStatistics)}
       </tfoot>
     </table>
   );

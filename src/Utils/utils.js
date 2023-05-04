@@ -355,6 +355,51 @@ function convertLattesDataToCSV(authorLink, name, pubInfo, areaData) {
   return csvArray.join('\n');
 }
 
+
+/**
+ * Style functions
+ */
+
+export function adjustColumnWidths() {
+  let cells = document.querySelectorAll('tr > th:first-child, tr > td:first-child');
+  let max = 0;
+  cells.forEach(cell => {
+    const cellWidth = cell.offsetWidth;
+    if (cellWidth > max) {
+      max = cellWidth;
+    }
+  })
+  cells.forEach(col => {
+    col.style = `width: ${max}px; padding: 1px; border: none; box-sizing: border-box; padding-left: 5px;`;
+  })
+
+  //
+  cells = document.querySelectorAll('th[type*="data"], td[type*="data"]');
+  max = 0;
+  cells.forEach(cell => {
+    const cellWidth = cell.offsetWidth;
+    if (cellWidth > max) {
+      max = cellWidth;
+    }
+  })
+  cells.forEach(col => {
+    col.style = `width: ${max}px; padding: 1px; border: none; box-sizing: border-box;`;
+  })
+
+  //
+  cells = document.querySelectorAll('th[type*="total"], td[type*="total"]');   
+  max = 0;
+  cells.forEach(cell => {
+    const cellWidth = cell.offsetWidth;
+    if (cellWidth > max) {
+      max = cellWidth;
+    }
+  })
+  cells.forEach(col => {
+    col.style = `width: ${max}px; padding: 1px; border: none; box-sizing: border-box;`;
+  })
+}
+
 /**
  * String manipulation functions
  */
@@ -415,7 +460,7 @@ export function getBoundedTrendPoint(regression, x, xList, yBound) {
   return { x: newXIndex, y: y };
 }
 
-export function addStatisticFromTotal(totalCols, totalStats) {
+export function addStatisticFromTotal(totalCols, totalStats, showStatistics) {
   // add new foot row cell to table footer row
   let meanRow = []
   let medianRow = []
@@ -434,26 +479,26 @@ export function addStatisticFromTotal(totalCols, totalStats) {
   for (const col of totalCols) {
     meanRow.push(<th type='total'>{totalStats[col].countList == 0 ? 0 : totalStats[col].countList
       .mean()
-      .toFixed(2)
-      .replace('.', ',')}</th>);
+      .toFixed(1)
+      }</th>);
     medianRow.push(<th type='total'>{totalStats[col].countList == 0 ? 0 : totalStats[col].countList
       .median()
-      .toFixed(2)
-      .replace('.', ',')}</th>);
+      .toFixed(1)
+      }</th>);
     trendRow.push(<th type='total'>{totalStats[col].countList == 0 ? 0 : linearRegression(
       totalStats[col].yearList,
       totalStats[col].countList
     )
-      .slope.toFixed(2)
-      .replace('.', ',')}</th>);
+      .slope.toFixed(1)
+      }</th>);
     bestYearRow.push(<th type='total'>{totalStats[col].best.year > 0 ? totalStats[col].best.year : ''}</th>);
   }
 
   return (<>
-    <tr> <th type="label">Média</th> {meanRow} </tr>
-    <tr> <th type="label">Mediana</th> {medianRow} </tr>
-    <tr> <th type="label">Tendência</th> {trendRow} </tr>
-    <tr> <th type="label">Melhor ano</th> {bestYearRow} </tr>
+    <tr style={showStatistics ? {} : { display: 'none' }}> <th type="label">Média</th> {meanRow} </tr>
+    <tr style={showStatistics ? {} : { display: 'none' }}> <th type="label">Mediana</th> {medianRow} </tr>
+    <tr style={showStatistics ? {} : { display: 'none' }}> <th type="label">Tendência</th> {trendRow} </tr>
+    <tr style={showStatistics ? {} : { display: 'none' }}> <th type="label">Melhor ano</th> {bestYearRow} </tr>
   </>)
 }
 
@@ -484,7 +529,7 @@ export function getStatisticsAnnotations(totalStats, showStatistics, end, init) 
       borderWidth: 1,
       borderDash: [6, 6],
       label: {
-        content: 'Média ' + mean.replace('.', ','),
+        content: 'Média ' + mean,
         position: 'end',
         padding: 4,
         backgroundColor: 'rgba(44, 76, 140, 0.7)',
@@ -508,7 +553,7 @@ export function getStatisticsAnnotations(totalStats, showStatistics, end, init) 
       borderWidth: 1,
       borderDash: [4, 4],
       label: {
-        content: 'Mediana ' + median.replace('.', ','),
+        content: 'Mediana ' + median,
         position: '50%',
         padding: 4,
         backgroundColor: 'rgba(44, 76, 140, 0.7)',
@@ -559,7 +604,7 @@ export function getStatisticsAnnotations(totalStats, showStatistics, end, init) 
       borderWidth: 1,
       borderDash: [2, 2],
       label: {
-        content: 'Tendência ' + regression.slope.toFixed(2).replace('.', ','),
+        content: 'Tendência ' + regression.slope.toFixed(2),
         position: 'end',
         padding: 4,
         backgroundColor: 'rgba(44, 76, 140, 0.7)', // 'rgba(0, 0, 0, 0.7)',

@@ -194,7 +194,7 @@ input[type='text'] {
 
 .table-wrapper {
   margin: auto;
-  max-width: 70%;
+  max-width: 950px;
   min-width: 50%;
 }
 
@@ -217,15 +217,12 @@ input[type='text'] {
 }
 
 .styled-table th, .styled-table td {
-  padding: 1px 10px;
   text-align: left;
 }
 
 .styled-table tr {
   display: table;
-  table-layout: fixed;
   width: 100%;
-  padding: 5px 0px;
 }
 
 .styled-table thead, .styled-table-text thead {
@@ -249,19 +246,29 @@ input[type='text'] {
   border-bottom: 2px solid var(--main-bg-color);
 }
 
-.styled-table td[type='number'], .styled-table th[type='number'] {
+#top-papers-table tr {
+  table-layout: fixed;
+  padding: 5px 0px;
+}
+#top-papers-table th, #top-papers-table td {
+  padding: 1px 10px;
+}
+#top-papers-table td[type='number'], #top-papers-table th[type='number'] {
   width: 20px;
 }
-
-.styled-table td[type='year'], .styled-table th[type='year'] {
+#top-papers-table td[type='year'], #top-papers-table th[type='year'] {
   width: 45px;
 }
-
-.styled-table td[type='issn'], .styled-table th[type='issn'] {
-  width: 80px;
+#top-papers-table td[type='issn'], #top-papers-table th[type='issn'] {
+  width: 70px;
 }
-
-.styled-table td[type='qualis'], .styled-table th[type='qualis'] {
+#top-papers-table td[type='title'], #top-papers-table th[type='title'] {
+  width: 300px;
+}
+#top-papers-table td[type='text'], #top-papers-table th[type='text'] {
+  width: 200px;
+}
+#top-papers-table td[type='qualis'], #top-papers-table th[type='qualis'] {
   width: 40px;
   text-align: center;
 }
@@ -280,7 +287,7 @@ input[type='text'] {
 }
 
 .styled-table.has-scroll thead tr, .styled-table.has-scroll tfoot tr {
-  width: calc(100% - 18px);
+  width: calc(100% - 16px);
 }
 
 /* GRAPHIC */
