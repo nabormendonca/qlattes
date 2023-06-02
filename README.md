@@ -10,6 +10,7 @@ QLattes é uma extensão para navegadores [Chromium](https://www.chromium.org/Ho
 * [Créditos](#créditos)
 * [Comentários e sugestões](#comentários-e-sugestões)
 * [QLattes nas redes sociais](#qlattes-nas-redes-sociais)
+* [Publicações](#publicações)
 
 ## Instalação
 
@@ -174,6 +175,10 @@ O canal do Youtube [Mineiro de Dados](https://www.youtube.com/@MineirodeDados), 
 [Recursos avançados do QLattes - Estatísticas de produção para autores](https://www.youtube.com/watch?v=H2-ldIPlfdQ)
 
 [Conversa com o criador do QLattes - Nabor Mendonça da UNIFOR](https://www.youtube.com/watch?v=fjjVyAcJYAs)
+
+## Publicações
+
+* MENDONÇA, N. C., RODRIGUES, M. A. F., MENDONCA, L. R. [QLattes: An Open-Source Tool for Qualis Annotation and Visualization in the Lattes Platform](./publications/semish2023-qlattes.pdf). In: 50o Seminário Integrado de Software e Hardware (SEMISH), 2023, João Pessoa, PB. 
 
 
 
