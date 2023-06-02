@@ -178,7 +178,7 @@ O canal do Youtube [Mineiro de Dados](https://www.youtube.com/@MineirodeDados), 
 
 ## Publicações
 
-* MENDONÇA, N. C., RODRIGUES, M. A. F., MENDONCA, L. R. [QLattes: An Open-Source Tool for Qualis Annotation and Visualization in the Lattes Platform](./publications/semish2023-qlattes.pdf). In: 50o Seminário Integrado de Software e Hardware (SEMISH), 2023, João Pessoa, PB. 
+* MENDONÇA, N. C., RODRIGUES, M. A. F., MENDONCA, L. R. [QLattes: An Open-Source Tool for Qualis Annotation and Visualization in the Lattes Platform](./publications/semish2023-qlattes.pdf) In: 50o Seminário Integrado de Software e Hardware (SEMISH), 2023, João Pessoa, PB. 
 
 
 
