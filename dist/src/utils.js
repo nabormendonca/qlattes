@@ -49,6 +49,7 @@ Array.prototype.sortByKeysReverse = function (keys) {
 
 // linear regression implementation based on code from https://github.com/heofs/trendline/
 export function linearRegression(xData, yData) {
+  xData = xData.map(xItem => Number(xItem));
   // average of X values and Y values
   const xMean = xData.mean();
   const yMean = yData.mean();
