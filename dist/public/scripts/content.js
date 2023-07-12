@@ -324,11 +324,11 @@ function annotatePublishedArticles(
       qualisPubInfo.qualisLabels = qualisLabels;
       // get JCR data
       const jcrData = pubElem.querySelector('img[class="ajaxJCR jcrTip"]');
-      console.log('JCR data:', jcrData);
+      // console.log('JCR data:', jcrData);
       if (jcrData) {
         const jcrRegex = /JCR\s+(\d{4})\):\s+([\d.]+)/;
         const match = jcrRegex.exec(jcrData.getAttribute('original-title'));
-        console.log('JCR match:', match);
+        // console.log('JCR match:', match);
         if (match && match.length == 3) {
           qualisPubInfo.jcrData = {
             jcr: match[2],
@@ -808,9 +808,6 @@ function consolidateQualisData(qualisInfo) {
     // add pubInfo to pubInfoYearList
     pubDataYear.push(pubDataItem);
   }
-  if (qualisInfo.length > pubData.length) {
-    // add pubInfoYear to pubInfo
-    pubData[currYear] = pubDataYear;
-  }
+  if (currYear > 0) pubData[currYear] = pubDataYear;
   return pubData;
 }

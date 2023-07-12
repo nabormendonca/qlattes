@@ -19,7 +19,6 @@ Array.prototype.mean = function () {
 
 Array.prototype.median = function () {
   const mid = Math.floor(this.length / 2);
-  console.log("fui chamado: ", this.slice());
   const sorted = this.slice().sort((a, b) => a - b);
   return this.length % 2 !== 0
     ? sorted[mid]

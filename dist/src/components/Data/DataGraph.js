@@ -9,7 +9,6 @@ import {
 } from "reactstrap";
 
 import {
-  // qualisScores,
   updateTotalStats,
   getGraphicInfo
 } from '../../utils';
@@ -33,10 +32,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-// ChartJS.register(annotationPlugin);
-
-
-// core components
+ChartJS.register(annotationPlugin);
 
 const DataGraph = ({
   graphName,
@@ -59,18 +55,6 @@ const DataGraph = ({
     C: Array(years.length).fill(0),
     N: Array(years.length).fill(0),
   }
-  const qualisScores = {
-    A1: 100,
-    A2: 85,
-    A3: 70,
-    A4: 55,
-    B1: 40,
-    B2: 30,
-    B3: 20,
-    B4: 10,
-    C: 0,
-    N: 0,
-  };
 
   const dataCols = Object.keys(qualis);
   let dataCounts = {
@@ -157,41 +141,6 @@ const DataGraph = ({
       backgroundColor: '#c3cbde',
     }
   ]
-
-  // const chartData = {
-  //   options: {
-  //     plugins: {
-  //       // annotation: {
-  //       //   annotations: lineAnnotations
-  //       // },
-  //       legend: {
-  //         position: 'top',
-  //       },
-  //     },
-  //     // responsive: true,
-  //     scales: {
-  //       x: {
-  //         stacked: true,
-  //         grid: {
-  //           display: false,
-  //         },
-  //       },
-  //       y: {
-  //         stacked: true,
-  //         grid: {
-  //           display: false,
-  //         },
-  //       },
-  //     },
-  //     borderWidth: 1,
-  //     minBarThickness: 5,
-  //     maxBarThickness: 12,
-  //   },
-  //   data: {
-  //     labels: years,
-  //     datasets: datasets,
-  //   },
-  // };
 
   const {data, options} = getGraphicInfo(datasets, stats.year, totalStats, showStatistics, end, init);
 
