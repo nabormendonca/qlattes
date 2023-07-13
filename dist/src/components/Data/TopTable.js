@@ -55,7 +55,7 @@ const TopTable = ({
 
   return (
     <Row>
-      <Col className="mb-5 mb-xl-0" xl="12">
+      <Col className="mb-5 mb-xl-0" xl="10">
         <Card className="shadow">
           <CardHeader className="border-0">
             <Row className="align-items-center">
