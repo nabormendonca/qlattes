@@ -1,9 +1,9 @@
+import React, { useState } from 'react';
 
 // reactstrap components
 import {
   Card,
   CardHeader,
-  Table,
   Row,
   Col,
 } from "reactstrap";
@@ -15,6 +15,15 @@ import {
   roundNumber
 } from "../../utils"
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { TableVirtuoso } from 'react-virtuoso';
+
 const DataTable = ({
   tableName,
   init,
@@ -23,6 +32,7 @@ const DataTable = ({
   showStatistics,
   areaData
 }) => {
+
   const qualisScores = {
     A1: 100,
     A2: 85,
@@ -173,9 +183,20 @@ const DataTable = ({
     bestYear.push(statistics[col].best.year > 0 ? statistics[col].best.year : '');
   }
 
+  const rows = years.map((year, index) =>
+    <React.Fragment>
+      <TableCell scope="row">{year}</TableCell>
+      {Object.values(qualis).map(item => <TableCell>{roundNumber(item[index])}</TableCell>)}
+      {Object.values(totals).map(item => <TableCell>{roundNumber(item[index])}</TableCell>)}
+      {Object.values(percentages).map(item => <TableCell>{roundNumber(item[index])}</TableCell>)}
+    </React.Fragment>
+  ).reverse();
+
+  const tableHeight = `${showStatistics ? Math.min(636, rows.length * 53 + 320) : Math.min(424, rows.length * 53 + 108)}px !important`;
+
   return (
     <Row>
-      <Col className="mb-5 mb-xl-0" xl="10">
+      <Col className="mb-5 mb-xl-0" xl="11">
         <Card className="shadow">
           <CardHeader className="border-0">
             <Row className="align-items-center">
@@ -184,73 +205,90 @@ const DataTable = ({
               </div>
             </Row>
           </CardHeader>
-          <Table className="align-items-center table-flush" responsive>
-            <thead className="thead-light">
-              <tr style={{
-                  // display: 'table',
-                  width: '98.5%'
-                }}>
-                {header.map(item => <th scope="col" style={typeof areaData !== 'undefined' ? { borderBottom: 'none'} : {}}>{item}</th>)}
-              </tr>
-              {typeof areaData !== 'undefined' &&
-                <tr style={{
-                  // display: 'table',
-                  width: '98.5%'
-                }}>
-                {Array.isArray(headerLegend) && headerLegend.map(item => <th scope="col" style={{borderTop: 'none'}}>{item}</th>)}
-                </tr>
-              }
-            </thead>
-            <tbody 
-              // style={{ display: 'block', maxHeight: '40vh', overflowY: 'auto' }}
-            >
-              {years.map((year, index) => 
-                <tr style={{
-                  // display: 'table',
-                  width: '100%'
-                }}>
-                  <th scope="row">{year}</th>
-                  {Object.values(qualis).map(item => <td>{roundNumber(item[index])}</td>)}
-                  {Object.values(totals).map(item => <td>{roundNumber(item[index])}</td>)}
-                  {Object.values(percentages).map(item => <td>{roundNumber(item[index])}</td>)}
-                </tr>
-              ).reverse()}
-            </tbody>
-            <tfoot className="thead-light">
-              <tr style={{
-                  // display: 'table',
-                  width: '98.5%'                  
-                }}>
-                {footer.map(item => <th scope="col" style={{ borderBottom: 'none' }}>{item}</th>)}
-              </tr>
-              {showStatistics && (<>
-                <tr style={{
-                    // display: 'table',
-                    width: '98.5%'
-                  }}>
-                  {mean.map(item => <th scope="col" style={{ borderTop: 'none', borderBottom: 'none' }}>{item}</th>)}
-                </tr>
-                <tr style={{
-                    // display: 'table',
-                    width: '98.5%'
-                  }}>
-                  {median.map(item => <th scope="col" style={{ borderTop: 'none', borderBottom: 'none' }}>{item}</th>)}
-                </tr>
-                <tr style={{
-                    // display: 'table',
-                    width: '98.5%'
-                  }}>
-                  {trend.map(item => <th scope="col" style={{ borderTop: 'none', borderBottom: 'none' }}>{item}</th>)}
-                </tr>
-                <tr style={{
-                    // display: 'table',
-                    width: '98.5%'
-                  }}>
-                  {bestYear.map(item => <th scope="col" style={{ borderTop: 'none', borderBottom: 'none' }}>{item}</th>)}
-                </tr>
-              </>)}
-            </tfoot>
-          </Table>
+          <TableVirtuoso
+            data={rows}
+            components={{
+              Scroller: React.forwardRef((props, ref) => ( <TableContainer component={Paper} {...props} ref={ref} /> )),
+              Table: (props) => ( <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} /> ),
+              TableHead,
+              TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
+              TableBody: React.forwardRef((props, ref) => ( <TableBody {...props} ref={ref} /> )),
+            }}
+            itemContent={ (_index, row) => row}
+            fixedHeaderContent={() => {
+              return (<>
+                <TableRow >
+                  {header.map((item, index) =>
+                    <TableCell 
+                      scope="col"
+                      style={{ borderBottom: 'none', width: index === 0 ? 110 : 50 }}
+                      variant="head"
+                      align={'left'}
+                      sx={{
+                        backgroundColor: '#F6F9FC',
+                      }}
+                    >
+                      {item}
+                    </TableCell>)
+                  }
+                </TableRow>
+                {typeof areaData !== 'undefined' &&
+                  <TableRow
+                    sx={{
+                      backgroundColor: '#F6F9FC',
+                    }}
+                  >
+                    {Array.isArray(headerLegend) && headerLegend.map(item => <TableCell scope="col" style={{borderTop: 'none'}}>{item}</TableCell>)}
+                  </TableRow>
+                }
+              </>);
+            }}
+            fixedFooterContent={() => {
+              return ( <>
+                <TableRow
+                  sx={{
+                    backgroundColor: '#F6F9FC',
+                  }}
+                >
+                  {footer.map(item => <TableCell scope="col" style={{ borderBottom: 'none' }}>{item}</TableCell>)}
+                </TableRow>
+                {showStatistics && (<>
+                  <TableRow
+                    sx={{
+                      backgroundColor: '#F6F9FC',
+                    }}
+                  >
+                    {mean.map(item => <TableCell scope="col" style={{ borderTop: 'none', borderBottom: 'none' }}>{item}</TableCell>)}
+                  </TableRow>
+                  <TableRow
+                    sx={{
+                      backgroundColor: '#F6F9FC',
+                    }}
+                  >
+                    {median.map(item => <TableCell scope="col" style={{ borderTop: 'none', borderBottom: 'none' }}>{item}</TableCell>)}
+                  </TableRow>
+                  <TableRow
+                    sx={{
+                      backgroundColor: '#F6F9FC',
+                    }}
+                  >
+                    {trend.map(item => <TableCell scope="col" style={{ borderTop: 'none', borderBottom: 'none' }}>{item}</TableCell>)}
+                  </TableRow>
+                  <TableRow
+                    sx={{
+                      backgroundColor: '#F6F9FC',
+                    }}
+                  >
+                    {bestYear.map(item => <TableCell scope="col" style={{ borderTop: 'none', borderBottom: 'none' }}>{item}</TableCell>)}
+                  </TableRow>
+                </>)}
+              </>);
+            }}
+            sx={{
+              height: tableHeight,
+              boxShadow: '0 0 2rem 0 rgba(136,152,170,.15)!important'
+            }}
+          />
         </Card>
       </Col>
     </Row>
