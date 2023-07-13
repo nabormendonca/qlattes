@@ -510,6 +510,7 @@ export function getStatisticsAnnotations(totalStats, showStatistics, end, init) 
   const lineAnnotations = [];
 
   if (showStatistics && end - init > 0) {
+    totalStats.tot.yearList = totalStats.tot.yearList.map(year => Number(year));
     // create mean line annotation
     const mean = totalStats.tot.countList.mean().toFixed(2);    
     lineAnnotations.push({
@@ -569,7 +570,7 @@ export function getStatisticsAnnotations(totalStats, showStatistics, end, init) 
     const minPoint = getBoundedTrendPoint(
       regression,
       init,
-      totalStats.tot.yearList.slice().reverse(),
+      totalStats.tot.yearList.slice(),
       {
         min: 0,
         max: maxCount,
@@ -578,7 +579,7 @@ export function getStatisticsAnnotations(totalStats, showStatistics, end, init) 
     const maxPoint = getBoundedTrendPoint(
       regression,
       end,
-      totalStats.tot.yearList.slice().reverse(),
+      totalStats.tot.yearList.slice(),
       {
         min: 0,
         max: maxCount,
