@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// reactstrap components
 import {
   Form,
   FormGroup,
@@ -14,7 +13,6 @@ import {
 } from "reactstrap";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-// core components
 
 import DataTable from "components/Data/DataTable";
 import DataGraph from "components/Data/DataGraph";

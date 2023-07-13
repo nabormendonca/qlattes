@@ -87,22 +87,11 @@ export const roundNumber = (number) => {
  * String manipulation functions
  */
 
-
-// normalize string so it can safely be used as a file name
-function removeSpecialChars(str) {
-  return str
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^\w\s]/gi, '')
-    .replace(/ /g, '_')
-    .toLowerCase();
-}
-
 /**
  * Fetch URL functions
  */
 
-export async function fetchJSON(url) {
+async function fetchJSON(url) {
   var json = [];
 
   // fetch url

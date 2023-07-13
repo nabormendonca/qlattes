@@ -1,5 +1,4 @@
 
-// reactstrap components
 import {
   Card,
   CardHeader,
@@ -8,8 +7,6 @@ import {
   Col,
 } from "reactstrap";
 
-// core components
-
 const TopTable = ({
   tableName,
   init,
@@ -17,12 +14,8 @@ const TopTable = ({
   pubInfo,
   topN
 }) => {
-
   init = Number(init);
   end = Number(end);
-
-  // Init data arrays
-  // const years = stats.year.filter(year => year >= init && year <= end).map(year => year.toString());
   
   // Create header from data arrays
   const header = ["#", "Ano", "Título", "Periódico", "ISSN", "Qualis", "Ano-base"];
@@ -30,14 +23,14 @@ const TopTable = ({
   let topPubs = [];
 
   // build publication array from PubInfo
-  for (const pubInfoElem of Object.keys(pubInfo)) {
+  for (const year of Object.keys(pubInfo)) {
     // select PubInfo elements within given start and end years
-    if (pubInfoElem >= init && pubInfoElem <= end) {
+    if (year >= init && year <= end) {
       // process publication elements of current year
-      for (const pubItem of pubInfo[pubInfoElem]) {
+      for (const pubItem of pubInfo[year]) {
         // create publication entry
         const pubEntry = {
-          year: pubInfoElem,
+          year: year,
           title: pubItem.title,
           pubName: pubItem.pubName,
           issn: pubItem.issn,

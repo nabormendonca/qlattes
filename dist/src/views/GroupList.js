@@ -1,4 +1,3 @@
-// reactstrap components
 import {
   Container,
   Row,
@@ -15,7 +14,6 @@ import {
   ModalHeader,
   ModalFooter,
 } from "reactstrap";
-// core components
 import GroupItem from "components/GroupItem";
 import { useState } from "react";
 
@@ -59,6 +57,7 @@ const GroupList = ({
     toggle();
   }
 
+  // TO DO
   const searchGroupOrAuthor = (event, values) => {
     
   }

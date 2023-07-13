@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
-// core components
 import Sidebar from "components/Sidebar.js";
 
 import { getAreasData, getLattesData, getGroups } from './utils';

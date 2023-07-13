@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// reactstrap components
 import {
   Container,
   Row,
@@ -13,7 +12,6 @@ import {
   InputGroup,
   Navbar,
 } from "reactstrap";
-// core components
 import CVItem from "components/CVItem";
 
 import Autocomplete from '@mui/material/Autocomplete';

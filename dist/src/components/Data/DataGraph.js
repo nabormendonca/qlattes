@@ -42,6 +42,7 @@ const DataGraph = ({
   init,
   areaData
 }) => {
+  // Init data arrays
   const years = stats.year;
   const qualis = {
     A1: Array(years.length).fill(0),
@@ -55,7 +56,6 @@ const DataGraph = ({
     C: Array(years.length).fill(0),
     N: Array(years.length).fill(0),
   }
-
   const dataCols = Object.keys(qualis);
   let dataCounts = {
     "A" : {},
@@ -64,8 +64,6 @@ const DataGraph = ({
     "N" : {},
     tot: {},
   }
-
-  // reset total stats
   let totalStats = {};
   for (const key of Object.keys(dataCounts)) {
     totalStats[key] = {
@@ -82,6 +80,7 @@ const DataGraph = ({
     }
   }
 
+  // Get row datas
   for (let currYear = 0; currYear < stats.year.length; currYear++) {
     if (stats.year[currYear] >= init && stats.year[currYear] <= end) {
       // reset year counts
@@ -107,6 +106,7 @@ const DataGraph = ({
     }
   }
 
+  // Get datasets
   const datasets = areaData && areaData.scores ? [
     {
       label: 'A',

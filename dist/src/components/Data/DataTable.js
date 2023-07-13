@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // reactstrap components
 import {
@@ -7,8 +7,6 @@ import {
   Row,
   Col,
 } from "reactstrap";
-
-// core components
 
 import {
   linearRegression,
@@ -32,20 +30,6 @@ const DataTable = ({
   showStatistics,
   areaData
 }) => {
-
-  const qualisScores = {
-    A1: 100,
-    A2: 85,
-    A3: 70,
-    A4: 55,
-    B1: 40,
-    B2: 30,
-    B3: 20,
-    B4: 10,
-    C: 0,
-    N: 0,
-  };
-
   init = Number(init);
   end = Number(end);
 
@@ -90,7 +74,7 @@ const DataTable = ({
     '%B': 0,
   }
 
-  // CHANGE - reset total stats
+  // Reset total statistics
   let statistics = {};
   for (const key of ['#A', '#B', '#all', '%A', '%B']) {
     statistics[key] = {
@@ -135,7 +119,7 @@ const DataTable = ({
     percentages.A[currYear] = totals.all[currYear]===0 ? 0 : (percentages.A[currYear]/totals.all[currYear]*100);
     percentages.B[currYear] = totals.all[currYear]===0 ? 0 : (percentages.B[currYear]/totals.all[currYear]*100);
 
-    // CHANGE - 
+    // Update statistics
     const yearCounts = {
       '#A': totals.A[currYear],
       '#B': totals.B[currYear],
@@ -143,8 +127,6 @@ const DataTable = ({
       '%A': percentages.A[currYear],
       '%B': percentages.B[currYear]
     };
-    
-    // CHANGE - 
     for (const key of Object.keys(statistics)) {
       // update total stats lists
       statistics[key].countList.push(yearCounts[key]);
@@ -162,7 +144,7 @@ const DataTable = ({
   const header = ["Ano"].concat(Object.keys(qualis))
     .concat(Object.keys(totals).map(item => item === "all" ? "Total" : "Tot " + item))
     .concat(Object.keys(percentages).map(item => "% " + item));
-  const headerLegend = areaData && areaData.scores && [""].concat(Object.keys(qualis).map(item => qualisScores[item]))
+  const headerLegend = areaData && areaData.scores && [""].concat(Object.keys(qualis).map(item => areaData.scores[item]))
     .concat(Object.keys(totals).map(item => ""))
     .concat(Object.keys(percentages).map(item => ""));
 
@@ -174,8 +156,6 @@ const DataTable = ({
   const median = ["Mediana"].concat(Object.keys(qualis).map(item => ""));
   const trend = ["Tendência"].concat(Object.keys(qualis).map(item => ""));
   const bestYear = ["Melhor ano"].concat(Object.keys(qualis).map(item => ""));
-
-  // CHANGE - 
   for (const col of Object.keys(statistics)) {
     mean.push(statistics[col].countList == 0 ? 0 : statistics[col].countList.mean().toFixed(2));
     median.push(statistics[col].countList == 0 ? 0 : statistics[col].countList.median().toFixed(2));
@@ -183,6 +163,7 @@ const DataTable = ({
     bestYear.push(statistics[col].best.year > 0 ? statistics[col].best.year : '');
   }
 
+  // Set rows
   const rows = years.map((year, index) =>
     <React.Fragment>
       <TableCell scope="row">{year}</TableCell>
@@ -192,11 +173,12 @@ const DataTable = ({
     </React.Fragment>
   ).reverse();
 
+  // Set Table Height
   const tableHeight = `${showStatistics ? Math.min(636, rows.length * 53 + 320) : Math.min(424, rows.length * 53 + 108)}px !important`;
 
   return (
     <Row>
-      <Col className="mb-5 mb-xl-0" xl="11">
+      <Col className="mb-5 mb-xl-0" xl="12">
         <Card className="shadow">
           <CardHeader className="border-0">
             <Row className="align-items-center">

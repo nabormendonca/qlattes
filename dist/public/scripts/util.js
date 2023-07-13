@@ -137,24 +137,3 @@ function updateTotalStats(totalStats, yearCounts, year) {
 function getMaxCount(totalStats) {
   return totalStats.tot.countList.max();
 }
-
-//
-// Qualis util functions
-//
-
-// get Qualis score for given category
-function getQualisScore(qualisCategory, count) {
-  const qualisScores = {
-    A1: 100,
-    A2: 85,
-    A3: 70,
-    A4: 55,
-    B1: 40,
-    B2: 30,
-    B3: 20,
-    B4: 10,
-    C: 0,
-    N: 0,
-  };
-  return qualisScores[qualisCategory] * count;
-}
