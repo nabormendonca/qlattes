@@ -151,17 +151,7 @@ const Index = ({
 
     // GET YEARS
     const years = Object.keys(mergedPubInfos);
-    const scores = {
-      "A1": 100,
-      "A2": 85,
-      "A3": 70,
-      "A4": 55,
-      "B1": 40,
-      "B2": 30,
-      "B3": 20,
-      "B4": 10,
-      "C": 0
-    }
+    const scores = areaData ? areaData.scores : {}
 
     // GET STATS
     let authorStats = {
