@@ -140,6 +140,7 @@ const GroupItem = ({
             getOptionLabel={(option) => option.name}
             defaultValue={[]}
             filterSelectedOptions
+            noOptionsText="Não há CVs disponíveis"
             renderInput={(params) => (
               <TextField
                 {...params}

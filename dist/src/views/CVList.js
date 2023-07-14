@@ -50,6 +50,7 @@ const CVList = ({
                 options={authorsNameLink}
                 getOptionLabel={(option) => option.name}
                 filterSelectedOptions
+                noOptionsText="Não há CVs disponíveis"
                 renderInput={(params) => (
                   <TextField
                     {...params}

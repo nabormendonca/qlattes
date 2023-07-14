@@ -78,6 +78,7 @@ const GroupList = ({
                 options={authorsNameLink.concat(Object.values(groups))}
                 getOptionLabel={(option) => option.name}
                 filterSelectedOptions
+                noOptionsText="Não há CVs ou grupos disponíveis"
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -156,6 +157,7 @@ const GroupList = ({
             getOptionLabel={(option) => option.name}
             defaultValue={[]}
             filterSelectedOptions
+            noOptionsText="Não há CVs disponíveis"
             renderInput={(params) => (
               <TextField
                 {...params}

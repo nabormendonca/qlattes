@@ -226,6 +226,7 @@ const Index = ({
                     placeholder="Selecione um CV"
                   />
                 )}
+                noOptionsText="Não há CVs disponíveis"
                 sx={{
                   width: '90%',
                   '& .MuiButtonBase-root': {
