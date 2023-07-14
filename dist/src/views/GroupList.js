@@ -36,6 +36,7 @@ const GroupList = ({
   const [modal, setModal] = useState(false);
   const [newGroupName, setNewGroupName] = useState("");
   const [newGroupAuthors, setNewGroupAuthors] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const toggle = () => setModal(!modal);
 
@@ -57,9 +58,8 @@ const GroupList = ({
     toggle();
   }
 
-  // TO DO
-  const searchGroupOrAuthor = (event, values) => {
-    
+  const searchGroupOrAuthor = (event, value) => {
+    setSelectedOption(value);
   }
 
   return (
@@ -118,17 +118,28 @@ const GroupList = ({
       <Container className="mb-5" fluid>
         <Row>
           <div className="col">
-            {Object.entries(groups).map(group =>
-              <GroupItem
+            {Object.entries(groups).map(group => {
+              // If the selected item on search is a group (has an authors item), check if this group has the name selected
+              if (selectedOption?.authors && group[1].name !== selectedOption.name) return;
+
+              let groupAuthors = group[1].authors.map(authorLink => ({link: authorLink, name: authors[authorLink].name}));
+
+              // If the selected item on search is a author (has a link item), check if this group has the author selected
+              if (selectedOption?.link) {
+                groupAuthors = groupAuthors.filter(item => item.link === selectedOption.link)
+                if(groupAuthors.length === 0) return;
+              }
+
+              return <GroupItem
                 key={group[0]}
                 groupId={group[0]}
                 groupName={group[1].name}
                 allAuthors={Object.entries(authors).filter(author => !group[1].authors.includes(author[0])).map(author => ({link: author[0], name: author[1].name}))}
-                authors={group[1].authors.map(authorLink => ({link: authorLink, name: authors[authorLink].name}))}
+                authors={groupAuthors}
                 updateGroups={updateGroups}
                 allQualisScores={allQualisScores}
               />
-            )}
+            })}
           </div>
         </Row>
       </Container>
