@@ -142,7 +142,7 @@ export async function getGroups() {
 export async function getArea() {
   const areaData = await chrome.storage.local.get(['area_data']);
   
-  return areaData;
+  return areaData['area_data'] || {};
 }
 
 export async function addNewGroup(groupName, authors) {

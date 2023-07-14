@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 import Sidebar from "components/Sidebar.js";
 
-import { getAreasData, getLattesData, getGroups } from './utils';
+import { getAreasData, getLattesData, getGroups, getArea } from './utils';
 import Index from "views/Index.js";
 import GroupList from "views/GroupList.js";
 import CVList from "views/CVList.js";
@@ -33,10 +33,7 @@ const IndexLayout = (props) => {
     setGroups(await getGroups());
 
     // Update area data (if previously saved in local store)
-    // const data = await getArea();
-    // if (Object.keys(data).length > 0) {
-    //   setArea(data.area_data);
-    // }
+    setArea(await getArea());
 
     // Get Authors
     getLattesData().then(async (authorList) => {
@@ -60,10 +57,14 @@ const IndexLayout = (props) => {
     });
   }
 
+  const updateArea = async () => {
+    setArea(await getArea());
+  }
+
   const routes = [
     {
       path: "/index",
-      component: <Index authors={authors} allQualisScores={allQualisScores} groups={groups} authorsNameLink={authorsNameLink} prevArea={area}/>,
+      component: <Index authors={authors} allQualisScores={allQualisScores} groups={groups} authorsNameLink={authorsNameLink} previousArea={area} updateArea={updateArea}/>,
       layout: "/admin",
     },
     {

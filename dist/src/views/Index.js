@@ -1,3 +1,4 @@
+/*global chrome*/
 import React, { useState } from 'react';
 
 import {
@@ -7,7 +8,6 @@ import {
   InputGroupText,
   Input,
   InputGroup,
-  Navbar,
   Label,
   Container,
 } from "reactstrap";
@@ -25,10 +25,11 @@ const Index = ({
   groups,
   authorsNameLink,
   allQualisScores,
-  prevArea
+  previousArea,
+  updateArea
 }) => {
-  const [area, setArea] = useState(prevArea);
-  const [areaData, setAreaData] = useState({});
+  const [area, setArea] = useState(previousArea?.area);
+  const [areaData, setAreaData] = useState(previousArea);
   const [viewType, setViewType] = useState("");
   const [showStatistics, setShowStatistics] = useState(false);
 
@@ -43,17 +44,15 @@ const Index = ({
 
   const cvOptions = authorsNameLink.concat(Object.values(groups));
 
-  // TODO
   function handleViewTypeChange(value) {
-    // if ((value == "scoreTableView" || value == "scoreGraphicView") && Object.keys(areaData).length === 0) {
-    //   alert(`Para visualizar a pontuação Qualis, é necessário selecionar uma Área do Conhecimento.`)
-    //   return;
-    // }
+    if ((value == "scoreTableView" || value == "scoreGraphicView") && Object.keys(areaData).length === 0) {
+      alert(`Para visualizar a pontuação Qualis, é necessário selecionar uma Área do Conhecimento.`)
+      return;
+    }
     setViewType(value);
   }
 
-  // TODO
-  function handleAreaChange(event) {
+  const handleAreaChange = async (event) => {
     // get previous area (if any)
     const prevArea = area;
 
@@ -62,13 +61,14 @@ const Index = ({
 
     if (newArea === 'undefined') {
       // save area data to local store
-      // chrome.storage.local.set({ area_data: {
-      //   area: newArea,
-      //   scores: {},
-      //   label: 'Sem Área do Conhecimento',
-      //   source: {},
-      //   base_year: '',
-      // }});
+      await chrome.storage.local.set({ area_data: {
+        area: newArea,
+        scores: {},
+        label: 'Sem Área do Conhecimento',
+        source: {},
+        base_year: '',
+      }});
+      updateArea();
 
       if (viewType === "scoreTableView" || viewType === "scoreGraphicView") {
         alert(`Para visualizar a pontuação Qualis, é necessário selecionar uma Área do Conhecimento.`)
@@ -90,7 +90,8 @@ const Index = ({
           setArea(newArea);
 
           // save area data to local store
-          // chrome.storage.local.set({ area_data: currAreaData});
+          await chrome.storage.local.set({ area_data: currAreaData});
+          updateArea();
         } else {
           // show no scores alert and reset area select to previous area (if any)
           alert('Esta Área do Conhecimento não definiu pontuação específica para os estratos do Qualis.');
@@ -195,6 +196,11 @@ const Index = ({
     setPubInfo(pubInfoComplete);
   }
 
+  if (previousArea?.area && !area) {
+    setArea(previousArea.area);
+    setAreaData(previousArea);
+  }
+
   return (
     <>
       <Container fluid className="mt-3 mb-3" expand="md">
@@ -262,12 +268,12 @@ const Index = ({
                   className="input-group-alternative"
                   style={{ marginRight: "15px", color:'#415e98' }}
                   value={area} onChange={e => handleAreaChange(e)}
-                  defaultValue=""
+                  defaultValue={area}
                 >
                   <option value="" disabled={true} hidden={true}>Selecione uma Área do Conhecimento</option>
                   <option value="undefined" hidden={true}>Sem Área do Conhecimento</option>
                   {allQualisScores.map(greatArea => <optgroup label={greatArea.label}  style={{color: "black"}}>
-                    {Object.keys(greatArea.areas).map(area => <option key={area} value={area}>{greatArea.areas[area].label}</option>)}
+                    {Object.keys(greatArea.areas).map(a => <option key={a} value={a}>{greatArea.areas[a].label}</option>)}
                   </optgroup>)}
                 </Input>
               </InputGroup>
