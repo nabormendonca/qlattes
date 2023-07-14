@@ -378,6 +378,9 @@ const Index = ({
           {viewType === "top5View" && <TopTable tableName="5 melhores publicações" topN={5} init={initYearInput} end={endYearInput} pubInfo={pubInfo}/>}
           {viewType === "top10View" && <TopTable tableName="10 melhores publicações" topN={10} init={initYearInput} end={endYearInput} pubInfo={pubInfo}/>}
         </>}
+        {areaData?.scores && viewType.includes("score") && <div className="mt-1">
+          Fonte da pontuação: <a href={areaData.source.url} target="_blank" title={`Visualizar ${areaData.source.label}`}>{areaData.source.label}</a> da {areaData.label} (ano-base: {areaData.base_year})
+        </div>}
       </Container>
     </>
   );
