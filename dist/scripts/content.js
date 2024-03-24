@@ -1,4 +1,4 @@
-// Wait for all images to load
+// Wait for page elements to load
 window.addEventListener('load', function () {
   // Execute content script
   (async () => await main())();
@@ -23,7 +23,7 @@ async function main() {
       pathList: ['data/qualis-capes-2017-2020.json'],
       label: 'Qualis/CAPES',
       url: 'https://sucupira.capes.gov.br/sucupira/public/consultas/coleta/veiculoPublicacaoQualis/listaConsultaGeralPeriodicos.jsf',
-      baseYear: '2020',
+      baseYear: 'quadriênio 2017-2020',
     },
     capes_alt: {
       pathList: ['data/qualis-capes-2017-2020-complemento.json'],
@@ -281,9 +281,10 @@ function annotatePublishedArticles(
 
   // find all published articles
   const pubElems = startElem.querySelectorAll("div[class='artigo-completo']");
+  // console.log('pubElems size:', pubElems.length);
 
   for (const pubElem of pubElems) {
-    //console.log(pubElem);
+    console.log('pubElem:', pubElem);
     const qualisPubInfo = {
       year: NaN,
       issn: '',
@@ -301,7 +302,8 @@ function annotatePublishedArticles(
     // skip current element if it has no year value
     if (isNaN(qualisPubInfo.year)) continue;
     // get publication data
-    const pubElemData = pubElem.querySelector('div[cvuri]');
+    // const pubElemData = pubElem.querySelector('div[cvuri]');
+    const pubElemData = pubElem.querySelector('span[cvuri]');
     if (pubElemData) {
       // get Journal info items
       const pubInfoString = escapeHtml(pubElemData.getAttribute('cvuri'))
@@ -310,6 +312,8 @@ function annotatePublishedArticles(
         .join('?')
         .replace(/<\/?monospace>/gi, '');
       const pubInfoItems = pubInfoString.split(/&(?=\w+)/);
+      console.log('pubInfoString:', pubInfoString);
+      console.log('pubInfoItems:', pubInfoItems);
       for (const pubInfoItem of pubInfoItems) {
         // get journal ISSN
         if (pubInfoItem.includes('issn=')) {
@@ -341,21 +345,21 @@ function annotatePublishedArticles(
       // add Qualis labels to Qualis info list
       qualisPubInfo.qualisLabels = qualisLabels;
       // get JCR data
-      const jcrData = pubElem.querySelector('img[class="ajaxJCR jcrTip"]');
-      console.log('JCR data:', jcrData);
-      if (jcrData) {
-        const jcrRegex = /JCR\s+(\d{4})\):\s+([\d.]+)/;
-        const match = jcrRegex.exec(jcrData.getAttribute('original-title'));
-        console.log('JCR match:', match);
-        if (match && match.length == 3) {
-          qualisPubInfo.jcrData = {
-            jcr: match[2],
-            baseYear: match[1],
-          };
-        } else {
-          console.log('No JCR match found');
-        }
-      }
+      // const jcrData = pubElem.querySelector('img[class="ajaxJCR jcrTip"]');
+      // console.log('JCR data:', jcrData);
+      // if (jcrData) {
+      //   const jcrRegex = /JCR\s+(\d{4})\):\s+([\d.]+)/;
+      //   const match = jcrRegex.exec(jcrData.getAttribute('original-title'));
+      //   console.log('JCR match:', match);
+      //   if (match && match.length == 3) {
+      //     qualisPubInfo.jcrData = {
+      //       jcr: match[2],
+      //       baseYear: match[1],
+      //     };
+      //   } else {
+      //     console.log('No JCR match found');
+      //   }
+      // }
 
       // inject Qualis info into Lattes page
       injectQualisAnnotation(
@@ -364,6 +368,8 @@ function annotatePublishedArticles(
         imagesURLs,
         dataSourceInfo
       );
+    } else {
+      console.log('No publication data found!');
     }
     // add journal info to JourInfoList
     qualisInfo.push(qualisPubInfo);
@@ -701,11 +707,13 @@ function injectQualisAnnotation(elem, pubInfo, imagesURLs, dataSourceInfo) {
         pubInfo.qualisLabels.linkScopus
       )}`
     : '';
-
+  // insert annotation string into annotation element
   annotElem.insertAdjacentHTML('beforeend', qualisAnnot);
-
   // inject annotation element into Lattes page
   elem.insertAdjacentElement('afterend', annotElem);
+  // insert a new line break after annotation element
+  const lineBreak = document.createElement('br');
+  annotElem.insertAdjacentElement('afterend', lineBreak);
 }
 
 function injectAnnotationDiv(imagesURLs, visualizationURL) {
