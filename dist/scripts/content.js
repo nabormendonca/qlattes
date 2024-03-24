@@ -56,8 +56,7 @@ async function main() {
     scholarIconURL: chrome.runtime.getURL('images/scholar-hat-icon-18.png'),
   };
 
-  const recentUpdatesURL =
-    'https://github.com/nabormendonca/qlattes/releases/tag/v0.2.0';
+  const recentUpdatesURL = 'https://github.com/nabormendonca/qlattes/releases';
 
   // attempt to get CV name and link from Lattes page
   const nameLink = getLattesNameAndLink();
