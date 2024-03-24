@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "QLattes",
-  "version": "0.2.1",
-  "description": "Automatically annotate the Qualis classification of journal publications listed in CNPq's CV Lattes pages.",
+  "version": "0.2.2",
+  "description": "Automatically annotate the Qualis classification of journal publications in CNPq's CV Lattes pages.",
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
